@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--    main menu-->
+        <menuitem id="workshop_erp_menu_root" name="Workshop" />
+
+        <!--    submenu-->
+        <menuitem id="workshop_bay_menu_action" name="Bay" parent="workshop_erp_menu_root" action="workshop_bay_action" />
+
+        <menuitem id="workshop_vehicle_menu_action" name="Vehicle" parent="workshop_erp_menu_root" action="workshop_vehicle_action"/>
+
+        <menuitem id="workshop_job_order_menu_action" name="Job Orders" parent="workshop_erp_menu_root" action="workshop_job_order_action"/>
+
+    </data>
+</odoo>

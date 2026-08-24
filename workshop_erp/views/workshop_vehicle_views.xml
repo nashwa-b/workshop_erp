@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="workshop_vehicle_view_list" model="ir.ui.view">
+            <field name="name">workshop.vehicle.view.list</field>
+            <field name="model">workshop.vehicle</field>
+            <field name="arch" type="xml">
+                <list string="Vehicle">
+                    <field name="name"/>
+                    <field name="licence_plate"/>
+                    <field name="vin"/>
+                    <field name="make"/>
+                    <field name="model" optional="show"/>
+                    <field name="year" optional="hide"/>
+                    <field name="odometer" optional="hide"/>
+                    <field name="owner_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="workshop_vehicle_view_form" model="ir.ui.view">
+            <field name="name">workshop.vehicle.view.form</field>
+            <field name="model">workshop.vehicle</field>
+            <field name="arch" type="xml">
+                <form string="Vehicle">
+                    <sheet>
+                        <div class="oe-title">
+                            <h1>
+                                <field name = "name" placeholder = "Vehicle"/>
+                            </h1>
+                        </div>
+                        <group>
+                        <group>
+<!--                            <field name="name"/>-->
+                            <field name="licence_plate"/>
+                            <field name="vin"/>
+                            <field name="make"/>
+                            <field name="model"/>
+                            </group>
+                            <group>
+                            <field name="year"/>
+                            <field name="odometer"/>
+                            <field name="owner_id"/>
+                                </group>
+                        </group>
+                        <div class="oe_chatter">
+                            <chatter/>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="workshop_vehicle_action" model="ir.actions.act_window">
+            <field name="name">Vehicle</field>
+            <field name="res_model">workshop.vehicle</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click here to create your first Vehicle.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
