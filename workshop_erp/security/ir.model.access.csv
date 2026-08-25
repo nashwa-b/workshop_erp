@@ -3,3 +3,6 @@ workshop_erp.access_workshop_bay,access_workshop_bay,workshop_erp.model_workshop
 workshop_erp.access_workshop_vehicle,access_workshop_vehicle,workshop_erp.model_workshop_vehicle,base.group_user,1,1,1,1
 workshop_erp.access_workshop_job_order,access_workshop_job_order,workshop_erp.model_workshop_job_order,base.group_user,1,1,1,1
 workshop_erp.access_workshop_job_line,access_workshop_job_line,workshop_erp.model_workshop_job_line,base.group_user,1,1,1,1
+workshop_erp.access_res_partner,access_res_partner,workshop_erp.model_res_partner,base.group_user,1,1,1,1
+workshop_erp.access_sale_order,access_sale_order,workshop_erp.model_sale_order,base.group_user,1,1,1,1
+

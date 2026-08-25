@@ -14,7 +14,6 @@ class WorkshopVehicle(models.Model):
         'This vin is already registered!'
     )
 
-
     name = fields.Char(required=True, translate=True, tracking=True)
     licence_plate = fields.Char(string='License Plate', required=True, tracking=True)
     vin = fields.Char(string='VIN', required=True, tracking=True)

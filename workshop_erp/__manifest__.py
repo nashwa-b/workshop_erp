@@ -10,8 +10,7 @@
     'category': 'Workshop',
     'application': True,
     'installable': True,
-    'depends': ['base', 'hr'],
-    'demo': "demo/workshop_bay_data.xml",
+    'depends': ['base', 'hr','sale'],
     'data': [
         "security/ir.model.access.csv",
         "data/sequence_data.xml",
@@ -19,7 +18,9 @@
         "views/workshop_bay_views.xml",
         "views/workshop_vehicle_views.xml",
         "views/workshop_job_order_views.xml",
-"views/workshop_job_line.xml",
+        "views/workshop_job_line_views.xml",
+        "views/res_partner_views.xml",
+        "views/sale_order_views.xml",
         "views/workshop_erp_menus.xml"
     ]
 }

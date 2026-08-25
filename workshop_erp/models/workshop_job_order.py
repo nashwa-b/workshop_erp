@@ -5,15 +5,14 @@ from odoo import models, fields, api
 from datetime import datetime
 
 from odoo import models, fields
-
+from odoo.exceptions import ValidationError
 
 
 class WorkshopJobOrder(models.Model):
     """workshop job order"""
     _name = 'workshop.job.order'
-    _inherit = [ 'mail.thread']
+    _inherit = ['mail.thread']
     _description = 'Job Order'
-
 
     name = fields.Char(string='Number', required=True, copy=False, readonly=True, default='New')
     customer_id = fields.Many2one('res.partner', string='Customer')
@@ -24,22 +23,24 @@ class WorkshopJobOrder(models.Model):
     job_date = fields.Date(string='Job Date', default=datetime.today())
     customer_note = fields.Text(string='Customer Note')
     image = fields.Image(string='Image')
-    total = fields.Float(string='Total')
+    total = fields.Float(string='Total', compute='_compute_total', store=True)
     status = fields.Selection(
         [("draft", "Draft"), ("confirmed", "Confirmed"), ("in_progress", "In Progress"), ("done", "Done"),
          ("invoiced", "Invoiced"), ("cancel", "Cancelled")], string='Status', default='draft', tracking=True)
     repair_instructions = fields.Html(string='Repair instructions')
     warranty = fields.Boolean(string="Under Warranty", default=False)
-    order_line = fields.One2many(
+    order_line_ids = fields.One2many(
         comodel_name='workshop.job.line',
         inverse_name='order_id',
         string='Job Order Lines',
-    copy = True, bypass_search_access = True)
-
+        copy=True, bypass_search_access=True)
 
     def action_confirm(self):
         """Workshop Bay Confirmation"""
-        self.write({'status': 'confirmed'})
+        for record in self:
+            if not record.order_line_ids:
+                raise ValidationError("You cannot confirm the Job Order without Job Lines.")
+            self.status = 'confirmed'
 
     def action_start(self):
         """Workshop Bay Start"""
@@ -59,10 +60,6 @@ class WorkshopJobOrder(models.Model):
         """Workshop Bay Invoiced"""
         self.status = 'invoiced'
 
-    # def action_open(self):
-    #     """workshop Bay Open"""
-    #     self.status = 'draft'
-
     def action_cancel(self):
         """workshop Bay Cancel"""
         self.status = 'cancel'
@@ -74,21 +71,21 @@ class WorkshopJobOrder(models.Model):
                 vals['name'] = self.env['ir.sequence'].next_by_code('workshop.job.order') or 'New'
         return super().create(vals)
 
-    # class ProductImage(models.Model):
-    #     _name = 'product.image'
-    #     _description = 'Product Image'
-    #
-    #     name = fields.Char(string="Image Name")
-    #     product_tmpl_id = fields.Many2one(
-    #         'product.template',
-    #         string="Product Template",
-    #         ondelete='cascade'
-    #     )
-    #
-    #     media_id = fields.Many2one(
-    #         'ir.attachment',
-    #         string='Media'
-    #     )
+    @api.depends('order_line_ids')
+    def _compute_total(self):
+        """Total Amount"""
+        print(self)
+        for order in self:
+            # print(order.order_line)
+            price_total=0
+            for line in order.order_line_ids:
+                print("line",line.sub_total)
+                price_total += line.sub_total
+
+            order.total = price_total
+
+
+
 
 
 

@@ -36,11 +36,8 @@
                                 invisible="status != 'in_progress'"/>
                         <button name="action_invoiced" string="Create Invoice" class="oe_highlight" type="object"
                                 invisible="status !='done'"/>
-                        <!--                        <button name="action_open" string="Open" class="oe_highlight" type="object"-->
-                        <!--                                invisible="status !='closed'"/>-->
                         <button name="action_cancel" string="Cancel" class="oe_highlight" type="object"
                                 invisible="status !='draft'"/>
-
                     </header>
 
                     <sheet>
@@ -55,14 +52,13 @@
                                 <field name="phone"/>
                                 <field name="vehicle_id" readonly="status == 'cancel'"/>
                                 <field name="mechanic_ids" widget="many2many_tags" readonly="status == 'cancel'"/>
-                                <field name="bay_id" readonly="status == 'cancel'" invisible="status == 'occupied'"/>
+                                <field name="bay_id" readonly="status == 'cancel'" invisible="status == 'occupied'"
+                                       domain="[('status', '=', 'free')]"/>
                                 <field name="warranty" readonly="status == 'cancel'"/>
                             </group>
                             <group>
-                                <!--                                <field name="image" widget="image" options="{'size': [50, 50]}"/>-->
                                 <field name="job_date" readonly="status == 'cancel'"/>
                                 <field name="total" widget="monetary" readonly="status == 'cancel'"/>
-
                             </group>
                         </group>
 
@@ -70,23 +66,11 @@
                             <page string="Job Order Lines">
                                 <field name="order_line">
                                     <list editable="bottom">
-
-                                        <!--                                     <control>-->
-                                        <!--                                    <create name="add_product_control" string="Add a product"/>-->
-                                        <!--                                    <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>-->
-                                        <!--                                    <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>-->
-                                        <!--                                    <button string="Catalog" name="action_add_from_catalog" type="object" class="px-4 btn-link" context="{'order_id': parent.id}"/>-->
-                                        <!--                                </control>-->
                                         <field name="product_id" string="Product"/>
-                                        <!--                    <field name="product_template_id" string="Product"/>-->
                                         <field name="product_qty"/>
                                         <field name="price_unit"/>
-                                        <!--                    <field name="product_uom_id"/>-->
-<!--                                                            <field name="price_subtotal" string="Amount"/>-->
-                                        <!--                    <field name="price_total" string="Amount"/>-->
-                                        <!--                    <field name="price_total"/>-->
+                                        <field name="sub_total"/>
                                     </list>
-                                    <!--&lt;!&ndash;                                               -->
 
                                 </field>
                             </page>

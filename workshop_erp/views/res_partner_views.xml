@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_partner_form_inherit_vehicle_id" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.vehicle.id</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Vehicles">
+                    <field name="vehicle_ids">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="licence_plate"/>
+                            <field name="vin"/>
+                            <field name="odometer"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_vehicle"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-truck">
+                    <field name="vehicle_count" widget="statinfo" string="Vehicles"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
