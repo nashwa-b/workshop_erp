@@ -23,6 +23,7 @@
             <field name="name">workshop.job.order.view.form</field>
             <field name="model">workshop.job.order</field>
             <field name="arch" type="xml">
+
                 <form string="Job Order">
 
                     <header>
@@ -38,9 +39,23 @@
                                 invisible="status !='done'"/>
                         <button name="action_cancel" string="Cancel" class="oe_highlight" type="object"
                                 invisible="status !='draft'"/>
+                        <button name="action_create_sale_order" string="Create Quotation" class="oe_highlight" type="object"
+                               invisible="status in 'invoiced'"/>
                     </header>
 
                     <sheet>
+                                 <div class="oe_button_box" name="button_box">
+                          <button name="action_view_sale_order"
+                        type="object"
+                        class="oe_stat_button">
+                                 <field name="quotation_count" widget="statinfo" string="Quotation"/>
+                </button>
+                                       <button name="action_view_sale_order"
+                        type="object"
+                        class="oe_stat_button">
+                                 <field name="quotation_count" widget="statinfo" string="Invoices"/>
+                </button>
+                                 </div>
                         <div class="oe-title">
                             <h1>
                                 <field name="name" readonly="1"/>
@@ -64,7 +79,7 @@
 
                         <notebook>
                             <page string="Job Order Lines">
-                                <field name="order_line">
+                                <field name="order_line_ids">
                                     <list editable="bottom">
                                         <field name="product_id" string="Product"/>
                                         <field name="product_qty"/>
