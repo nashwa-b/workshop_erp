@@ -43,8 +43,7 @@ class WorkshopJobOrder(models.Model):
     )
 
     sale_order_id = fields.Many2one(
-        'sale.order', 'Sale Order', check_company=True, readonly=True, index='btree_not_null',
-        copy=False, help="Sale Order from which the Repair Order comes from.")
+        'sale.order', string='Quotation', readonly=True)
     sale_order_line_id = fields.Many2one(
         'sale.order.line', check_company=True, readonly=True,
         copy=False, help="Sale Order Line from which the Repair Order comes from.")
@@ -101,6 +100,61 @@ class WorkshopJobOrder(models.Model):
                 price_total += line.sub_total
 
             order.total = price_total
+
+        def action_view_sale_order(self):
+            self.ensure_one()
+
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Quotation',
+                'res_model': 'sale.order',
+                'view_mode': 'form',
+                'res_id': self.sale_order_id.id,
+                'target': 'current',
+            }
+
+    def _get_sale_order_values(self):
+        return {
+            'partner_id': self.customer_id.id,
+            'job_order_id': self.id,
+            'vehicle_id': self.vehicle_id.id,
+            'origin': self.name,
+        }
+
+    def action_create_sale_order(self):
+        self.ensure_one()
+
+        if self.sale_order_id:
+            return self.action_view_sale_order()
+
+        sale_order = self.env['sale.order'].create(
+            self._get_sale_order_values()
+        )
+
+        for line in self.order_line_ids:
+            self.env['sale.order.line'].create({
+                'order_id': sale_order.id,
+                'product_id': line.product_id.id,
+                'product_uom_qty': line.quantity,
+                'price_unit': line.price_unit,
+            })
+
+        self.sale_order_id = sale_order.id
+
+        return self.action_view_sale_order()
+
+    def action_view_sale_order(self):
+        self.ensure_one()
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Quotation',
+            'res_model': 'sale.order',
+            'view_mode': 'form',
+            'res_id': self.sale_order_id.id,
+            'target': 'current',
+        }
+    
 
     def action_create_sale_order(self):
         self._create_sale_order()
