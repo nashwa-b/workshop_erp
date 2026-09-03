@@ -6,7 +6,7 @@
             <field name="model">workshop.job.order</field>
             <field name="arch" type="xml">
                 <list string="Job Order">
-                    <field name="name"/>
+                    <field name="name" />
                     <field name="customer_id"/>
                     <field name="vehicle_id"/>
                     <field name="mechanic_ids"/>
@@ -35,32 +35,37 @@
                                 invisible="status != 'confirmed'"/>
                         <button name="action_done" string="Done" class="oe_highlight" type="object"
                                 invisible="status != 'in_progress'"/>
-                        <button name="action_invoiced" string="Create Invoice" class="oe_highlight" type="object"
-                                invisible="status !='done'"/>
-                        <button name="action_cancel" string="Cancel" class="oe_highlight" type="object"
+                        <button name="action_view_sale_order" string="Create Invoice" type="object"
+                                invisible="status != 'done'"/>
+                        <button name="action_cancel" string="Cancel" type="object"
                                 invisible="status !='draft'"/>
-                        <button name="action_create_sale_order" string="Create Quotation" class="oe_highlight" type="object"
-                               invisible="status in 'invoiced'"/>
+                        <button name="action_create_sale_order" string="Create Quotation"
+                                type="object"  invisible="not customer_id or (status == 'invoiced' or sale_order_id)"/>
                     </header>
 
                     <sheet>
-                                 <div class="oe_button_box" name="button_box">
-                          <button name="action_view_sale_order"
-                        type="object"
-                        class="oe_stat_button">
-                                 <field name="quotation_count" widget="statinfo" string="Quotation"/>
-                </button>
-                                       <button name="action_view_sale_order"
-                        type="object"
-                        class="oe_stat_button">
-                                 <field name="quotation_count" widget="statinfo" string="Invoices"/>
-                </button>
-                                 </div>
-                        <div class="oe-title">
+
+                        <div class="oe_button_box" name="button_box">
+<!--                            <widget name="web_ribbon" title="Paid" bg_color="text-bg-danger" />-->
+                            <!-- No groups attribute on the next button as "stock.group_stock_user" is needed for Repair, and as this group is granted 'sale.order' read/write accesses in sale_stock module (forcefully loaded as transitive dependency) -->
+
+  <button name="action_view_sale_order" type="object" string="Sale Order" icon="fa-dollar" class="oe_stat_button" invisible="not sale_order_id ">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="sale_order_id" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">Sale Order</span>
+                            </div>
+                        </button>
+
+
+<button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="invoice_count == 0">
+                        <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                    </button>
+                        </div>
                             <h1>
                                 <field name="name" readonly="1"/>
                             </h1>
-                        </div>
                         <group>
                             <group>
                                 <field name="customer_id" readonly="status == 'cancel'"/>
@@ -70,6 +75,7 @@
                                 <field name="bay_id" readonly="status == 'cancel'" invisible="status == 'occupied'"
                                        domain="[('status', '=', 'free')]"/>
                                 <field name="warranty" readonly="status == 'cancel'"/>
+                                <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                             </group>
                             <group>
                                 <field name="job_date" readonly="status == 'cancel'"/>
@@ -91,18 +97,23 @@
                             </page>
 
                             <page string="Repair Instructions">
-                                <group>
+<!--                                <group>-->
                                     <field name="repair_instructions" placeholder="Add Repair Instructions here..."/>
-                                </group>
+<!--                                </group>-->
                             </page>
                             <page string="Customer Notes">
-                                <group>
-                                    <field name="customer_note"/>
-                                </group>
+<!--                                <group>-->
+                                    <field name="customer_note" placeholder="Add customer notes..."/>
+<!--                                </group>-->
                             </page>
-                            <page string="Media">
-                                <field name="image" widget="image"/>
+                            <page string="Media" colspan="2" name="product_template_images">
+                                    <field colspan="2" name="product_template_image_ids"
+                                           class="o_website_sale_image_list" context="{'default_name': name}"
+                                           mode="kanban" add-label="Add Media"
+                                           nolabel="1" widget="x2_many_media_viewer"
+                                           options="{'convert_to_webp': True}"/>
                             </page>
+
                         </notebook>
 
 
@@ -127,3 +138,8 @@
         </record>
     </data>
 </odoo>
+
+
+
+
+

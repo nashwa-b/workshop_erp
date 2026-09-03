@@ -10,17 +10,22 @@
     'category': 'Workshop',
     'application': True,
     'installable': True,
-    'depends': ['base', 'hr','sale'],
+    'depends': ['base', 'hr','sale','account'],
     'data': [
+        "security/workshop_erp_groups.xml",
+        "security/workshop_vehicle_security.xml",
+        "security/workshop_bay_security.xml",
+        "security/workshop_job_order_security.xml",
         "security/ir.model.access.csv",
         "data/sequence_data.xml",
+        "data/workshop.bay.csv",
         "data/workshop_bay_data.xml",
+        "views/workshop_job_order_views.xml",
         "views/workshop_bay_views.xml",
         "views/workshop_vehicle_views.xml",
-        "views/workshop_job_order_views.xml",
-        "views/workshop_job_line_views.xml",
         "views/res_partner_views.xml",
         "views/sale_order_views.xml",
         "views/workshop_erp_menus.xml"
+
     ]
 }

@@ -10,6 +10,11 @@ class SaleOrder(models.Model):
     job_order_id = fields.Many2one('workshop.job.order',
                                    string='Job Order',
                                    copy=True, bypass_search_access=True)
-    # job_order_ids = fields.One2many(
-    #     comodel_name='workshop.job.order', inverse_name='bay_id')
     vehicle_id = fields.Many2one(string='Vehicle', related='job_order_id.vehicle_id')
+
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        self.job_order_id.status = 'confirmed'
+        print(self.job_order_id)
+        return res
+

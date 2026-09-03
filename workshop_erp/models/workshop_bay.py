@@ -11,6 +11,8 @@ class WorkshopBay(models.Model):
 
     name = fields.Char(required=True, translate=True)
     employee_id = fields.Many2one('hr.employee', string="Assigned Employee", tracking=True)
+    company_id = fields.Many2one('res.company', string='Company')
+
     status = fields.Selection(selection=[
         ('free', 'Free'),
         ('occupied', 'Occupied'),

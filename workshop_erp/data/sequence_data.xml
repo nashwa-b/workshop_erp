@@ -4,8 +4,9 @@
             <record id="sequence_work_order" model="ir.sequence">
                   <field name="name">Job order sequence</field>
                   <field name="code">workshop.job.order</field>
-                  <field name="prefix">WO/%(year)s</field>
+                  <field name="prefix">WO/%(year)s/</field>
                   <field name="padding">5</field>
+                  <field name="number_next">1</field>
                   <field name="number_increment">1</field>
             </record>
       </data>

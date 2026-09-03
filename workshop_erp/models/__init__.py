@@ -6,5 +6,7 @@ from .import workshop_job_order
 from .import workshop_job_line
 from .import res_partner
 from .import sale_order
+from .import account_move
+
 
 
