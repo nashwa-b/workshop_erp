@@ -15,7 +15,6 @@
             </field>
         </record>
 
-
         <record id="workshop_bay_view_form" model="ir.ui.view">
             <field name="name">workshop.bay.view.form</field>
             <field name="model">workshop.bay</field>
@@ -40,6 +39,7 @@
                                 <field name="type"/>
                             </group>
                             <group>
+                                <field name="job_type_ids" widget="many2many_tags"/>
                                 <field name="ongoing_job_id"/>
                             </group>
                         </group>
@@ -50,7 +50,6 @@
                 </form>
             </field>
         </record>
-
 
         <record id="workshop_bay_action" model="ir.actions.act_window">
             <field name="name">Bay</field>

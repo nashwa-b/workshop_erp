@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from itertools import count
-
-from reportlab.graphics.transform import inverse
 
 from odoo import models, fields, api
 
@@ -18,26 +15,25 @@ class WorkshopJobOrder(models.Model):
     _inherit = ['mail.thread']
     _description = 'Job Order'
 
-    name = fields.Char(string='Number', required=True, copy=False, readonly=True, default='New')
+    name = fields.Char(string='Number', required=True, check_company=True, readonly=True, default='New')
     customer_id = fields.Many2one('res.partner', string='Customer')
     phone = fields.Char(string='Phone Number', related='customer_id.phone')
     vehicle_id = fields.Many2one('workshop.vehicle', string='Vehicle', ondelete='restrict')
     mechanic_ids = fields.Many2many('hr.employee', string='Mechanics', tracking=True)
-    user_id = fields.Many2one('res.users', string='Customer')
     bay_id = fields.Many2one('workshop.bay', string='Workshop Bay', tracking=True)
     job_date = fields.Date(string='Job Date', default=datetime.today())
     customer_note = fields.Text(string='Customer Note')
-    image = fields.Image(string='Image')
     total = fields.Float(string='Total', compute='_compute_total', store=True)
     status = fields.Selection(
         [("draft", "Draft"), ("confirmed", "Confirmed"), ("in_progress", "In Progress"), ("done", "Done"),
          ("invoiced", "Invoiced"), ("cancel", "Cancelled")], string='Status', default='draft', tracking=True)
     repair_instructions = fields.Html('Repair Instructions')
     warranty = fields.Boolean(string="Under Warranty", default=False)
-    # job_card_id = fields.Many2one('account.move', string='Job Card')
-    job_order_id = fields.Many2one('account.move', string='Job Order')
-
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
+    job_type_id = fields.Many2one('job.type', string="Job Type")
+    # many2onefield_name = fields.Char(related="job_type_id.name", string="Name")
+
+
 
     order_line_ids = fields.One2many(
         comodel_name='workshop.job.line',
@@ -45,20 +41,18 @@ class WorkshopJobOrder(models.Model):
         string='Job Order Lines', )
     invoice_count = fields.Integer(string='Invoice Count', compute='_compute_invoice_count')
 
+    invoice_paid = fields.Boolean(string='Invoice Paid', compute='_compute_invoice_paid')
+
     product_template_image_ids = fields.One2many(
         string="Extra Product Media",
-        comodel_name='workshop.media',
+        comodel_name='product.image',
         inverse_name='product_tmpl_id',
-    )
-
-    product_tmpl_id = fields.Many2one(
-        string="Product Template", comodel_name='workshop.media', ondelete='cascade', index=True,
+        copy=True,
     )
 
     invoice_id = fields.Many2one('account.move', string='Invoice')
     sale_order_id = fields.Many2one(
-        'sale.order', 'Sale Order', check_company=True, readonly=True, index='btree_not_null',
-        copy=False, help="Sale Order from which the Job Order comes from.")
+        'sale.order', 'Sale Order', check_company=True, index='btree_not_null',help="Sale Order from which the Job Order comes from.")
 
     sale_order_line_id = fields.Many2one(
         'sale.order.line', check_company=True, readonly=True,
@@ -86,28 +80,23 @@ class WorkshopJobOrder(models.Model):
         """Workshop Bay Done"""
         self.status = 'done'
 
-    #
-    # def action_invoiced(self):
-    #     """Workshop Bay Invoiced"""
-    #     self.ensure_one()
-    #     # self.status = 'invoiced'
-    #
-    #     for line in self.order_line_ids:
-    #         # print(self.customer_id.name)
-    #         invoice = self.env['account.move'].create({
-    #             'move_type': 'out_invoice',
-    #             'partner_id': self.customer_id.id,
-    #             'invoice_line_ids': [
-    #                 Command.create(
-    #                     {'product_id': line.product_id.id, 'quantity': line.product_qty, 'price_unit': line.price_unit,
-    #                      'price_subtotal': line.sub_total})
-    #             ],
-    #         })
-    #         self.invoice_id = invoice.id
+    def action_invoiced(self):
+        """Workshop Bay Invoiced"""
+        self.ensure_one()
+        # self.status = 'invoiced'
 
-    #         print(self.invoice_id)
-    #         print(invoice)
-    #         print(line.product_id.name)
+        for line in self.order_line_ids:
+            # print(self.customer_id.name)
+            invoice = self.env['account.move'].create({
+                'move_type': 'out_invoice',
+                'partner_id': self.customer_id.id,
+                'invoice_line_ids': [
+                    Command.create(
+                        {'product_id': line.product_id.id, 'quantity': line.product_qty, 'price_unit': line.price_unit,
+                         'price_subtotal': line.sub_total})
+                ],
+            })
+    #         self.invoice_id = invoice.id
 
 
     def action_cancel(self):
@@ -122,6 +111,12 @@ class WorkshopJobOrder(models.Model):
             if vals.get('name', 'New') == 'New':
                 vals['name'] = self.env['ir.sequence'].next_by_code('workshop.job.order') or 'New'
         return super().create(vals)
+
+    def _compute_invoice_paid(self):
+        """Adding paid ribbon in job order"""
+        for record in self:
+            record.invoice_paid = record.invoice_id.payment_state == 'paid'
+
 
     @api.depends('order_line_ids')
     def _compute_total(self):
@@ -168,8 +163,8 @@ class WorkshopJobOrder(models.Model):
         return self.action_view_sale_order()
 
     def action_view_sale_order(self):
+        """View Sale Order Creation"""
         self.ensure_one()
-
         return {
             'type': 'ir.actions.act_window',
             'name': 'Quotation',
@@ -192,13 +187,14 @@ class WorkshopJobOrder(models.Model):
         }
 
     def _compute_invoice_count(self):
-        self.invoice_count = len(self.invoice_id)
+        for record in self:
+            record.invoice_count = len(record.invoice_id)
         # print(self.invoice_count)
         # self.invoice_count = 1 if self.invoice_id else 0
 
 
-class AddMedia(models.Model):
-    _name = 'workshop.media'
+class ProductImage(models.Model):
+    _inherit = 'product.image'
 
     product_tmpl_id = fields.Many2one(
         string="Product Template", comodel_name='workshop.job.order', ondelete='cascade', index=True,

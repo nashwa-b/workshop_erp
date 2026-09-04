@@ -5,8 +5,8 @@
             <field name="name">workshop.job.order.view.list</field>
             <field name="model">workshop.job.order</field>
             <field name="arch" type="xml">
-                <list string="Job Order">
-                    <field name="name" />
+                <list string="Job Order" default_order="name desc">
+                    <field name="name" ref="base.main_company"/>
                     <field name="customer_id"/>
                     <field name="vehicle_id"/>
                     <field name="mechanic_ids"/>
@@ -17,7 +17,6 @@
                 </list>
             </field>
         </record>
-
 
         <record id="workshop_job_order_view_form" model="ir.ui.view">
             <field name="name">workshop.job.order.view.form</field>
@@ -35,51 +34,58 @@
                                 invisible="status != 'confirmed'"/>
                         <button name="action_done" string="Done" class="oe_highlight" type="object"
                                 invisible="status != 'in_progress'"/>
-                        <button name="action_view_sale_order" string="Create Invoice" type="object"
-                                invisible="status != 'done'"/>
+                        <button name="action_view_sale_order" string="Create Invoice" class="oe_highlight" type="object"
+                                invisible="not sale_order_id or status != 'done'"/>
+                        <button name="action_invoiced" string="Create Invoice" class="oe_highlight" type="object"
+                                invisible="(job_type_id!='Washing') or (status != 'done')"/>
+
                         <button name="action_cancel" string="Cancel" type="object"
                                 invisible="status !='draft'"/>
                         <button name="action_create_sale_order" string="Create Quotation"
-                                type="object"  invisible="not customer_id or (status == 'invoiced' or sale_order_id)"/>
+                                type="object" invisible="job_type_id == 2 or (status == 'invoiced' or sale_order_id)"/>
                     </header>
 
                     <sheet>
+                        <widget name="web_ribbon" title="Paid" bg_color="text-bg-success" invisible="not invoice_paid"/>
 
                         <div class="oe_button_box" name="button_box">
-<!--                            <widget name="web_ribbon" title="Paid" bg_color="text-bg-danger" />-->
+
                             <!-- No groups attribute on the next button as "stock.group_stock_user" is needed for Repair, and as this group is granted 'sale.order' read/write accesses in sale_stock module (forcefully loaded as transitive dependency) -->
 
-  <button name="action_view_sale_order" type="object" string="Sale Order" icon="fa-dollar" class="oe_stat_button" invisible="not sale_order_id ">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value">
-                                    <field name="sale_order_id" widget="statinfo" nolabel="1" class="mr4"/>
-                                </span>
-                                <span class="o_stat_text">Sale Order</span>
-                            </div>
-                        </button>
+                            <button name="action_view_sale_order" type="object" string="Sale Order" icon="fa-dollar"
+                                    class="oe_stat_button" invisible="not sale_order_id ">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="sale_order_id" widget="statinfo" nolabel="1" class="mr4"/>
+                                    </span>
+                                    <span class="o_stat_text">Sale Order</span>
+                                </div>
+                            </button>
 
-
-<button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="invoice_count == 0">
-                        <field name="invoice_count" widget="statinfo" string="Invoices"/>
-                    </button>
+                            <button name="action_view_invoice" type="object" class="oe_stat_button"
+                                    icon="fa-pencil-square-o" invisible="invoice_count == 0">
+                                <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                            </button>
                         </div>
-                            <h1>
-                                <field name="name" readonly="1"/>
-                            </h1>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
                         <group>
                             <group>
                                 <field name="customer_id" readonly="status == 'cancel'"/>
                                 <field name="phone"/>
                                 <field name="vehicle_id" readonly="status == 'cancel'"/>
                                 <field name="mechanic_ids" widget="many2many_tags" readonly="status == 'cancel'"/>
+                                <field name="job_type_id"/>
                                 <field name="bay_id" readonly="status == 'cancel'" invisible="status == 'occupied'"
-                                       domain="[('status', '=', 'free')]"/>
-                                <field name="warranty" readonly="status == 'cancel'"/>
-                                <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                       domain="[('status', '=', 'free') or [ ]"/>
+
                             </group>
                             <group>
                                 <field name="job_date" readonly="status == 'cancel'"/>
                                 <field name="total" widget="monetary" readonly="status == 'cancel'"/>
+                                <field name="warranty" readonly="status == 'cancel'"/>
+                                <field name="company_id"/>
                             </group>
                         </group>
 
@@ -97,21 +103,18 @@
                             </page>
 
                             <page string="Repair Instructions">
-<!--                                <group>-->
-                                    <field name="repair_instructions" placeholder="Add Repair Instructions here..."/>
-<!--                                </group>-->
+                                <field name="repair_instructions" placeholder="Add Repair Instructions here..."/>
                             </page>
                             <page string="Customer Notes">
-<!--                                <group>-->
-                                    <field name="customer_note" placeholder="Add customer notes..."/>
-<!--                                </group>-->
+                                <field name="customer_note" placeholder="Add customer notes..."/>
                             </page>
+
                             <page string="Media" colspan="2" name="product_template_images">
-                                    <field colspan="2" name="product_template_image_ids"
-                                           class="o_website_sale_image_list" context="{'default_name': name}"
-                                           mode="kanban" add-label="Add Media"
-                                           nolabel="1" widget="x2_many_media_viewer"
-                                           options="{'convert_to_webp': True}"/>
+                                <field colspan="2" name="product_template_image_ids"
+                                       class="o_website_sale_image_list" context="{'default_name': name}"
+                                       mode="kanban" add-label="Add Media"
+                                       nolabel="1" widget="x2_many_media_viewer"
+                                       options="{'convert_to_webp': True}"/>
                             </page>
 
                         </notebook>

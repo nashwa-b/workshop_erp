@@ -11,12 +11,12 @@ class ResPartner(models.Model):
         comodel_name='workshop.vehicle',
         inverse_name='owner_id',
         string='Vehicles',
-        copy=True, bypass_search_access=True)
+        copy=True)
 
     vehicle_count = fields.Integer(
         string='Vehicles',
         compute='_compute_vehicle_count',
-        help='Number of vehicle contracts for this partner'
+        help='Number of vehicles for this partner'
     )
 
     def action_view_vehicle(self):
@@ -33,5 +33,7 @@ class ResPartner(models.Model):
     @api.depends('name')
     def _compute_vehicle_count(self):
         """Compute the number of vehicle for this partner"""
-        for partner in self:
-            partner.vehicle_count = self.env['workshop.vehicle'].search_count([('owner_id', '=', partner.id)])
+        for record in self:
+            record.vehicle_count = len(record.vehicle_ids)
+        # for partner in self:
+        #     partner.vehicle_count = self.env['workshop.vehicle'].search_count([('owner_id', '=', partner.id)])
