@@ -7,3 +7,4 @@ class JobType(models.Model):
     _name = 'job.type'
 
     name = fields.Char(string='Job Type')
+    is_Washing = fields.Boolean(string='Is Washing?')

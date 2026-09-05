@@ -33,12 +33,11 @@ class WorkshopJobOrder(models.Model):
     job_type_id = fields.Many2one('job.type', string="Job Type")
     # many2onefield_name = fields.Char(related="job_type_id.name", string="Name")
 
-
-
     order_line_ids = fields.One2many(
         comodel_name='workshop.job.line',
         inverse_name='order_id',
-        string='Job Order Lines', )
+        string='Job Order Lines')
+
     invoice_count = fields.Integer(string='Invoice Count', compute='_compute_invoice_count')
 
     invoice_paid = fields.Boolean(string='Invoice Paid', compute='_compute_invoice_paid')
@@ -58,6 +57,18 @@ class WorkshopJobOrder(models.Model):
         'sale.order.line', check_company=True, readonly=True,
         copy=False, help="Sale Order Line from which the Job Order comes from.")
 
+    hide = fields.Boolean(string="Hide", compute="_set_hide", store=False)
+    @api.depends('job_type_id')
+    def _set_hide(self):
+        if self.job_type_id.name == 'Washing':
+            self.hide = True
+        else:
+            self.hide = False
+
+    # is_Washing = fields.Boolean(related='job_type_id.is_Washing', string='Washing')
+
+
+
     def action_confirm(self):
         """Workshop Bay Confirmation"""
         for record in self:
@@ -69,7 +80,6 @@ class WorkshopJobOrder(models.Model):
         """Workshop Bay Start"""
         self.ensure_one()
         self.status = 'in_progress'
-
         for rec in self:
             if rec.bay_id:
                 rec.bay_id.status = 'occupied'
@@ -83,8 +93,8 @@ class WorkshopJobOrder(models.Model):
     def action_invoiced(self):
         """Workshop Bay Invoiced"""
         self.ensure_one()
+        print("Workshop Bay Invoiced")
         # self.status = 'invoiced'
-
         for line in self.order_line_ids:
             # print(self.customer_id.name)
             invoice = self.env['account.move'].create({
@@ -95,8 +105,21 @@ class WorkshopJobOrder(models.Model):
                         {'product_id': line.product_id.id, 'quantity': line.product_qty, 'price_unit': line.price_unit,
                          'price_subtotal': line.sub_total})
                 ],
-            })
-    #         self.invoice_id = invoice.id
+        })
+            # return self.action_view_sale_order()
+
+    def action_view_invoiced(self):
+        """Invoice View"""
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Invoice',
+            'res_model': 'account.move',
+            "views": [[False, "form"]],
+            'res_id': self.invoice.id,
+            'target': 'current'
+        }
+
+  # self.invoice_id = invoice.id
 
 
     def action_cancel(self):

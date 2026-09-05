@@ -23,9 +23,9 @@
                     <header>
                         <field name="status" widget="statusbar" statusbar_visible="free,occupied"/>
                         <button name="action_open" string="Open" class="oe_highlight" type="object"
-                                invisible="status !='closed'"/>
+                                invisible="status !='closed'" groups="!workshop_erp.group_workshop_job_order_receptionist"/>
                         <button name="action_close" string="Close" class="oe_highlight" type="object"
-                                invisible="status !='free'"/>
+                                invisible="status !='free'" groups="!workshop_erp.group_workshop_job_order_receptionist"/>
                     </header>
                     <sheet>
                         <div class="oe-title">

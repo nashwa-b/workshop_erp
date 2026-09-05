@@ -36,13 +36,14 @@
                                 invisible="status != 'in_progress'"/>
                         <button name="action_view_sale_order" string="Create Invoice" class="oe_highlight" type="object"
                                 invisible="not sale_order_id or status != 'done'"/>
-                        <button name="action_invoiced" string="Create Invoice" class="oe_highlight" type="object"
-                                invisible="(job_type_id!='Washing') or (status != 'done')"/>
+                        <button name="action_view_invoiced" string="Create Invoice" class="oe_highlight" type="object"
+                                invisible="not hide or (status != 'done') or sale_order_id"/>
 
                         <button name="action_cancel" string="Cancel" type="object"
                                 invisible="status !='draft'"/>
-                        <button name="action_create_sale_order" string="Create Quotation"
-                                type="object" invisible="job_type_id == 2 or (status == 'invoiced' or sale_order_id)"/>
+                         <field name="hide" invisible="1"/>
+<!--                        <field name="parent_id" attrs="{'invisible': [('hide', '='True)]}"/>-->
+                        <button name="action_create_sale_order" string="Create Quotation" type="object" invisible="hide or (status == 'draft') or sale_order_id"/>
                     </header>
 
                     <sheet>
@@ -78,7 +79,7 @@
                                 <field name="mechanic_ids" widget="many2many_tags" readonly="status == 'cancel'"/>
                                 <field name="job_type_id"/>
                                 <field name="bay_id" readonly="status == 'cancel'" invisible="status == 'occupied'"
-                                       domain="[('status', '=', 'free') or [ ]"/>
+                                       domain="[('job_type_ids', 'in', 'job_type_id'),('status','==', 'free')]"/>
 
                             </group>
                             <group>
