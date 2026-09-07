@@ -14,5 +14,4 @@
 </odoo>
 
 
-<!-- invisible="not hide or (status != 'done') or sale_order_id"-->
-<!-- invisible="not sale_order_id or status != 'done'"-->
+

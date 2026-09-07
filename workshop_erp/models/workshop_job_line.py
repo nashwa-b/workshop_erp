@@ -35,6 +35,7 @@ class WorkshopJobLine(models.Model):
     price_unit = fields.Float(
         string="Unit Price")
 
+
     @api.onchange('product_id')
     def _onchange_product_id(self):
         """Unit Price"""

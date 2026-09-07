@@ -17,14 +17,16 @@
         "security/ir.model.access.csv",
         "data/sequence_data.xml",
         "data/workshop.bay.csv",
+        "views/workshop_job_order_views.xml",
+        "views/workshop_vehicle_views.xml",
+        "views/hr_employee.xml",
         "views/job_type.xml",
         "data/job_type_data.xml",
         "data/workshop_bay_data.xml",
-        "views/workshop_job_order_views.xml",
         "views/workshop_bay_views.xml",
-        "views/workshop_vehicle_views.xml",
         "views/res_partner_views.xml",
         "views/sale_order_views.xml",
+        "views/workshop_job_order_reporting.xml",
         "views/workshop_erp_menus.xml"
     ]
 }

@@ -4,6 +4,8 @@ workshop_erp.access_res_partner,access_res_partner,workshop_erp.model_res_partne
 workshop_erp.access_sale_order,access_sale_order,workshop_erp.model_sale_order,base.group_user,1,1,1,1
 workshop_erp.access_account_move,access_account_move,workshop_erp.model_account_move,base.group_user,1,1,1,1
 workshop_erp.access_job_type,access_job_type,workshop_erp.model_job_type,base.group_user,1,1,1,1
+workshop_erp.access_hr_employee,access_hr_employee,workshop_erp.model_hr_employee,base.group_user,1,1,1,1
+workshop_erp.access_res_partner,access_res_partner,workshop_erp.model_res_partner,base.group_user,1,1,1,1
 
 workshop_erp.access_workshop_job_order_mechanic,access_workshop_job_order_mechanic,workshop_erp.model_workshop_job_order,workshop_erp.group_workshop_job_order_mechanic,1,1,0,0
 workshop_erp.access_workshop_job_order_manager,access_workshop_job_order_manager,workshop_erp.model_workshop_job_order,workshop_erp.group_workshop_job_order_manager,1,1,1,1

@@ -15,13 +15,13 @@
             <field name="name">job.type.view.form</field>
             <field name="model">job.type</field>
             <field name="arch" type="xml">
-                <list string="Job Type">
+                <list string="Job Type" editable="bottom">
                     <field name="name"/>
                 </list>
             </field>
         </record>
 
-         <record id="job_type_action" model="ir.actions.act_window">
+        <record id="job_type_action" model="ir.actions.act_window">
             <field name="name">Job Type</field>
             <field name="res_model">job.type</field>
             <field name="view_mode">list,form</field>

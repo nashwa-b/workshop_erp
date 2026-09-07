@@ -15,7 +15,6 @@ class WorkshopVehicle(models.Model):
     )
 
     name = fields.Char(required=True, translate=True, tracking=True)
-    # company_id = fields.Many2one('res.company', string='Company')
     licence_plate = fields.Char(string='License Plate', required=True, tracking=True)
     vin = fields.Char(string='VIN', required=True, tracking=True)
     make = fields.Char(string='Make', tracking=True)
