@@ -10,11 +10,12 @@
     'category': 'Workshop',
     'application': True,
     'installable': True,
-    'depends': ['base', 'hr','sale','account','product','website_sale'],
+    'depends': ['base', 'hr','sale','account','product','website_sale','mail', 'contacts'],
     'data': [
         "security/workshop_erp_groups.xml",
         "security/workshop_job_order_security.xml",
         "security/ir.model.access.csv",
+        "data/mail_template_job_order.xml",
         "data/sequence_data.xml",
         "data/workshop.bay.csv",
         "views/workshop_job_order_views.xml",
@@ -26,7 +27,7 @@
         "views/workshop_bay_views.xml",
         "views/res_partner_views.xml",
         "views/sale_order_views.xml",
-        "views/workshop_job_order_reporting.xml",
+        "views/workshop_job_order_reporting_views.xml",
         "views/workshop_erp_menus.xml"
     ]
 }

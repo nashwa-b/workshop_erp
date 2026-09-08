@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <data noupdate="1">-->
+    <!-- Email Template to send Purchase Order email to the Vendor -->
+    <record id="mail_template_job_order" model="mail.template">
+        <field name="name">Job Order Email Template</field>
+        <field name="model_id" ref="workshop_erp.model_workshop_job_order"/>
+           <field name="subject">Your Job Order {{ object.name }}</field>
+       <field name="email_from">odooleo4@gmail.com</field>
+        <field name="email_to">odooleo4@gmail.com</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="description">Sent to customers on order confirmation</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                <p>Dear
+                    <strong>
+                        <t t-out="object.customer_id.name"/>
+                    </strong>,
+                </p>
+                <p>
+                    We are pleased to confirm our purchase order. Please find the details below:
+                </p>
+                <table style="border: 1px solid #ddd; border-collapse: collapse; width: 100%; margin-top: 10px;">
+                    <thead>
+                        <tr style="background-color: #f2f2f2; text-align: left;">
+                            <th style="border: 1px solid #ddd; padding: 8px;">Product</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Quantity</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Unit Price</th>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Subtotal</th>
+                        </tr>
+                    </thead>
+
+                </table>
+                <p style="margin-top: 20px;">
+                    <strong>Total Amount:</strong>
+                    <t t-out="object.total"/>
+                </p>
+                <p>
+                    Kindly confirm receipt of this order and provide the expected delivery schedule.
+                </p>
+                <p>Best Regards,</p>
+                <p>
+                    <strong>
+                        <t t-out="object.company_id.name"/>
+                    </strong>
+                </p>
+            </div>
+        </field>
+    </record>
+</odoo>
+
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<odoo>-->
+<!--   <data noupdate="1">-->
+<!--        <record id="job_order_done" model="mail.template">-->
+<!--            <field name="name">Email Template Job order</field>-->
+<!--            <field name="model_id" ref="workshop_erp.model_workshop_job_order"/>-->
+<!--            <field name="subject">Project status - {{ object.name }}</field>-->
+<!--            <field name="email_from">{{ (object.user_id.email_formatted or object.company_id.email_formatted or user.email_formatted) }}</field>-->
+<!--            <field name="partner_to" eval="False"/>-->
+<!--            <field name="body_html" type="html">-->
+<!--                <div>-->
+<!--                    <p>-->
+<!--                        Hello,<br/><br/>-->
+<!--                        This is our first email template!<br/><br/>-->
+<!--                        Mitchell Admin-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--    </data>-->
+<!--</odoo>-->
+
+
+
+<!--       <record id="email_template_name" model="mail.template">-->
+<!--           <field name="name">Email Template Name</field>-->
+<!--           <field name="model_id" ref="custom_calendar.model_student_student"/>-->
+<!--           <field name="subject">Testing Email Template "{{ object.name }}"</field>-->
+<!--           <field name="email_to">{{ object.user_id.email}}</field>-->
+<!--           <field name="body_html" type="html">-->
+<!--               <div style="margin: 0px; padding: 0px;">-->
+<!--                   <p style="margin: 0px; padding: 0px; font-size: 13px;">-->
+<!--                       Hello<span style="font-weight: bold;" t-out="object.user_id.name"/>,-->
+<!--                       <br/>-->
+<!--                       <br/>-->
+<!--                       This is the first mail for you.-->
+<!--                   </p>-->
+<!--               </div>-->
+<!--           </field>-->
+<!--           <field name="lang">{{ object.user_id.partner_id.lang or object.user_id.lang }}</field>-->
+<!--           <field name="auto_delete" eval="True"/>-->
+<!--       </record>-->
+<!--   </data>-->
+<!--</odoo>-->

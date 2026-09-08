@@ -12,7 +12,7 @@ from odoo.fields import Command
 class WorkshopJobOrder(models.Model):
     """workshop job order"""
     _name = 'workshop.job.order'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Job Order'
 
     name = fields.Char(string='Number', required=True, check_company=True, readonly=True, default='New')
@@ -53,6 +53,38 @@ class WorkshopJobOrder(models.Model):
 
     hide = fields.Boolean(string="Hide", compute="_compute_hide", store=False)
 
+    @api.depends('job_type_id')
+    def _compute_hide(self):
+        """hiding create quotation button for washing job type"""
+        for record in self:
+            if record.job_type_id.name == 'Washing':
+                record.hide = True
+            else:
+                record.hide = False
+
+    def _compute_invoice_paid(self):
+        """Adding paid ribbon in job order"""
+        for record in self:
+            record.invoice_paid = record.invoice_id.payment_state == 'paid'
+
+    @api.depends('order_line_ids')
+    def _compute_total(self):
+        """Total Amount"""
+        # print(order.order_line)
+        price_total = 0
+        for line in self.order_line_ids:
+            # print("line",line.sub_total)
+            price_total += line.sub_total
+
+        self.total = price_total
+
+    def _compute_invoice_count(self):
+        """Computation of invoice count for smart button"""
+        for record in self:
+            record.invoice_count = len(record.invoice_id)
+        # print(self.invoice_count)
+        # self.invoice_count = 1 if self.invoice_id else 0
+
     def action_confirm(self):
         """Raise validation error if order lines are not given"""
         if not self.order_line_ids:
@@ -66,6 +98,20 @@ class WorkshopJobOrder(models.Model):
         self.status = 'in_progress'
         if self.bay_id:
             self.bay_id.write({'status' : 'occupied', 'ongoing_job_id' : self.id})
+    #
+    # def _send_daily_followup(self):
+    #     """
+    #     Automated method to send a follow-up email to partners.
+    #     """
+    #     # Example: Fetch all partners who are customers
+    #     # customer_records = self.search([('customer_id', '==', 'customer_id')])
+    #
+    #     # Get an email template from the system
+    #     mail_template = self.env.ref('mail.email_template_form')
+    #
+    #     # Send the template to each customer
+    #     for partner in self:
+    #         mail_template.send_mail(partner.id, force_send=False)  # force_send=False queues the email
 
 
     def action_done(self):
@@ -74,7 +120,20 @@ class WorkshopJobOrder(models.Model):
         if self.bay_id:
             self.bay_id.write({'status' : 'free', 'ongoing_job_id' : 0})
 
+        template = self.env.ref('workshop_erp.mail_template_job_order')
+        template.send_mail(self.id, force_send=True)
 
+        # activity_type = self.env.ref('mail.mail_activity_data_call')
+        # self.env['mail.activity'].create({
+        #     'activity_type_id': activity_type.id,
+        #     'res_model_id': self.env['ir.model']._get_id('workshop.job.order'),
+        #     'res_id': self.id,
+        #     'user_id': self.env.user.id,
+        #     # 'user_id': self.env.ref('workshop_erp.group_workshop_job_order_receptionist').user_ids.id,
+        #     'date_deadline': fields.Date.today(),
+        #     'summary': 'Call Customer',
+        # })
+        #
 
     def action_invoiced(self):
         """invoice button for washing job type"""
@@ -168,37 +227,6 @@ class WorkshopJobOrder(models.Model):
             'target': 'current'
         }
 
-    @api.depends('job_type_id')
-    def _compute_hide(self):
-        """hiding create quotation button for washing job type"""
-        for record in self:
-            if record.job_type_id.name == 'Washing':
-                record.hide = True
-            else:
-                record.hide = False
-
-    def _compute_invoice_paid(self):
-        """Adding paid ribbon in job order"""
-        for record in self:
-            record.invoice_paid = record.invoice_id.payment_state == 'paid'
-
-    @api.depends('order_line_ids')
-    def _compute_total(self):
-        """Total Amount"""
-        # print(order.order_line)
-        price_total = 0
-        for line in self.order_line_ids:
-            # print("line",line.sub_total)
-            price_total += line.sub_total
-
-        self.total = price_total
-
-    def _compute_invoice_count(self):
-        """Computation of invoice count for smart button"""
-        for record in self:
-            record.invoice_count = len(record.invoice_id)
-        # print(self.invoice_count)
-        # self.invoice_count = 1 if self.invoice_id else 0
 
 
     class ProductImage(models.Model):

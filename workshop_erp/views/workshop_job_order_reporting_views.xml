@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="workshop_job_order_view_list" model="ir.ui.view">
+        <record id="workshop_job_order_reporting_view_list" model="ir.ui.view">
             <field name="name">workshop.job.order.view.list</field>
             <field name="model">workshop.job.order</field>
             <field name="arch" type="xml">
@@ -18,7 +18,7 @@
             </field>
         </record>
 
-        <record id="workshop_job_order_view_form" model="ir.ui.view">
+         <record id="workshop_job_order_reporting_view_form" model="ir.ui.view">
             <field name="name">workshop.job.order.view.form</field>
             <field name="model">workshop.job.order</field>
             <field name="arch" type="xml">
@@ -128,7 +128,9 @@
             </field>
         </record>
 
-          <record id="workshop_job_order_view_graph" model="ir.ui.view">
+
+
+          <record id="workshop_job_order_reporting_view_graph" model="ir.ui.view">
         <field name="name">workshop.job.order.graph</field>
         <field name="model">workshop.job.order</field>
         <field name="arch" type="xml">
@@ -139,7 +141,7 @@
         </field>
     </record>
 
-            <record id="workshop_job_order_view_pivot" model="ir.ui.view">
+            <record id="workshop_job_order_reporting_view_pivot" model="ir.ui.view">
         <field name="name">workshop.job.order.pivot</field>
         <field name="model">workshop.job.order</field>
         <field name="arch" type="xml">
@@ -151,25 +153,7 @@
     </record>
 
 
-
-        <record id="workshop_job_order_view_activity" model="ir.ui.view">
-            <field name="name">workshop.job.order.activity</field>
-            <field name="model">workshop.job.order</field>
-            <field name="arch" type="xml">
-                <activity string="Activity Tests">
-            <templates>
-                <div t-name="activity-box">
-                    <div>
-                        <field name="name"/>
-                    </div>
-                </div>
-            </templates>
-        </activity>
-    </field>
-</record>
-
-
-                 <record id="view_workshop_job_order_filter" model="ir.ui.view">
+                 <record id="view_workshop_job_order_reporting_filter" model="ir.ui.view">
         <field name="name">workshop.job.order.select</field>
         <field name="model">workshop.job.order</field>
         <field name="arch" type="xml">
@@ -190,29 +174,13 @@
         </field>
     </record>
 
-
-<!--         <record id="cron_send_email_notification" model="ir.cron">-->
-<!--            <field name="name">send email notification</field>-->
-<!--            <field name="model_id" ref="model_workshop_job_order"/>-->
-<!--            <field name="state">code</field>-->
-<!--            <field name="code">model._send_daily_followup()</field>-->
-<!--&lt;!&ndash;            <field name="user_id" ref="base.user_root"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <field name="interval_number">1</field>&ndash;&gt;-->
-<!--&lt;!&ndash;            <field name="interval_type">days</field>&ndash;&gt;-->
-<!--&lt;!&ndash;            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00:00')" />&ndash;&gt;-->
-<!--            <field name="priority">5</field>-->
-<!--            <field name="active">True</field>-->
-<!--        </record>-->
-
-
-
-        <record id="workshop_job_order_action" model="ir.actions.act_window">
-            <field name="name">Job Order</field>
+          <record id="workshop_job_order_reporting_action" model="ir.actions.act_window">
+            <field name="name">Job Order Analysis</field>
             <field name="res_model">workshop.job.order</field>
-            <field name="view_mode">list,form,graph,pivot,activity</field>
-            <field name="search_view_id" ref="view_workshop_job_order_filter"/>
-            <field name="context">{'search_default_filter_draft': 1}</field>
-            <field name="help" type="html">
+            <field name="view_mode">list,form,graph,pivot</field>
+                <field name="search_view_id" ref="view_workshop_job_order_reporting_filter"/>
+                <field name="context">{'search_default_filter_draft': 1}</field>
+               <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Click here to create your first Vehicle.
                 </p>
@@ -220,8 +188,4 @@
         </record>
     </data>
 </odoo>
-
-
-
-
 
