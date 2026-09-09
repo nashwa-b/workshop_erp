@@ -10,7 +10,7 @@
     'category': 'Workshop',
     'application': True,
     'installable': True,
-    'depends': ['base', 'hr','sale','account','product','website_sale','mail', 'contacts'],
+    'depends': ['base', 'hr','sale','account','product','website_sale','mail', 'contacts','calendar'],
     'data': [
         "security/workshop_erp_groups.xml",
         "security/workshop_job_order_security.xml",
@@ -28,6 +28,7 @@
         "views/res_partner_views.xml",
         "views/sale_order_views.xml",
         "views/workshop_job_order_reporting_views.xml",
+        "views/calendar_event_views.xml",
         "views/workshop_erp_menus.xml"
     ]
 }

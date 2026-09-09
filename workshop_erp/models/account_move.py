@@ -10,6 +10,7 @@ class AccountMove(models.Model):
     job_order_id = fields.Many2one('workshop.job.order', string='Job Order')
 
     def action_post(self):
+        """change status to invoiced when invoice is confirmed"""
         res = super(AccountMove, self).action_post()
         sale_orders = self.line_ids.sale_line_ids.order_id
         self.job_order_id = sale_orders.job_order_id

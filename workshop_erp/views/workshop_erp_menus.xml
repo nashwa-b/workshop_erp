@@ -14,9 +14,12 @@
 
         <menuitem id="customer_menu" name="Customer" parent="workshop_erp_menu_root" sequence='3' action="res_partner_action"/>
 
-        <menuitem id="reporting" name="Reporting" parent="workshop_erp_menu_root" sequence='4' action="workshop_job_order_reporting_action"/>
+        <menuitem id="appointment_menu" name="Appointment" parent="workshop_erp_menu_root" sequence='4' action="calendar.action_calendar_event"/>
 
-        <menuitem id="configuration_menu" name="Configuration" parent="workshop_erp_menu_root" sequence='5'>
+
+        <menuitem id="reporting" name="Reporting" parent="workshop_erp_menu_root" sequence='5' action="workshop_job_order_reporting_action"/>
+
+        <menuitem id="configuration_menu" name="Configuration" parent="workshop_erp_menu_root" sequence='6'>
                     <menuitem id="workshop_bay_menu_action" name="Bay" action="workshop_bay_action" />
                     <menuitem id="job_type_menu" name="Job Type" action="job_type_action"/>
                     <menuitem id="mechanic_menu" name="Mechanic" action="hr_employee_action"/>

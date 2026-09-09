@@ -17,9 +17,9 @@ class WorkshopJobOrder(models.Model):
 
     name = fields.Char(string='Number', required=True, check_company=True, readonly=True, default='New')
     customer_id = fields.Many2one('res.partner', string='Customer', related='vehicle_id.owner_id')
-    alternate_id = fields.Many2one('res.partner')
     phone = fields.Char(string='Phone Number', related='customer_id.phone')
-    vehicle_id = fields.Many2one('workshop.vehicle', string='Vehicle', ondelete='restrict', required=True)
+    vehicle_id = fields.Many2one('workshop.vehicle', string='Vehicle', ondelete='restrict', required=True, domain="[('owner_id', 'in', [customer_id])] if customer_id else []")
+    alternative_id = fields.Many2one('res.partner', string='Vehicle', ondelete='restrict', required=True)
     mechanic_ids = fields.Many2many('hr.employee', string='Mechanics', tracking=True)
     job_type_id = fields.Many2one('job.type', string="Job Type")
     bay_id = fields.Many2one('workshop.bay', string='Workshop Bay', tracking=True)
@@ -57,7 +57,7 @@ class WorkshopJobOrder(models.Model):
     def _compute_hide(self):
         """hiding create quotation button for washing job type"""
         for record in self:
-            if record.job_type_id.name == 'Washing':
+            if record.job_type_id == self.env.ref('workshop_erp.job_type_washing'):
                 record.hide = True
             else:
                 record.hide = False
@@ -82,8 +82,6 @@ class WorkshopJobOrder(models.Model):
         """Computation of invoice count for smart button"""
         for record in self:
             record.invoice_count = len(record.invoice_id)
-        # print(self.invoice_count)
-        # self.invoice_count = 1 if self.invoice_id else 0
 
     def action_confirm(self):
         """Raise validation error if order lines are not given"""
@@ -98,57 +96,42 @@ class WorkshopJobOrder(models.Model):
         self.status = 'in_progress'
         if self.bay_id:
             self.bay_id.write({'status' : 'occupied', 'ongoing_job_id' : self.id})
-    #
-    # def _send_daily_followup(self):
-    #     """
-    #     Automated method to send a follow-up email to partners.
-    #     """
-    #     # Example: Fetch all partners who are customers
-    #     # customer_records = self.search([('customer_id', '==', 'customer_id')])
-    #
-    #     # Get an email template from the system
-    #     mail_template = self.env.ref('mail.email_template_form')
-    #
-    #     # Send the template to each customer
-    #     for partner in self:
-    #         mail_template.send_mail(partner.id, force_send=False)  # force_send=False queues the email
 
 
     def action_done(self):
-        """Workshop Bay Done"""
+        """Job order status to done, automatic mail and follow-up activity"""
         self.status = 'done'
         if self.bay_id:
             self.bay_id.write({'status' : 'free', 'ongoing_job_id' : 0})
 
         template = self.env.ref('workshop_erp.mail_template_job_order')
-        template.send_mail(self.id, force_send=True)
+        email_values = {'email_to': self.customer_id.email}
+        template.send_mail(self.id, force_send=True, email_values=email_values)
 
-        # activity_type = self.env.ref('mail.mail_activity_data_call')
-        # self.env['mail.activity'].create({
-        #     'activity_type_id': activity_type.id,
-        #     'res_model_id': self.env['ir.model']._get_id('workshop.job.order'),
-        #     'res_id': self.id,
-        #     'user_id': self.env.user.id,
-        #     # 'user_id': self.env.ref('workshop_erp.group_workshop_job_order_receptionist').user_ids.id,
-        #     'date_deadline': fields.Date.today(),
-        #     'summary': 'Call Customer',
-        # })
-        #
+        activity_type = self.env.ref('mail.mail_activity_data_call')
+        self.env['mail.activity'].create({
+            'activity_type_id': activity_type.id,
+            'res_model_id': self.env['ir.model']._get_id('workshop.job.order'),
+            'res_id': self.id,
+            'user_id': self.env.user.id,
+            # 'user_id': self.env.ref('workshop_erp.group_workshop_job_order_receptionist').user_ids.id,
+            'date_deadline': fields.Date.today(),
+            'summary': 'Call Customer',
+        })
+
 
     def action_invoiced(self):
         """invoice button for washing job type"""
         self.ensure_one()
-        print("Workshop Bay Invoiced")
         invoice = self.env['account.move'].create({
             'move_type': 'out_invoice',
             'partner_id': self.customer_id.id,
-            'invoice_line_ids': [(0, 0, {
+            'invoice_line_ids': [Command.create({
                 'product_id': line.product_id.id,
                 'quantity': line.product_qty,
                 'price_unit': line.price_unit,
                 'price_subtotal': line.sub_total}) for line in self.order_line_ids],
         })
-
         invoice.action_post()
         self.write({'invoice_id': invoice.id, 'status': 'invoiced'})
         return self.action_view_invoice()

@@ -17,10 +17,6 @@ class WorkshopJobLine(models.Model):
         ondelete='cascade'
     )
 
-    # product_tmpl_id = fields.Many2one(
-    #     string="Product Template", comodel_name='product.template', ondelete='cascade', index=True,
-    # )
-
     product_id = fields.Many2one(
         comodel_name='product.product',
         string="Product",

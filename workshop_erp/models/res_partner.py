@@ -20,7 +20,7 @@ class ResPartner(models.Model):
     )
 
     def action_view_vehicle(self):
-        """Open the vehicle view for this partner"""
+        """Open the vehicle view for this partner in smart button"""
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
