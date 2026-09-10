@@ -14,7 +14,7 @@
 
         <menuitem id="customer_menu" name="Customer" parent="workshop_erp_menu_root" sequence='3' action="res_partner_action"/>
 
-        <menuitem id="appointment_menu" name="Appointment" parent="workshop_erp_menu_root" sequence='4' action="calendar.action_calendar_event"/>
+        <menuitem id="appointment_menu" name="Appointment" parent="workshop_erp_menu_root" sequence='4' action="calendar_event_action"/>
 
 
         <menuitem id="reporting" name="Reporting" parent="workshop_erp_menu_root" sequence='5' action="workshop_job_order_reporting_action"/>

@@ -13,11 +13,15 @@ class ResPartner(models.Model):
         string='Vehicles',
         copy=True)
 
+    job_order_ids = fields.One2many('workshop.job.order','customer_id','Job Orders')
+
     vehicle_count = fields.Integer(
         string='Vehicles',
         compute='_compute_vehicle_count',
         help='Number of vehicles for this partner'
     )
+
+    job_order_count = fields.Integer(string='Job Orders', compute='_compute_job_order_count')
 
     def action_view_vehicle(self):
         """Open the vehicle view for this partner in smart button"""
@@ -30,10 +34,25 @@ class ResPartner(models.Model):
             "domain": [('owner_id', '=', self.id)],
         }
 
-    @api.depends('name')
     def _compute_vehicle_count(self):
         """Compute the number of vehicle for this partner"""
         for record in self:
             record.vehicle_count = len(record.vehicle_ids)
         # for partner in self:
         #     partner.vehicle_count = self.env['workshop.vehicle'].search_count([('owner_id', '=', partner.id)])
+
+    def action_view_job_order(self):
+        """Open the vehicle view for this partner in smart button"""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "workshop.job.order",
+            "name": "Job Orders",
+            "views": [[False, "list"], [False, "form"]],
+            "domain": [('customer_id', '=', self.id)],
+        }
+
+    def _compute_job_order_count(self):
+        """Compute the number of vehicle for this partner"""
+        for record in self:
+            record.job_order_count = len(record.job_order_ids)

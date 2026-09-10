@@ -24,6 +24,20 @@
             <field name="arch" type="xml">
                 <form string="Vehicle">
                     <sheet>
+                          <div class="oe_button_box" name="button_box">
+
+                            <!-- No groups attribute on the next button as "stock.group_stock_user" is needed for Repair, and as this group is granted 'sale.order' read/write accesses in sale_stock module (forcefully loaded as transitive dependency) -->
+
+                            <button name="action_view_job_order" type="object" string="Job Orders" default_order="job_date desc"
+                                    class="oe_stat_button">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="job_order_count" widget="statinfo" nolabel="1" class="mr4"/>
+                                    </span>
+                                    <span class="o_stat_text">Job Orders</span>
+                                </div>
+                            </button>
+                          </div>
                         <div class="oe-title">
                             <h1>
                                 <field name = "name" placeholder = "Vehicle"/>

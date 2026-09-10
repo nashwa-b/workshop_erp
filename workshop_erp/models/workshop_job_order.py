@@ -53,6 +53,11 @@ class WorkshopJobOrder(models.Model):
 
     hide = fields.Boolean(string="Hide", compute="_compute_hide", store=False)
 
+    appointment_ids = fields.One2many("calendar.event", "job_order_id", string="Appointments")
+
+    collected = fields.Boolean(string="Collected", default=False)
+
+
     @api.depends('job_type_id')
     def _compute_hide(self):
         """hiding create quotation button for washing job type"""
@@ -104,7 +109,7 @@ class WorkshopJobOrder(models.Model):
         if self.bay_id:
             self.bay_id.write({'status' : 'free', 'ongoing_job_id' : 0})
 
-        template = self.env.ref('workshop_erp.mail_template_job_order')
+        template = self.env.ref('workshop_erp.mail_template_job_order_done')
         email_values = {'email_to': self.customer_id.email}
         template.send_mail(self.id, force_send=True, email_values=email_values)
 
@@ -152,7 +157,6 @@ class WorkshopJobOrder(models.Model):
                 vals['name'] = self.env['ir.sequence'].next_by_code('workshop.job.order') or 'New'
         return super().create(vals)
 
-
     def _get_sale_order_values(self):
         """sale order values"""
         return {
@@ -161,7 +165,6 @@ class WorkshopJobOrder(models.Model):
             'vehicle_id': self.vehicle_id.id,
             'origin': self.name,
         }
-
 
     def action_create_sale_order(self):
         """Sale Order Creation"""
@@ -210,7 +213,21 @@ class WorkshopJobOrder(models.Model):
             'target': 'current'
         }
 
+    def _send_daily_remainder(self):
+        """Send daily reminder until vehicle is collected"""
+        # Example: Fetch all partners who are customers
+        # customer_records = self.search([('customer_rank', '>', 0)])
+        rec = self.search([('invoice_id.payment_state','=','paid'), ('collected','=', False)])
+        # if self.invoice_id.payment_state == 'paid' and self.collected == False:
+        for record in rec:
 
+        # Get an email template from the system
+            mail_template = self.env.ref('workshop_erp.mail_template_vehicle_pickup')
+            email_values = {'email_to': self.customer_id.email}
+
+            # Send the template to each customer
+            mail_template.send_mail(self.id, force_send=False,
+                                    email_values=email_values)  # force_send=False queues the email
 
     class ProductImage(models.Model):
         """Add Media"""

@@ -8,6 +8,7 @@
                 <list string="Job Order Analysis" default_order="name desc">
                     <field name="name" ref="base.main_company"/>
                     <field name="customer_id"/>
+                    <field name="job_date"/>
                     <field name="vehicle_id"/>
                     <field name="mechanic_ids"/>
                     <field name="bay_id"/>
@@ -84,7 +85,8 @@
                                 <field name="job_date" readonly="status == 'cancel'"/>
                                 <field name="total" widget="monetary" readonly="status == 'cancel'"/>
                                 <field name="warranty" readonly="status == 'cancel'"/>
-                                <field name="company_id"/>
+                                <field name="collected" readonly="status == 'cancel'"/>
+                                <field name="company_id" readonly="status == 'cancel'"/>
                             </group>
                         </group>
 
@@ -116,8 +118,8 @@
                                        options="{'convert_to_webp': True}"/>
                             </page>
 
-                             <page string="Appointment" name="action_view_appointment">
-                                 
+                             <page string="Appointment">
+                                 <field name="appointment_ids"/>
                             </page>
 
 
@@ -171,13 +173,12 @@
     </field>
 </record>
 
-
-                 <record id="view_workshop_job_order_filter" model="ir.ui.view">
-        <field name="name">workshop.job.order.select</field>
-        <field name="model">workshop.job.order</field>
-        <field name="arch" type="xml">
+        <record id="view_workshop_job_order_filter" model="ir.ui.view">
+            <field name="name">workshop.job.order.select</field>
+            <field name="model">workshop.job.order</field>
+            <field name="arch" type="xml">
             <search string="Search Job Orders">
-                <filter string="New" domain="[('status', '=', 'draft')]" name="filter_draft" />
+<!--                <filter string="New" domain="[('status', '=', 'draft')]" name="filter_draft" />-->
                 <filter string="Confirmed" domain="[('status', '=', 'confirmed')]" name="filter_confirmed" />
                 <filter string="In Progress" name="filter_under_repair" domain="[('status', '=', 'in_progress')]"/>
                 <filter string="Done" name="filter_done" domain="[('status', '=', 'done')]"/>

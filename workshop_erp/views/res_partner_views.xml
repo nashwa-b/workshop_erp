@@ -24,6 +24,11 @@
                         icon="fa-truck">
                     <field name="vehicle_count" widget="statinfo" string="Vehicles"/>
                 </button>
+                <button name="action_view_job_order"
+                        type="object"
+                        class="oe_stat_button">
+                    <field name="job_order_count" widget="statinfo" string="Job Orders"/>
+                </button>
             </xpath>
         </field>
     </record>
