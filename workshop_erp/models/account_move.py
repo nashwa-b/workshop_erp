@@ -5,7 +5,7 @@ from odoo import fields, models, api
 
 class AccountMove(models.Model):
     """Extends partner model"""
-    _inherit = 'account.move'
+    _inherit = ['account.move']
 
     job_order_id = fields.Many2one('workshop.job.order', string='Job Order')
 

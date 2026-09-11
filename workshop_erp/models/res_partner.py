@@ -10,15 +10,13 @@ class ResPartner(models.Model):
     vehicle_ids = fields.One2many(
         comodel_name='workshop.vehicle',
         inverse_name='owner_id',
-        string='Vehicles',
-        copy=True)
+        string='Vehicles',)
 
     job_order_ids = fields.One2many('workshop.job.order','customer_id','Job Orders')
 
     vehicle_count = fields.Integer(
         string='Vehicles',
         compute='_compute_vehicle_count',
-        help='Number of vehicles for this partner'
     )
 
     job_order_count = fields.Integer(string='Job Orders', compute='_compute_job_order_count')

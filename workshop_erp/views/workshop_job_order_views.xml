@@ -5,7 +5,7 @@
             <field name="name">workshop.job.order.view.list</field>
             <field name="model">workshop.job.order</field>
             <field name="arch" type="xml">
-                <list string="Job Order Analysis" default_order="name desc">
+                <list string="Job Order" default_order="name desc">
                     <field name="name" ref="base.main_company"/>
                     <field name="customer_id"/>
                     <field name="job_date"/>
@@ -14,6 +14,19 @@
                     <field name="bay_id"/>
                     <field name="customer_note" optional="hide"/>
                     <field name="total" widget="monetary"/>
+                    <field name="status" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+            <record id="workshop_job_order_history_view_list" model="ir.ui.view">
+            <field name="name">workshop.job.order.history.view.list</field>
+            <field name="model">workshop.job.order</field>
+            <field name="arch" type="xml">
+                <list string="Job Order Analysis" default_order="job_date desc">
+                    <field name="name" ref="base.main_company"/>
+                    <field name="customer_id"/>
+                    <field name="job_date"/>
                     <field name="status" widget="badge"/>
                 </list>
             </field>
@@ -155,8 +168,6 @@
         </field>
     </record>
 
-
-
         <record id="workshop_job_order_view_activity" model="ir.ui.view">
             <field name="name">workshop.job.order.activity</field>
             <field name="model">workshop.job.order</field>
@@ -200,6 +211,7 @@
             <field name="res_model">workshop.job.order</field>
             <field name="view_mode">list,form,graph,pivot,activity</field>
             <field name="search_view_id" ref="view_workshop_job_order_filter"/>
+            <field name="view_id" ref="workshop_job_order_view_list"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Click here to create your first Vehicle.

@@ -29,7 +29,7 @@
                             <!-- No groups attribute on the next button as "stock.group_stock_user" is needed for Repair, and as this group is granted 'sale.order' read/write accesses in sale_stock module (forcefully loaded as transitive dependency) -->
 
                             <button name="action_view_job_order" type="object" string="Job Orders" default_order="job_date desc"
-                                    class="oe_stat_button">
+                                    class="oe_stat_button" icon="fa-wrench">
                                 <div class="o_field_widget o_stat_info">
                                     <span class="o_stat_value">
                                         <field name="job_order_count" widget="statinfo" nolabel="1" class="mr4"/>
@@ -64,6 +64,25 @@
                 </form>
             </field>
         </record>
+
+<!--         <record id="workshop_job_order_history_view_list" model="ir.ui.view">-->
+<!--            <field name="name">workshop.job.order.history.view.list</field>-->
+<!--            <field name="model">workshop.job.order</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <list string="Job Order Analysis" default_order="job_date desc">-->
+<!--                    <field name="name" ref="base.main_company"/>-->
+<!--                    <field name="customer_id"/>-->
+<!--                    <field name="job_date"/>-->
+<!--&lt;!&ndash;                    <field name="vehicle_id"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <field name="mechanic_ids"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <field name="bay_id"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <field name="customer_note" optional="hide"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <field name="total" widget="monetary"/>&ndash;&gt;-->
+<!--                    <field name="status" widget="badge"/>-->
+<!--                </list>-->
+<!--            </field>-->
+<!--        </record>-->
+
 
         <record id="workshop_vehicle_action" model="ir.actions.act_window">
             <field name="name">Vehicle</field>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="hr_employee_action" model="ir.actions.act_window">
             <field name="name">Mechanics</field>
             <field name="res_model">hr.employee</field>

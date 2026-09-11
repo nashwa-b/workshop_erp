@@ -76,12 +76,16 @@ class WorkshopJobOrder(models.Model):
     def _compute_total(self):
         """Total Amount"""
         # print(order.order_line)
-        price_total = 0
-        for line in self.order_line_ids:
-            # print("line",line.sub_total)
-            price_total += line.sub_total
+        for record in self:
+            # price_total = 0
+            # order.amount_to_invoice = sum(order.order_line.mapped('amount_to_invoice'))
+            record.total = sum(record.order_line_ids.mapped('sub_total'))
 
-        self.total = price_total
+            # for line in self.order_line_ids:
+                # print("line",line.sub_total)
+            # price_total += line.sub_total
+
+            # record.total = price_total
 
     def _compute_invoice_count(self):
         """Computation of invoice count for smart button"""
@@ -107,7 +111,7 @@ class WorkshopJobOrder(models.Model):
         """Job order status to done, automatic mail and follow-up activity"""
         self.status = 'done'
         if self.bay_id:
-            self.bay_id.write({'status' : 'free', 'ongoing_job_id' : 0})
+            self.bay_id.write({'status' : 'free', 'ongoing_job_id' : False})
 
         template = self.env.ref('workshop_erp.mail_template_job_order_done')
         email_values = {'email_to': self.customer_id.email}
@@ -141,11 +145,23 @@ class WorkshopJobOrder(models.Model):
         self.write({'invoice_id': invoice.id, 'status': 'invoiced'})
         return self.action_view_invoice()
 
+    def action_view_invoice(self):
+        """Invoice View in Smart Button"""
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Invoice',
+            'res_model': 'account.move',
+            "views": [[False, "form"]],
+            'res_id': self.invoice_id.id,
+            'target': 'current'
+        }
 
     def action_cancel(self):
         """workshop Bay Cancel"""
         if self.status == 'draft':
             self.status = 'cancel'
+        else:
+            raise ValidationError("Job orders in this state cannot be cancelled.")
 
 
     @api.model_create_multi
@@ -202,32 +218,22 @@ class WorkshopJobOrder(models.Model):
             'target': 'current'
         }
 
-    def action_view_invoice(self):
-        """Invoice View in Smart Button"""
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Invoice',
-            'res_model': 'account.move',
-            "views": [[False, "form"]],
-            'res_id': self.invoice_id.id,
-            'target': 'current'
-        }
-
     def _send_daily_remainder(self):
         """Send daily reminder until vehicle is collected"""
-        # Example: Fetch all partners who are customers
         # customer_records = self.search([('customer_rank', '>', 0)])
         rec = self.search([('invoice_id.payment_state','=','paid'), ('collected','=', False)])
-        # if self.invoice_id.payment_state == 'paid' and self.collected == False:
+        print(rec)
+
         for record in rec:
+            print(record.id)
+            print(record.customer_id.id)
+            print(record.customer_id.name)
 
-        # Get an email template from the system
             mail_template = self.env.ref('workshop_erp.mail_template_vehicle_pickup')
-            email_values = {'email_to': self.customer_id.email}
-
-            # Send the template to each customer
-            mail_template.send_mail(self.id, force_send=False,
+            email_values = {'email_to': record.customer_id.email}
+            mail_template.send_mail(record.id, force_send=True,
                                     email_values=email_values)  # force_send=False queues the email
+
 
     class ProductImage(models.Model):
         """Add Media"""

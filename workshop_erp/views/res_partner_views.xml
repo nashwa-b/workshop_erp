@@ -26,12 +26,13 @@
                 </button>
                 <button name="action_view_job_order"
                         type="object"
-                        class="oe_stat_button">
+                        class="oe_stat_button" icon="fa-wrench">
                     <field name="job_order_count" widget="statinfo" string="Job Orders"/>
                 </button>
             </xpath>
         </field>
     </record>
+
          <record id="res_partner_action" model="ir.actions.act_window">
             <field name="name">Customer</field>
             <field name="res_model">res.partner</field>
