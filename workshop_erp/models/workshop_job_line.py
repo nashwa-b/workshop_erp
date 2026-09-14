@@ -2,9 +2,6 @@
 
 from odoo import fields, models, api
 
-from odoo import models, fields
-from odoo.fields import Command
-
 
 class WorkshopJobLine(models.Model):
     """ Workshop Bay """
@@ -13,14 +10,12 @@ class WorkshopJobLine(models.Model):
 
     order_id = fields.Many2one(
         comodel_name='workshop.job.order',
-        string='Order Reference',
-        ondelete='cascade'
+        string='Order Reference'
     )
 
     product_id = fields.Many2one(
         comodel_name='product.product',
-        string="Product",
-        check_company=True)
+        string="Product")
 
     product_qty = fields.Float(
         string="Quantity",

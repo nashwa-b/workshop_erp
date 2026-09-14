@@ -4,9 +4,8 @@ from odoo import models, fields, api
 
 from datetime import datetime
 
-from odoo import models, fields
 from odoo.exceptions import ValidationError
-from odoo.fields import Command
+
 
 
 class WorkshopJobOrder(models.Model):
@@ -15,11 +14,10 @@ class WorkshopJobOrder(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Job Order'
 
-    name = fields.Char(string='Number', required=True, check_company=True, readonly=True, default='New')
+    name = fields.Char(string='Number', required=True, readonly=True, default='New')
     customer_id = fields.Many2one('res.partner', string='Customer', related='vehicle_id.owner_id')
     phone = fields.Char(string='Phone Number', related='customer_id.phone')
     vehicle_id = fields.Many2one('workshop.vehicle', string='Vehicle', ondelete='restrict', required=True, domain="[('owner_id', 'in', [customer_id])] if customer_id else []")
-    alternative_id = fields.Many2one('res.partner', string='Vehicle', ondelete='restrict', required=True)
     mechanic_ids = fields.Many2many('hr.employee', string='Mechanics', tracking=True)
     job_type_id = fields.Many2one('job.type', string="Job Type")
     bay_id = fields.Many2one('workshop.bay', string='Workshop Bay', tracking=True)
@@ -52,11 +50,8 @@ class WorkshopJobOrder(models.Model):
         'sale.order', 'Sale Order')
 
     hide = fields.Boolean(string="Hide", compute="_compute_hide", store=False)
-
     appointment_ids = fields.One2many("calendar.event", "job_order_id", string="Appointments")
-
     collected = fields.Boolean(string="Collected", default=False)
-
 
     @api.depends('job_type_id')
     def _compute_hide(self):
@@ -98,14 +93,12 @@ class WorkshopJobOrder(models.Model):
             raise ValidationError("You cannot confirm the Job Order without Job Lines.")
         self.status = 'confirmed'
 
-
     def action_start(self):
         """Workshop Bay Start"""
         self.ensure_one()
         self.status = 'in_progress'
         if self.bay_id:
             self.bay_id.write({'status' : 'occupied', 'ongoing_job_id' : self.id})
-
 
     def action_done(self):
         """Job order status to done, automatic mail and follow-up activity"""
@@ -128,14 +121,13 @@ class WorkshopJobOrder(models.Model):
             'summary': 'Call Customer',
         })
 
-
     def action_invoiced(self):
         """invoice button for washing job type"""
         self.ensure_one()
         invoice = self.env['account.move'].create({
             'move_type': 'out_invoice',
             'partner_id': self.customer_id.id,
-            'invoice_line_ids': [Command.create({
+            'invoice_line_ids': [fields.Command.create({
                 'product_id': line.product_id.id,
                 'quantity': line.product_qty,
                 'price_unit': line.price_unit,
@@ -163,7 +155,6 @@ class WorkshopJobOrder(models.Model):
         else:
             raise ValidationError("Job orders in this state cannot be cancelled.")
 
-
     @api.model_create_multi
     def create(self, vals_list):
         """Sequence Creation"""
@@ -185,6 +176,7 @@ class WorkshopJobOrder(models.Model):
     def action_create_sale_order(self):
         """Sale Order Creation"""
         self.ensure_one()
+        print("ll",self.id)
 
         if self.sale_order_id:
             return self.action_view_sale_order()
@@ -220,25 +212,13 @@ class WorkshopJobOrder(models.Model):
 
     def _send_daily_remainder(self):
         """Send daily reminder until vehicle is collected"""
-        # customer_records = self.search([('customer_rank', '>', 0)])
         rec = self.search([('invoice_id.payment_state','=','paid'), ('collected','=', False)])
-        print(rec)
-
         for record in rec:
-            print(record.id)
-            print(record.customer_id.id)
-            print(record.customer_id.name)
-
             mail_template = self.env.ref('workshop_erp.mail_template_vehicle_pickup')
             email_values = {'email_to': record.customer_id.email}
-            mail_template.send_mail(record.id, force_send=True,
-                                    email_values=email_values)  # force_send=False queues the email
-
+            mail_template.send_mail(record.id, force_send=True, email_values=email_values)
 
     class ProductImage(models.Model):
-        """Add Media"""
+        """Add media of vehicles"""
         _inherit = 'product.image'
-
-        job_order_id = fields.Many2one(
-            string="Product Template", comodel_name='workshop.job.order', ondelete='cascade', index=True,
-        )
+        job_order_id = fields.Many2one(string="Vehicle Images", comodel_name='workshop.job.order')

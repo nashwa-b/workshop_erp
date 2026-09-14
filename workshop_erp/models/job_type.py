@@ -3,7 +3,7 @@
 from odoo import fields, models
 
 class JobType(models.Model):
-    """workshop job order"""
+    """workshop job types"""
     _name = 'job.type'
 
     name = fields.Char(string='Job Type')

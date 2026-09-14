@@ -8,14 +8,11 @@
         <!--    submenu-->
         <menuitem id="workshop_job_order_menu_action" name="Job Orders" parent="workshop_erp_menu_root" sequence='1' action="workshop_job_order_action"/>
 
-<!--        <menuitem id="workshop_bay_menu_action" name="Bay" parent="workshop_erp_menu_root" action="workshop_bay_action" />-->
-
         <menuitem id="workshop_vehicle_menu_action" name="Vehicles" parent="workshop_erp_menu_root" sequence='2' action="workshop_vehicle_action"/>
 
         <menuitem id="customer_menu" name="Customers" parent="workshop_erp_menu_root" sequence='3' action="res_partner_action"/>
 
         <menuitem id="appointment_menu" name="Appointments" parent="workshop_erp_menu_root" sequence='4' action="calendar_event_action"/>
-
 
         <menuitem id="reporting" name="Reporting" parent="workshop_erp_menu_root" sequence='5' action="workshop_job_order_reporting_action"/>
 
@@ -24,6 +21,5 @@
                     <menuitem id="job_type_menu" name="Job Type" action="job_type_action"/>
                     <menuitem id="mechanic_menu" name="Mechanic" action="hr_employee_action"/>
         </menuitem>
-
     </data>
 </odoo>

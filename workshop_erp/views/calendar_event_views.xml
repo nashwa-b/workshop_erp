@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_calendar_event_form_inherit_job_order" model="ir.ui.view">
-        <field name="name">calendar.event.form.inherit.job.order</field>
+    <record id="calendar_event_view_form" model="ir.ui.view">
+        <field name="name">calendar.event.view.form.inherit.workshop.job.order</field>
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
         <field name="arch" type="xml">
               <xpath expr="//field[@name='start']" position="after">
                     <field  name="job_order_id"/>
-<!--                  <field name="customer_id"/>-->
                 </xpath>
             <xpath expr="//button[@name='action_open_composer']" position="after">
             </xpath>
              </field>
     </record>
 
-    <record id="view_calendar_event_list_inherit_job_order" model="ir.ui.view">
-        <field name="name">calendar.event.list.inherit.job.order</field>
+    <record id="calendar_event_view_list" model="ir.ui.view">
+        <field name="name">calendar.event.view.list.inherit.workshop.job.order</field>
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
         <field name="arch" type="xml">
@@ -24,7 +23,6 @@
                 </xpath>
              </field>
     </record>
-
 
      <record id="calendar_event_action" model="ir.actions.act_window">
             <field name="name">Appointments</field>

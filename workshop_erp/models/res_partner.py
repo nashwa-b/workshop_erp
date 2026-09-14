@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models, api
+from odoo import fields, models
 
 
 class ResPartner(models.Model):
-    """Extends partner model"""
+    """Extends partner model by adding smart buttons for vehicles and job orders associated with that partner"""
     _inherit = 'res.partner'
 
     vehicle_ids = fields.One2many(
@@ -18,7 +18,6 @@ class ResPartner(models.Model):
         string='Vehicles',
         compute='_compute_vehicle_count',
     )
-
     job_order_count = fields.Integer(string='Job Orders', compute='_compute_job_order_count')
 
     def action_view_vehicle(self):
@@ -40,7 +39,7 @@ class ResPartner(models.Model):
         #     partner.vehicle_count = self.env['workshop.vehicle'].search_count([('owner_id', '=', partner.id)])
 
     def action_view_job_order(self):
-        """Open the vehicle view for this partner in smart button"""
+        """Open the job orders for this partner in smart button"""
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",

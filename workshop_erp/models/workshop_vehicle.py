@@ -26,11 +26,8 @@ class WorkshopVehicle(models.Model):
     job_order_count = fields.Integer(string='Job Orders', compute='_compute_job_order_count')
     job_order_ids = fields.One2many('workshop.job.order','vehicle_id','Job Orders')
 
-
-
     def action_view_job_order(self):
         """Display all previous Job Orders associated with a vehicle"""
-        # default_order = self.env['workshop_erp.job_date']._order
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
@@ -38,7 +35,6 @@ class WorkshopVehicle(models.Model):
             "name": "Job Orders",
             "views": [[self.env.ref('workshop_erp.workshop_job_order_history_view_list').id, "list"], [False, "form"]],
             "domain": [('vehicle_id', '=', self.id)],
-            "order": "job_date desc",
         # "views": [[self.env.ref("account.view_partner_bank_form_inherit_account").id, "form"]],
 
         }
