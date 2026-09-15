@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--    main menu-->
+        <menuitem id="associated_products_menu_root" name="Associated Blocks" />
+5
+        <!--    submenu-->
+        <menuitem id="associated_products_menu_action" name="Limits" parent="associated_products_menu_root" sequence='1' action="approval_block_action"/>
+        </data>
+</odoo>

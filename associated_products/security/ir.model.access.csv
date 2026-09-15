@@ -1,5 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 associated_products.access_res_partner,access_res_partner,associated_products.model_res_partner,base.group_user,1,1,1,1
 associated_products.access_sale_order,access_sale_order,associated_products.model_sale_order,base.group_user,1,1,1,1
+associated_products.access_approval_block,access_approval_block,associated_products.model_approval_block,base.group_user,1,1,1,1
+associated_products.access_purchase_order,access_purchase_order,associated_products.model_purchase_order,base.group_user,1,1,1,1
 
 

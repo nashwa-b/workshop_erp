@@ -176,7 +176,6 @@ class WorkshopJobOrder(models.Model):
     def action_create_sale_order(self):
         """Sale Order Creation"""
         self.ensure_one()
-        print("ll",self.id)
 
         if self.sale_order_id:
             return self.action_view_sale_order()
@@ -196,7 +195,6 @@ class WorkshopJobOrder(models.Model):
         self.sale_order_id = sale_order.id
 
         return self.action_view_sale_order()
-
 
     def action_view_sale_order(self):
         """View Sale Order Creation"""
