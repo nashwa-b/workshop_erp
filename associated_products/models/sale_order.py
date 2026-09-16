@@ -11,6 +11,7 @@ class SaleOrder(models.Model):
 
     @api.onchange('associated_products')
     def _onchange_associated_products(self):
+        """fill and delete the order lines of SO with associated products of partner when enabling and disabling the boolean field"""
         product = self.partner_id.associated_product_ids
         if self.associated_products:
             self.order_line = [fields.Command.create(

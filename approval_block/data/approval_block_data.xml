@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="0">
-        <record id="limit1" model="approval.block">
-            <field name="name">limit</field>
+        <record id="approval_block_limit1" model="approval.block">
+            <field name="name">500</field>
             <field name="limit">500</field>
         </record>
-        <record id="limit2" model="approval.block">
-            <field name="name">limits</field>
+        <record id="approval_block_limit2" model="approval.block">
+            <field name="name">1000</field>
             <field name="limit">1000</field>
         </record>
            </data>

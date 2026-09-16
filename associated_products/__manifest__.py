@@ -8,17 +8,13 @@
     'description': """Associated products""",
     'sequence': -10,
     'category': 'Products',
-    'application': True,
+    # 'application': True,
     'installable': True,
-    'depends': ['base','product','sale','purchase'],
+    'depends': ['base','product','sale'],
     'data': [
         'security/ir.model.access.csv',
-        'data/approval_block_data.xml',
         'views/sale_order_views.xml',
         'views/res_partner_views.xml',
-        'views/approval_block.xml',
-        'views/purchase_order_views.xml',
-        'views/approval_block_menus.xml',
     ]
 }
 

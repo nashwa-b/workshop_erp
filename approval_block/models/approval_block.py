@@ -7,4 +7,4 @@ class ApprovalBlock(models.Model):
     _name = 'approval.block'
 
     name = fields.Char(string="Name")
-    limit = fields.Float("limit")
+    limit = fields.Float("Limit")

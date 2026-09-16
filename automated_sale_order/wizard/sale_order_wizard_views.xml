@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="view_sales_order_wizard_form" model="ir.ui.view">
+       <field name="name">sales.order.wizard.form</field>
+       <field name="model">sale.order.wizard</field>
+       <field name="arch" type="xml">
+           <form string="Sale Order">
+               <group>
+                   <field name="customer_id"/>
+                   <field name="product_id" />
+                   <field name="quantity"/>
+                   <field name="price_unit"/>
+               </group>
+               <footer>
+                   <button name="action_create_sale_order" string="Confirm" class="oe_highlight" type="object"/>
+               <button name="action_close_sale_order_wizard" string="Cancel" class="oe_highlight" type="object" special="cancel"/>
+               </footer>
+
+           </form>
+       </field>
+   </record>
+</odoo>

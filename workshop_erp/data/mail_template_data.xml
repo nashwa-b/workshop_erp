@@ -23,7 +23,7 @@
                         </strong>
                         is done
                     </p>
-                    <p>Thankyou,</p>
+                    <p>Thank you,</p>
                     <p>
                         <strong>
                             <t t-out="object.company_id.name"/>

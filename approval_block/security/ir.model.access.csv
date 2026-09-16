@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+approval_block.access_approval_block,access_approval_block,approval_block.model_approval_block,base.group_user,1,1,1,1
+approval_block.access_purchase_order,access_purchase_order,approval_block.model_purchase_order,base.group_user,1,1,1,1
+
