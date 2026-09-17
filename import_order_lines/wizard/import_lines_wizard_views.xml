@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="view_import_lines_wizard_form" model="ir.ui.view">
+       <field name="name">import_lines.wizard.form</field>
+       <field name="model">import.lines.wizard</field>
+<!--        <field name="context">{'default_product_uom_id': 'draft'}</field>-->
+       <field name="arch" type="xml">
+           <form string="Import Lines">
+               <group>
+                   <field name="import_file" widget = "binary" filename="filename"/>
+                   <field name="filename" invisible="1"/>
+               </group>
+               <footer>
+                   <button name="import_xls"  string="Import" class="oe_highlight" type="object"/>
+                   <button string="Cancel" class="oe_highlight" type="object" special="cancel"/>
+               </footer>
+           </form>
+       </field>
+   </record>
+</odoo>

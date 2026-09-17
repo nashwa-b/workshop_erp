@@ -8,7 +8,7 @@
     'description': """Automated sale order in product view""",
     'sequence': 1,
     'category': 'Approval blocks',
-    'application': True,
+    # 'application': True,
     'installable': True,
     'depends': ['base','product','sale'],
     'data': [

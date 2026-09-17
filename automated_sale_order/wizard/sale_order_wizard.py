@@ -7,6 +7,7 @@ class SaleOrderWizard(models.TransientModel):
     """Creation of Wizards for Sales Orders"""
     _name = 'sale.order.wizard'
     _description = 'Wizard for Sales Orders'
+
     customer_id = fields.Many2one('res.partner', string="Customer")
     quantity = fields.Float(string="Quantity", default=1)
     price_unit = fields.Float(string="Unit Price")
