@@ -8,7 +8,7 @@
     'description': """Import order lines into sale""",
     'sequence': 1,
     'category': 'Import Lines',
-    'application': True,
+    # 'application': True,
     'installable': True,
     'depends': ['base','sale'],
     'data': [

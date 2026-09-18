@@ -36,7 +36,6 @@ class WorkshopVehicle(models.Model):
             "views": [[self.env.ref('workshop_erp.workshop_job_order_history_view_list').id, "list"], [False, "form"]],
             "domain": [('vehicle_id', '=', self.id)],
         # "views": [[self.env.ref("account.view_partner_bank_form_inherit_account").id, "form"]],
-
         }
 
     def _compute_job_order_count(self):

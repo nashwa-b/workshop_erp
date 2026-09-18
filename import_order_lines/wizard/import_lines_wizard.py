@@ -21,45 +21,44 @@ class ImportLinesWizard(models.TransientModel):
             read_only=True
         )
         ws = wb.active
+
+
         for record in ws.iter_rows(min_row=2, max_row=None, min_col=None,
                                    max_col=None, values_only=True):
             active_id = self.env.context.get('active_id')
             product = self.env['product.product'].search([('name', '=', record[0])],limit=1)
             unit = self.env['uom.uom'].search([('name', '=', record[2])],limit=1)
-            if product and unit:
-                # val = product.split()
-                # string = re.sub("[\([{})\]]", "", val[0])
-                new = self.env['sale.order.line'].create({
-                    'order_id': active_id,
-                    'display_type': False,
-                    'product_id': product.id,
-                    'name': record[3],
-                    'product_uom_qty': record[1],
-                    'price_unit': record[4],
-                    'product_uom_id': unit.id,
-                })
-            # elif not unit and product:
-            #     new = self.env['sale.order.line'].create({
-            #         'order_id': active_id,
-            #         'display_type': False,
-            #         'product_id': self.env['product.product'].create({
-            #         'name': record[0]}).id,
-            #         'name': record[3],
-            #         'price_unit': record[4],
-            #         'product_uom_qty': self.env['uom.uom'].create({
-            #             'name': 'Units'}).id,
-            #     })
 
-            elif not product or not unit:
-                new = self.env['sale.order.line'].create({
-                    'order_id': active_id,
-                    'display_type': False,
-                    'name': record[3],
-                    'product_id': self.env['product.product'].create({
-                    'name': record[0]}).id,
-                    'product_uom_qty': record[1],
-                    'price_unit': record[4],
-                    'product_uom_id': self.env['uom.uom'].create({
-                        'name' : 'units'}).id,
-                })
+            # product_record = record[0]
+            # quantity_record = record[1]
+            unit_record = record[2]
+            # description_record = record[3]
+            # price_unit_record = record[4]
+            default_uom = self.env['uom.uom'].search([('name', '=', 'Units')],limit=1)
+
+
+
+            if not product:
+                product = self.env['product.product'].create({
+                    'name': record[0]})
+
+            if not unit_record:
+                # pass
+                unit = default_uom
+
+            if not unit:
+                unit = self.env['uom.uom'].create({
+                    'name': unit_record})
+
+
+            new = self.env['sale.order.line'].create({
+                'order_id': active_id,
+                'display_type': False,
+                'product_id': product.id,
+                'name': record[3],
+                'price_unit': record[4],
+                'product_uom_qty': record[1],
+                'product_uom_id': unit.id,
+            })
+
         return new

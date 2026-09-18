@@ -4,7 +4,7 @@ from odoo import fields, models
 
 
 class SaleOrder(models.Model):
-    """Extends sales model"""
+    """Extends sales model to import lines"""
     _inherit = 'sale.order'
 
     def action_open_import_lines_wizard(self):
@@ -17,8 +17,5 @@ class SaleOrder(models.Model):
             'res_model': 'import.lines.wizard',
             "views": [[self.env.ref('import_order_lines.view_import_lines_wizard_form').id, "form"]],
             'target': 'new',
-            # 'context': {'default_product_uom_id': 'units'}
-
-            # 'context': {'default_product_id': self.id, 'default_price_unit': self.list_price}
         }
 
