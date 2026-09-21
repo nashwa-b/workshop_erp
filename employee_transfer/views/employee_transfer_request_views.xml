@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="employee_transfer_request_view_list" model="ir.ui.view">
+        <field name="name">employee.transfer.request.view.list</field>
+        <field name="model">employee.transfer.request</field>
+        <field name="arch" type="xml">
+            <list string="Employee Transfer Requests">
+                <field name="user_id" string="User Name"/>
+                <field name="company_id" string="Company to change"/>
+                <field name="current_company_id" string="Current Company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="employee_transfer_request_view_form" model="ir.ui.view">
+        <field name="name">employee.transfer.request.view.form</field>
+        <field name="model">employee.transfer.request</field>
+        <field name="arch" type="xml">
+            <form string="Employee Transfer Requests">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="rejected,approved"/>
+                    <button name="action_button_approve" string="Approve" class="oe_highlight" type="object"/>
+                    <button name="action_button_reject" string="Reject" class="oe_highlight" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="user_id" string="User Name"/>
+                        <field name="current_company_id" string="Current Company"/>
+                        <field name="company_id" string="Company to change"/>
+                    </group>
+                    <div class="oe_chatter">
+                        <chatter/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
+
+
+
+

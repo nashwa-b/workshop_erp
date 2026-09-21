@@ -14,7 +14,11 @@
 
         <menuitem id="appointment_menu" name="Appointments" parent="workshop_erp_menu_root" sequence='4' action="calendar_event_action"/>
 
-        <menuitem id="reporting" name="Reporting" parent="workshop_erp_menu_root" sequence='5' action="workshop_job_order_reporting_action"/>
+        <menuitem id="reporting" name="Reporting" parent="workshop_erp_menu_root" sequence='5'>
+            <menuitem id="job_order_analysis_menu_action" name="Job Order Analysis" action="workshop_job_order_reporting_action" />
+            <menuitem id = "job_order_history_menu_action" name = "Job Order History" action="action_my_wizard"/>
+        </menuitem>
+
 
         <menuitem id="configuration_menu" name="Configuration" parent="workshop_erp_menu_root" sequence='6'>
                     <menuitem id="workshop_bay_menu_action" name="Bay" action="workshop_bay_action" />

@@ -23,13 +23,16 @@
         "data/workshop_bay_data.xml",
         "views/workshop_job_order_views.xml",
         "views/workshop_vehicle_views.xml",
-        "views/hr_employee.xml",
-        "views/job_type.xml",
+        "views/job_type_views.xml",
+        "views/hr_employee_views.xml",
         "views/workshop_bay_views.xml",
         "views/res_partner_views.xml",
         "views/sale_order_views.xml",
         "views/workshop_job_order_reporting_views.xml",
         "views/calendar_event_views.xml",
+        "wizard/workshop_job_order_history_wizard_views.xml",
+        "report/workshop_job_order_report_views.xml",
+        "report/workshop_job_order_report_template.xml",
         "views/workshop_erp_menus.xml"
     ]
 }

@@ -8,16 +8,13 @@
     'description': """Employee Transfer""",
     'sequence': 1,
     'category': 'Employee Transfer',
-    'application': True,
+    # 'application': True,
     'installable': True,
     'depends': ['base','hr'],
     'data': [
         "security/ir.model.access.csv",
+        "wizard/employee_transfer_wizard_views.xml",
         "views/res_users_views.xml",
-        "wizard/employee_transfer_wizard.xml"
-        # 'security/ir.model.access.csv',
-        # 'views/sale_order_views.xml',
-        # 'wizard/import_lines_wizard_views.xml'
-
+        "views/employee_transfer_request_views.xml",
     ]
 }

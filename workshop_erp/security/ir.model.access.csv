@@ -6,6 +6,8 @@ workshop_erp.access_account_move,access_account_move,workshop_erp.model_account_
 workshop_erp.access_job_type,access_job_type,workshop_erp.model_job_type,base.group_user,1,1,1,1
 workshop_erp.access_res_partner,access_res_partner,workshop_erp.model_res_partner,base.group_user,1,1,1,1
 workshop_erp.access_calendar_event,access_calendar_event,workshop_erp.model_calendar_event,base.group_user,1,1,1,1
+workshop_erp.access_workshop_job_order_wizard,access_workshop_job_order_wizard,workshop_erp.model_workshop_job_order_wizard,base.group_user,1,1,1,1
+
 
 workshop_erp.access_workshop_job_order_mechanic,access_workshop_job_order_mechanic,workshop_erp.model_workshop_job_order,workshop_erp.group_workshop_job_order_mechanic,1,1,0,0
 workshop_erp.access_workshop_job_order_manager,access_workshop_job_order_manager,workshop_erp.model_workshop_job_order,workshop_erp.group_workshop_job_order_manager,1,1,1,1

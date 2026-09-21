@@ -5,34 +5,41 @@
         <field name="model">res.users</field>
         <field name="inherit_id" ref="hr.res_users_view_form_preferences"/>
         <field name="arch" type="xml">
-             <xpath expr="//page[@name='preferences_page']" position="inside">
-<!--                  <xpath expr="//field[@name='invalid_field']" position="move"/>-->
-                <button name="transfer_request" string="Transfer Request"
+            <xpath expr="//page[@name='preferences_page']" position="inside">
+                <button name="action_transfer_request" string="Transfer Request"
                         type="object"
                         class="btn btn-secondary h-100 my-auto"/>
             </xpath>
-
-<!--            <xpath expr="//sheet[@name='button_box']" position="inside">-->
-<!--                <button string="approvals"-->
-<!--                        type="object"-->
-<!--                        class="oe_stat_button"/>-->
-<!--            </xpath>-->
-             </field>
+        </field>
     </record>
 
-
-         <record id="res_users_view_form_inherit" model="ir.ui.view">
+    <record id="res_users_view_form_inherit" model="ir.ui.view">
         <field name="name">res.users.view.form.inherit.</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" position="inside" groups="workshop_erp.group_workshop_job_order_manager">
-                <button name = "view_approval" string="approvals"
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_approval" string="approvals"
                         type="object"
                         class="oe_stat_button" icon="fa-lock"/>
-
             </xpath>
-              <span class="o_stat_text">Approver Lines</span>
+            <span class="o_stat_text">Approver Lines</span>
         </field>
     </record>
 </odoo>
+
+<!--      <record id="employee_request_action" model="ir.actions.act_window">-->
+<!--            <field name="name">Employee Request</field>-->
+<!--            <field name="res_model">employee.transfer.request</field>-->
+<!--            <field name="view_mode">list,form</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="o_view_nocontent_smiling_face">-->
+<!--                    Click here to create your first Approval Block-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--   <menuitem id="employee_request_menu" name="Approval Requests"-->
+<!--            parent="purchase.menu_purchase_root" sequence="11" action="employee_transfer_request.employee_request_action"/>-->
+<!--</odoo>-->
+
+

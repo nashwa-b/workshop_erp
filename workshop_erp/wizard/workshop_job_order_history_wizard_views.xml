@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--<record id="view_workshop_job_order_wizard_list" model="ir.ui.view">-->
+<!--       <field name="name">workshop_erp.wizard.list</field>-->
+<!--       <field name="model">workshop.job.order.history.wizard</field>-->
+<!--&lt;!&ndash;        <field name="context">{'default_product_uom_id': 'draft'}</field>&ndash;&gt;-->
+<!--       <field name="arch" type="xml">-->
+<!--           <list string="JOb order history">-->
+<!--                   <field name="customer_id"/>-->
+<!--                   <field name="vehicle_id"/>-->
+<!--                <field name = "start_date"/>-->
+<!--               <field name="end_date"/>-->
+
+<!--           </list>-->
+<!--       </field>-->
+<!--   </record>-->
+    <record id="view_workshop_job_order_wizard_form" model="ir.ui.view">
+       <field name="name">workshop_erp.wizard.form</field>
+       <field name="model">workshop.job.order.wizard</field>
+<!--        <field name="context">{'default_product_uom_id': 'draft'}</field>-->
+       <field name="arch" type="xml">
+           <form string="JOb order history">
+               <group>
+                   <field name="customer_id"/>
+                   <field name="vehicle_id"/>
+                <field name = "start_date"/>
+               <field name="end_date"/>
+                </group>
+           <footer>
+               <button name="action_report_job_order" string="print" class="oe_highlight" type="object"/>
+           </footer>
+              </form>
+       </field>
+   </record>
+
+    <record id="action_my_wizard" model="ir.actions.act_window">
+    <field name="name">Job Order History</field>
+    <field name="res_model">workshop.job.order.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+
+
+
+</odoo>

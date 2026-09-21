@@ -216,6 +216,7 @@ class WorkshopJobOrder(models.Model):
             email_values = {'email_to': record.customer_id.email}
             mail_template.send_mail(record.id, force_send=True, email_values=email_values)
 
+
     class ProductImage(models.Model):
         """Add media of vehicles"""
         _inherit = 'product.image'

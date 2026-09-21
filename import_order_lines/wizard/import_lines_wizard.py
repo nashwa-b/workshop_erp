@@ -28,15 +28,8 @@ class ImportLinesWizard(models.TransientModel):
             active_id = self.env.context.get('active_id')
             product = self.env['product.product'].search([('name', '=', record[0])],limit=1)
             unit = self.env['uom.uom'].search([('name', '=', record[2])],limit=1)
-
-            # product_record = record[0]
-            # quantity_record = record[1]
-            unit_record = record[2]
-            # description_record = record[3]
-            # price_unit_record = record[4]
             default_uom = self.env['uom.uom'].search([('name', '=', 'Units')],limit=1)
-
-
+            unit_record = record[2]
 
             if not product:
                 product = self.env['product.product'].create({

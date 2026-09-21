@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_transfer_wizard_form" model="ir.ui.view">
+        <field name="name">employee.transfer.wizard.form</field>
+        <field name="model">employee.transfer.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Employee Transfer">
+                <group>
+                    <field name="company_id"/>
+                </group>
+                <footer>
+                    <button name="action_button_send_approval" string="Send Approval" class="oe_highlight" type="object"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
