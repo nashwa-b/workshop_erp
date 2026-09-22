@@ -19,7 +19,7 @@
        <field name="model">workshop.job.order.wizard</field>
 <!--        <field name="context">{'default_product_uom_id': 'draft'}</field>-->
        <field name="arch" type="xml">
-           <form string="JOb order history">
+           <form string="Job order history">
                <group>
                    <field name="customer_id"/>
                    <field name="vehicle_id"/>

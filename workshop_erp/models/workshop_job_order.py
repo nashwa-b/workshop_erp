@@ -35,6 +35,7 @@ class WorkshopJobOrder(models.Model):
         comodel_name='workshop.job.line',
         inverse_name='order_id',
         string='Job Order Lines')
+    sale_order_id = fields.Many2one('sale.order', string='Sale Order')
 
     invoice_count = fields.Integer(string='Invoice Count', compute='_compute_invoice_count')
     invoice_paid = fields.Boolean(string='Invoice Paid', compute='_compute_invoice_paid')
@@ -46,12 +47,21 @@ class WorkshopJobOrder(models.Model):
     )
 
     invoice_id = fields.Many2one('account.move', string='Invoice')
-    sale_order_id = fields.Many2one(
-        'sale.order', 'Sale Order')
+
 
     hide = fields.Boolean(string="Hide", compute="_compute_hide", store=False)
     appointment_ids = fields.One2many("calendar.event", "job_order_id", string="Appointments")
     collected = fields.Boolean(string="Collected", default=False)
+    date_of_birth = fields.Date(string='Date of Birth')
+    age = fields.Float(string = 'Age',compute='_compute_age')
+
+    # @api.depends('age')
+    # def _compute_age(self):
+    #     my_date = datetime.now()
+    #     year = my_date.year
+
+        # years = date_of_birth.year
+
 
     @api.depends('job_type_id')
     def _compute_hide(self):
@@ -215,6 +225,63 @@ class WorkshopJobOrder(models.Model):
             mail_template = self.env.ref('workshop_erp.mail_template_vehicle_pickup')
             email_values = {'email_to': record.customer_id.email}
             mail_template.send_mail(record.id, force_send=True, email_values=email_values)
+
+    # def action_sale_order(self):
+    #     customer=self.sale_order_id.partner_id.name
+    #     print('1',customer)
+    #     count = self.env['sale.order'].search_count([('partner_id', '=', customer)])
+    #     print('2',count)
+    #     total = self.env['sale.order'].search([('partner_id', '=', customer)])
+    #     total_amount = sum(total.mapped('amount_total'))
+    #     # total_amount = sum(total.mapped('price_total'))
+    #     print('3',total_amount)
+    #
+    #     # invoice = self.env['account.move.line'].search([('move_id.partner_id',
+    #     # '=', customer),('move_type','=','out_invoice')])
+    #     # invoice_amount = sum(invoice.mapped('price_total'))
+    #     # print('4',invoice_amount)
+    #
+    #     invoice = self.env['account.move'].search(
+    #         [('partner_id', '=', customer), ('move_type', '=', 'out_invoice')])
+    #     invoice_amount = sum(invoice.mapped('amount_total'))
+    #     print('4', invoice_amount)
+    #
+    #     highest_amount = self.env['account.move'].search([('partner_id', '=', customer),('move_type','=','out_invoice')], order='amount_total desc' ,limit=1)
+    #     # highest = highest_amount.move_id
+    #     print('5',highest_amount.amount_total)
+    #     print('5',highest_amount.name)
+    #     # highest_amount = max(invoices)
+    #     # print(highest_amount)
+    #     lowest_amount = self.env['account.move'].search([('partner_id', '=', customer),('move_type','=','out_invoice')], order='amount_total asc' ,limit=1)
+    #     # lowest = lowest_amount.move_id
+    #     print('6',lowest_amount.amount_total)
+    #     print('6',lowest_amount.name)
+    #     purchase = self.env['sale.order.line'].search([('order_id.partner_id', '=', customer)])
+    #     products = purchase.mapped('product_id.name')
+    #     print('7',products)
+    #     # purchases = self.env['sale.order.line'].search([('order_id.partner_id', '=', customer)])
+    #     #
+    #     # print("ii",purchases)
+    #     purchase = self.env['sale.order.line'].search([('order_id.partner_id', '=', customer)], order='product_uom_qty desc',limit=1)
+    #     # print(purchase)
+    #     highest_prod = purchase.product_id.name
+    #     print('8',highest_prod)
+    #     purchase = self.env['sale.order.line'].search([('order_id.partner_id', '=', customer)], order='price_total desc',limit=1)
+    #     purchase_amount=purchase.product_id.name
+    #     print('9',purchase_amount)
+    #
+    #
+    #
+    #
+    #
+
+
+        # highest_amount = max(invoices)
+        # print(highest_amount)
+        # highest_number = self.env['account.move'].search([('price_total', '=',highest_amount)])
+        # print(highest_number)
+
+
 
 
     class ProductImage(models.Model):

@@ -8,7 +8,7 @@
     'description': """Associated products""",
     'sequence': -10,
     'category': 'Products',
-    # 'application': True,
+    'application': True,
     'installable': True,
     'depends': ['base','product','sale'],
     'data': [

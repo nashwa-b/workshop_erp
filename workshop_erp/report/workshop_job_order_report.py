@@ -4,15 +4,26 @@ from odoo import api, fields, models
 
 # from odoo.addons.sale.models.sale_order import SALE_ORDER_STATE
 
-class WorkshopErpReport(models.Model):
-    _name = 'workshop_erp.report'
-    _description = "Job Order Analysis Report"
-    _auto = False
-    _rec_name = 'date'
-    _order = 'date desc'
+class WorkshopErpReport(models.AbstractModel):
+    _name = 'report.workshop_erp.report_job_orders'
+    _description = "Job Order History Report"
+    # _auto = False
+    # _rec_name = 'date'
+    # _order = 'date desc'
 
-    start_date = fields.Datetime(string="Start Date")
-    end_date = fields.Datetime(string="End Date")
+    @api.model
+    def _get_report_values(self, docids, data):
+        res = super()._get_report_values(docids, data=data)
+
+        docs = self.env['workshop.job.order.wizard'].browse(docids)
+
+        return {
+            'doc_ids': docids,
+            'doc_model': 'workshop.job.order.wizard',
+            'docs': docs,
+            'data': data,
+        }
+        return res
 
     # def action_report_job_order(self):
     #     pass

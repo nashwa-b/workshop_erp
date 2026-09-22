@@ -30,9 +30,9 @@
         "views/sale_order_views.xml",
         "views/workshop_job_order_reporting_views.xml",
         "views/calendar_event_views.xml",
-        "wizard/workshop_job_order_history_wizard_views.xml",
-        "report/workshop_job_order_report_views.xml",
         "report/workshop_job_order_report_template.xml",
+        "report/workshop_job_order_report_views.xml",
+        "wizard/workshop_job_order_history_wizard_views.xml",
         "views/workshop_erp_menus.xml"
     ]
 }
