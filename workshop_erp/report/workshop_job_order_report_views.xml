@@ -2,8 +2,8 @@
 <odoo>
 
 <record id="action_report_joborder" model="ir.actions.report">
-        <field name="name">report.job.order</field>
-        <field name="model">workshop.job.order</field>
+        <field name="name">job order history</field>
+        <field name="model">workshop.job.order.wizard</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">workshop_erp.report_job_orders</field>
         <field name="report_file">workshop_erp.report_job_orders</field>

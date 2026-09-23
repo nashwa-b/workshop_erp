@@ -13,8 +13,9 @@ class ProductProduct(models.Model):
         """compute average cost from all purchase orders"""
         for record in self:
            lines =  self.env['purchase.order.line'].search([('product_id', '=', record.id),('order_id.state','=','purchase')])
-           total_amount = 0
-           total_qty = 0
+           # total_amount = self.action_view_po.price_subtotal
+           # total_qty =    self.action_view_po.product_uom_qty
+           # print(total_amount)
            total_amount = sum(lines.mapped('price_subtotal'))
            total_qty = sum(lines.mapped('product_qty'))
            if total_qty:

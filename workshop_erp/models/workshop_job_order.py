@@ -52,8 +52,8 @@ class WorkshopJobOrder(models.Model):
     hide = fields.Boolean(string="Hide", compute="_compute_hide", store=False)
     appointment_ids = fields.One2many("calendar.event", "job_order_id", string="Appointments")
     collected = fields.Boolean(string="Collected", default=False)
-    date_of_birth = fields.Date(string='Date of Birth')
-    age = fields.Float(string = 'Age',compute='_compute_age')
+    # date_of_birth = fields.Date(string='Date of Birth')
+    # age = fields.Float(string = 'Age',compute='_compute_age')
 
     # @api.depends('age')
     # def _compute_age(self):

@@ -42,7 +42,7 @@
                                statusbar_visible="draft,confirmed,in_progress,done,invoiced"/>
                         <button name="action_confirm" string="Confirm" class="oe_highlight" type="object"
                                 invisible="status != 'draft'"/>
-                        <button  name="action_sale_order" string="Sale Order" class="oe_highlight" type="object"/>
+<!--                        <button  name="action_sale_order" string="Sale Order" class="oe_highlight" type="object"/>-->
                         <button name="action_start" string="Start" class="oe_highlight" type="object"
                                 invisible="status != 'confirmed'"/>
                         <button name="action_done" string="Done" class="oe_highlight" type="object"

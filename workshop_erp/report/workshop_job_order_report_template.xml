@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="report_job_orders">
-        <t t-foreach="docs" t-as="order">
-            <t t-call="web.html_container">
+        <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="wizard">
                 <t t-call="web.external_layout">
                     <div class="page">
                         <center>
@@ -27,35 +27,39 @@
                                 </tr>
                             </thead>
                             <tbody>
-<!--                                <tr t-foreach="order.order_line_ids" t-as="line">-->
+<!--                                <span t-esc="len(data.get('report',[]))"/>-->
+                                <t t-foreach="data['report']" t-as="line">
                                 <tr>
                                  <td>
-                                        <span t-field="order.name"/>
+                                        <span t-esc="line['name']"/>
                                     </td>
                                     <td>
-                                        <span t-field="order.customer_id"/>
+                                        <span t-esc="line['customer']"/>
                                     </td>
                                     <td>
-                                        <span t-field="order.job_date"/>
+                                        <span t-esc="line['job_date']"/>
                                     </td>
                                     <td>
-                                        <span t-field="order.vehicle_id"/>
+                                        <span t-esc="line['vehicle']"/>
                                     </td>
                                     <td>
-                                        <span t-field="order.bay_id"/>
+                                        <span t-esc="line['bay']"/>
                                     </td>
                                 <td>
-                                        <span t-field="order.total"/>
+                                        <span t-esc="line['total']"/>
                                     </td>
                                 <td>
-                                        <span t-field="order.status"/>
+                                        <span t-esc="line['status']"/>
                                     </td>
                                 </tr>
+                                </t>
                             </tbody>
                         </table>
                     </div>
                 </t>
-            </t>
-        </t>
+                </t>
+                </t>
+<!--            </t>-->
+<!--        </t>-->
     </template>
 </odoo>
