@@ -15,12 +15,15 @@ class WorkshopJobOrder(models.Model):
     _description = 'Job Order'
 
     name = fields.Char(string='Number', required=True, readonly=True, default='New')
-    customer_id = fields.Many2one('res.partner', string='Customer', related='vehicle_id.owner_id')
+    customer_id = fields.Many2one('res.partner', string='Customer')
+    # , related = 'vehicle_id.owner_id'
     phone = fields.Char(string='Phone Number', related='customer_id.phone')
-    vehicle_id = fields.Many2one('workshop.vehicle', string='Vehicle', ondelete='restrict', required=True, domain="[('owner_id', 'in', [customer_id])] if customer_id else []")
+    vehicle_id = fields.Many2one('workshop.vehicle', string='Vehicle')
+    # , ondelete = 'restrict', required = True, domain = "[('owner_id', 'in', [customer_id])] if customer_id else []"
     mechanic_ids = fields.Many2many('hr.employee', string='Mechanics', tracking=True)
     job_type_id = fields.Many2one('job.type', string="Job Type")
-    bay_id = fields.Many2one('workshop.bay', string='Workshop Bay', tracking=True)
+    bay_id = fields.Many2one('workshop.bay', string='Workshop Bay')
+    # , tracking = True
     job_date = fields.Date(string='Job Date', default=datetime.today())
     customer_note = fields.Text(string='Customer Note')
     total = fields.Float(string='Total', compute='_compute_total',  store=True)

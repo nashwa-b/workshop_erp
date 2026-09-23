@@ -27,7 +27,7 @@
                <field name="end_date"/>
                 </group>
            <footer>
-               <button name="action_report_job_order" string="print" class="oe_highlight" type="object"/>
+               <button name="action_report_job_order" string="Print" class="oe_highlight" type="object"/>
            </footer>
               </form>
        </field>

@@ -10,37 +10,59 @@
 <!--                            <span t-field="order.name"/>-->
                         </h2>
                         </center>
-<!--                        <div>-->
-<!--                            <strong>Expected Price: </strong>-->
-<!--                            <span t-field="order.expected_price"/>-->
-<!--                        </div>-->
+                        <left>
+
+                            Customer:
+                            <span t-field="wizard.customer_id"/>
+                            <br>
+
+                            Vehicle:
+                            <span t-field="wizard.vehicle_id"/></br>
+                            <br>
+
+                            Start Date:
+                            <span t-field="wizard.start_date"/></br>
+                            <br>
+
+                           End Date:
+                            <span t-field="wizard.end_date"/></br>
+                        </left>
+
+
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Job Order</th>
-                                    <th>Customer</th>
-                                    <th>Job Date</th>
-                                    <th>Vehicle</th>
-                                    <th>Bay</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
+                                    <th><b>SI No</b></th>
+                                    <th><b>Job Order</b></th>
+                                    <th t-if ="not wizard.customer_id"><b>Customer</b></th>
+                                    <th><b>Job Date</b></th>
+                                    <th t-if ="not wizard.vehicle_id"><b>Vehicle</b></th>
+                                    <th><b>Bay</b></th>
+                                    <th><b>Total</b></th>
+                                    <th><b>Status</b></th>
                                 </tr>
                             </thead>
+<!--                        <p>ldd</p>-->
                             <tbody>
 <!--                                <span t-esc="len(data.get('report',[]))"/>-->
                                 <t t-foreach="data['report']" t-as="line">
                                 <tr>
+<!--                                     <t t-if="!wizard.vehicle_id">-->
+                                    <td>
+                                       <span t-esc="line_index + 1"/>
+                                    </td>
                                  <td>
                                         <span t-esc="line['name']"/>
                                     </td>
-                                    <td>
+                                    <td t-if ="not wizard.customer_id">
                                         <span t-esc="line['customer']"/>
                                     </td>
                                     <td>
                                         <span t-esc="line['job_date']"/>
                                     </td>
-                                    <td>
+                                    <td t-if ="not wizard.vehicle_id">
                                         <span t-esc="line['vehicle']"/>
+<!--                                        <span t-out="t-esc.get('en_US')"/>-->
                                     </td>
                                     <td>
                                         <span t-esc="line['bay']"/>
@@ -51,7 +73,19 @@
                                 <td>
                                         <span t-esc="line['status']"/>
                                     </td>
+
+
+
+<!--                                    <span t-out="str(o.your_json_field)"/>-->
+
+<!--                                    &lt;!&ndash; Parse the JSON string into a Python dictionary &ndash;&gt;-->
+<!--<t t-set="json_data" t-value="json.loads(o.your_json_field or '{}')"/>-->
+
+<!--&lt;!&ndash; Output the specific key as text &ndash;&gt;-->
+<!--<span t-out="json_data.get('customer_name')"/>-->
+
                                 </tr>
+
                                 </t>
                             </tbody>
                         </table>
