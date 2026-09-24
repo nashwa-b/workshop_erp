@@ -18,12 +18,11 @@ class WorkshopJobOrder(models.Model):
     customer_id = fields.Many2one('res.partner', string='Customer')
     # , related = 'vehicle_id.owner_id'
     phone = fields.Char(string='Phone Number', related='customer_id.phone')
-    vehicle_id = fields.Many2one('workshop.vehicle', string='Vehicle')
-    # , ondelete = 'restrict', required = True, domain = "[('owner_id', 'in', [customer_id])] if customer_id else []"
+    vehicle_id = fields.Many2one('workshop.vehicle', string='Vehicle', ondelete = 'restrict', required = True, domain = "[('owner_id', 'in', [customer_id])] if customer_id else []")
     mechanic_ids = fields.Many2many('hr.employee', string='Mechanics', tracking=True)
     job_type_id = fields.Many2one('job.type', string="Job Type")
-    bay_id = fields.Many2one('workshop.bay', string='Workshop Bay')
-    # , tracking = True
+    bay_id = fields.Many2one('workshop.bay', string='Workshop Bay', tracking = True)
+
     job_date = fields.Date(string='Job Date', default=datetime.today())
     customer_note = fields.Text(string='Customer Note')
     total = fields.Float(string='Total', compute='_compute_total',  store=True)
@@ -66,6 +65,7 @@ class WorkshopJobOrder(models.Model):
         # years = date_of_birth.year
 
 
+
     @api.depends('job_type_id')
     def _compute_hide(self):
         """hiding create quotation button for washing job type"""
@@ -88,12 +88,6 @@ class WorkshopJobOrder(models.Model):
             # price_total = 0
             # order.amount_to_invoice = sum(order.order_line.mapped('amount_to_invoice'))
             record.total = sum(record.order_line_ids.mapped('sub_total'))
-
-            # for line in self.order_line_ids:
-                # print("line",line.sub_total)
-            # price_total += line.sub_total
-
-            # record.total = price_total
 
     def _compute_invoice_count(self):
         """Computation of invoice count for smart button"""
@@ -228,6 +222,11 @@ class WorkshopJobOrder(models.Model):
             mail_template = self.env.ref('workshop_erp.mail_template_vehicle_pickup')
             email_values = {'email_to': record.customer_id.email}
             mail_template.send_mail(record.id, force_send=True, email_values=email_values)
+
+    @api.onchange('vehicle_id')
+    def onchange_vehicle_id(self):
+        if self.vehicle_id:
+            self.customer_id = self.vehicle_id.owner_id
 
     # def action_sale_order(self):
     #     customer=self.sale_order_id.partner_id.name

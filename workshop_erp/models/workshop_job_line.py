@@ -21,11 +21,10 @@ class WorkshopJobLine(models.Model):
         string="Quantity",
         digits='Product Unit', default=1)
 
-    sub_total = fields.Float(string="Sub Total", compute='_compute_sub_total')
+    sub_total = fields.Float(string="Sub Total", compute='_compute_sub_total', store=True)
 
     price_unit = fields.Float(
         string="Unit Price")
-
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

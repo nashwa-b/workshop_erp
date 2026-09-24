@@ -25,9 +25,11 @@
                    <field name="vehicle_id"/>
                 <field name = "start_date"/>
                <field name="end_date"/>
+               <field name="detailed_view"/>
                 </group>
            <footer>
                <button name="action_report_job_order" string="Print" class="oe_highlight" type="object"/>
+<!--               <button name="action_print_xlsx" string="Print" class="oe_highlight" type="object"/>-->
            </footer>
               </form>
        </field>
