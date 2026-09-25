@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<!--<record id="view_workshop_job_order_wizard_list" model="ir.ui.view">-->
-<!--       <field name="name">workshop_erp.wizard.list</field>-->
-<!--       <field name="model">workshop.job.order.history.wizard</field>-->
-<!--&lt;!&ndash;        <field name="context">{'default_product_uom_id': 'draft'}</field>&ndash;&gt;-->
-<!--       <field name="arch" type="xml">-->
-<!--           <list string="JOb order history">-->
-<!--                   <field name="customer_id"/>-->
-<!--                   <field name="vehicle_id"/>-->
-<!--                <field name = "start_date"/>-->
-<!--               <field name="end_date"/>-->
 
-<!--           </list>-->
-<!--       </field>-->
-<!--   </record>-->
     <record id="view_workshop_job_order_wizard_form" model="ir.ui.view">
        <field name="name">workshop_erp.wizard.form</field>
        <field name="model">workshop.job.order.wizard</field>
@@ -28,8 +15,8 @@
                <field name="detailed_view"/>
                 </group>
            <footer>
-               <button name="action_report_job_order" string="Print" class="oe_highlight" type="object"/>
-<!--               <button name="action_print_xlsx" string="Print" class="oe_highlight" type="object"/>-->
+               <button name="action_report_job_order" string="Print PDF" class="oe_highlight" type="object"/>
+               <button name="action_print_xlsx" string="Print Excel" class="oe_highlight" type="object"/>
            </footer>
               </form>
        </field>

@@ -2,12 +2,12 @@
 
 from odoo import fields, models
 
-# import io
-# from datetime import datetime, date
-# from dateutil.rrule import rrule, DAILY
-# from odoo.exceptions import ValidationError
-# from odoo.tools import date_utils, json_default
-# import json
+import io
+from datetime import datetime, date
+from dateutil.rrule import rrule, DAILY
+from odoo.exceptions import ValidationError
+from odoo.tools import date_utils, json_default
+import json
 
 
 class WorkshopJobOrderHistoryWizard(models.TransientModel):
@@ -24,20 +24,20 @@ class WorkshopJobOrderHistoryWizard(models.TransientModel):
     def action_report_job_order(self):
         return self.env.ref('workshop_erp.action_report_joborder').report_action(self)
 
-    # def action_print_xlsx(self):
-    #     data = {
-    #         'from_date': self.start_date,
-    #         'end_date': self.end_date,
-    #         'vehicle_id': self.vehicle_id.id,
-    #         'customer_id': self.customer_id.id,
-    #
-    #     }
-    #     return {
-    #         'type': 'ir.actions.report',
-    #         'data': {'model': 'workshop.job.order.wizard',
-    #                  'options': json.dumps(data, default=json_default),
-    #                  'output_format': 'xlsx',
-    #                  'report_name': 'Attendance Report',
-    #                  },
-    #         'report_type': 'xlsx',
-    #     }
+    def action_print_xlsx(self):
+        print('xlsx',self)
+        data = {
+            'start_date': self.start_date,
+            'end_date': self.end_date,
+            'vehicle_id': self.vehicle_id.id,
+            'customer_id': self.customer_id.id,
+        }
+        return{
+            'type': 'ir.actions.report',
+            'data': {'model': 'workshop.job.order.wizard',
+                     'options': json.dumps(data, default=json_default),
+                     'output_format': 'xlsx',
+                     'report_name': 'Job Order Report',
+                     },
+            'report_type': 'xlsx',
+        }

@@ -33,7 +33,7 @@
         "report/workshop_job_order_report_template.xml",
         "report/workshop_job_order_report_views.xml",
         "wizard/workshop_job_order_history_wizard_views.xml",
-        # "static/src/js/action_manager.js",
+        "static/src/js/action_manager.js",
         "views/workshop_erp_menus.xml"
     ]
 }
