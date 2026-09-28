@@ -31,10 +31,11 @@ class WorkshopJobOrderHistoryWizard(models.TransientModel):
             'end_date': self.end_date,
             'vehicle_id': self.vehicle_id.id,
             'customer_id': self.customer_id.id,
+            'detailed_view': self.detailed_view,
         }
         return{
             'type': 'ir.actions.report',
-            'data': {'model': 'workshop.job.order.wizard',
+            'data': {'model': 'report.workshop_erp.report_job_orders',
                      'options': json.dumps(data, default=json_default),
                      'output_format': 'xlsx',
                      'report_name': 'Job Order Report',
