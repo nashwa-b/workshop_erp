@@ -38,7 +38,7 @@
 
     'assets':{
         'web.assets_backend': [
-                    "workshop_erp/static/src/js/xlsx_report.js",
+                    "workshop_erp/static/src/js/report_xlsx.js",
 ]
     }
 }
