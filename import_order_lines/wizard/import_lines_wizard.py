@@ -43,7 +43,6 @@ class ImportLinesWizard(models.TransientModel):
                 unit = self.env['uom.uom'].create({
                     'name': unit_record})
 
-
             new = self.env['sale.order.line'].create({
                 'order_id': active_id,
                 'display_type': False,

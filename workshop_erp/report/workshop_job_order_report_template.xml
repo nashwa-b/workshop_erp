@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="report_job_orders">
+        <t t-call="web.external_layout">
           <t t-foreach="docs" t-as="wizard">
             <t t-call="web.html_container">
-                <t t-call="web.external_layout">
+<!--                <t t-call="web.external_layout">-->
                     <div class="page">
                          <center>
                             <h2>Job Orders
                             </h2>
                         </center>
                         <div style="margin-top: 60px;">
-                            <b t-if="wizard.customer_id">Customer:</b>
+                            <br>
+                            <b t-if="wizard.customer_id">Customer:</b></br>
                             <span t-field="wizard.customer_id"/>
                             <br>
                                 <b t-if="wizard.vehicle_id">Vehicle:</b>

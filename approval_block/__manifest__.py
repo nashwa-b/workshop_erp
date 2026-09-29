@@ -8,7 +8,6 @@
     'description': """Approval Blocks""",
     'sequence': -10,
     'category': 'Approval blocks',
-    # 'application': True,
     'installable': True,
     'depends': ['base','purchase'],
     'data': [

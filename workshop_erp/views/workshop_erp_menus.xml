@@ -19,7 +19,6 @@
             <menuitem id = "job_order_history_menu_action" name = "Job Order History" action="action_my_wizard"/>
         </menuitem>
 
-
         <menuitem id="configuration_menu" name="Configuration" parent="workshop_erp_menu_root" sequence='6'>
                     <menuitem id="workshop_bay_menu_action" name="Bay" action="workshop_bay_action" />
                     <menuitem id="job_type_menu" name="Job Type" action="job_type_action"/>

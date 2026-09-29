@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models
-
-import io
-from datetime import datetime, date
-from dateutil.rrule import rrule, DAILY
-from odoo.exceptions import ValidationError
-from odoo.tools import date_utils, json_default
+from odoo.tools import json_default
 import json
 
 
@@ -22,9 +17,11 @@ class WorkshopJobOrderHistoryWizard(models.TransientModel):
     detailed_view = fields.Boolean(string="Detailed View")
 
     def action_report_job_order(self):
+        """pdf report action"""
         return self.env.ref('workshop_erp.action_report_joborder').report_action(self)
 
     def action_print_xlsx(self):
+        """excel report action"""
         print('xlsx',self)
         data = {
             'start_date': self.start_date,
@@ -42,3 +39,5 @@ class WorkshopJobOrderHistoryWizard(models.TransientModel):
                      },
             'report_type': 'xlsx',
         }
+
+

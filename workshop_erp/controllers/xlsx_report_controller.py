@@ -11,8 +11,11 @@ class XLSXReportController(http.Controller):
         print('k',self)
         """xlsx report"""
         report_obj = request.env[model].with_user(request.session.uid)
+        print('o',report_obj)
         options = json.loads(options)
+        print('p',options)
         token = 'dummy-because-api-expects-one'
+        print('t',token)
         try:
             if output_format == 'xlsx':
                 response = request.make_response(
@@ -27,7 +30,6 @@ class XLSXReportController(http.Controller):
             return response
         except Exception as e:
             se = serialize_exception(e)
-            print(se)
             error = {
                 'code': 200,
                 'message': 'Odoo Server Error',

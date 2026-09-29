@@ -7,7 +7,6 @@ class ProductTemplate(models.Model):
     """Adding sale order button in product view"""
     _inherit = 'product.template'
 
-
     def action_open_sale_order_wizard(self):
         """ Open the sale order wizard """
         self.ensure_one()

@@ -4,7 +4,7 @@ from odoo import fields, models, api
 
 
 class PurchaseOrder(models.Model):
-    """Extends sales model"""
+    """Extends purchase to add limit to the total purchase amount"""
     _inherit = 'purchase.order'
 
 
@@ -18,5 +18,4 @@ class PurchaseOrder(models.Model):
 
     def _inverse_total(self):
         """make the limit field editable"""
-        for record in self:
-            pass
+        pass

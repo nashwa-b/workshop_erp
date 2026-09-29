@@ -20,7 +20,6 @@ class SaleOrderWizard(models.TransientModel):
         sale_order = self.env['sale.order'].search([('state', '=', 'draft'),('partner_id','=', self.customer_id)],limit=1)
         print('j',sale_order)
         if not sale_order:
-
             sale_order = self.env['sale.order'].create({
                 'partner_id': self.customer_id.id,
                 'order_line': [
@@ -31,7 +30,6 @@ class SaleOrderWizard(models.TransientModel):
                     }),
                 ],
             })
-
         else:
             sale_order.write({
                 'order_line': [

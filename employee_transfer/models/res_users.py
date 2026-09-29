@@ -19,7 +19,6 @@ class ResUsers(models.Model):
             'target': 'new'
         }
 
-
     def action_view_approval(self):
         """To view user approval requests within smart button"""
         self.ensure_one()
@@ -31,25 +30,6 @@ class ResUsers(models.Model):
             "domain": [('user_id', '=', self.id)],
             'target': 'current'
         }
-
-
-
-
-# class HrEmployee(models.Model):
-#     _inherit = "hr.employee"
-#
-#         def action_view_approval(self):
-#             """To view user approval requests within smart button"""
-#             self.ensure_one()
-#             return {
-#                 'type': 'ir.actions.act_window',
-#                 'name': 'Employee Transfer Requests',
-#                 'res_model': 'employee.transfer.request',
-#                 'views': [[self.env.ref('employee_transfer.employee_transfer_request_view_list').id, "list"],[self.env.ref('employee_transfer.employee_transfer_request_view_form').id, "form"]],
-#                 "domain": [('user_id', '=', self.id)],
-#                 'target': 'current'
-#             }
-
 
 
 

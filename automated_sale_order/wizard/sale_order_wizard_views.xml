@@ -15,7 +15,6 @@
                    <button name="action_create_sale_order" string="Confirm" class="oe_highlight" type="object"/>
                <button name="action_close_sale_order_wizard" string="Cancel" class="oe_highlight" type="object" special="cancel"/>
                </footer>
-
            </form>
        </field>
    </record>
