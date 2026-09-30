@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+ <record id="job_order_menu_website" model="website.menu">
+    <field name="name">Workshop</field>
+    <field name="url">/joborders</field>
+<!--    <field name="page_id" ref="workshop_erp.workshop_list_template"/>-->
+    <field name="parent_id" ref="website.main_menu"/>
+    <field name="sequence">50</field>
+        </record>
+
+        <record id="appointmnets_menu_website" model="website.menu">
+    <field name="name">Appointments</field>
+    <field name="url">/appointments</field>
+<!--    <field name="page_id" ref="workshop_erp.workshop_list_template"/>-->
+    <field name="parent_id" ref="website.main_menu"/>
+    <field name="sequence">60</field>
+        </record>
+    </data>
+</odoo>
+

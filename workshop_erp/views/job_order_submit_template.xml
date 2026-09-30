@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <data>
+       <!-- The QWeb Template for our Custom Page -->
+       <template id="submit_template" name="Hello Odoo Page">
+           <t t-call="website.layout">
+               <div id="wrap" class="oe_structure">
+                   <div class="container">
+                       <div class="row">
+                           <div class="col-12 text-center mt-5">
+                               <h1>Welcome to our Custom Odoo Page!</h1>
+                               <p class="lead">
+                                   Hello, <t t-esc="user_name"/>! This page was rendered by a custom controller.
+                               </p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </t>
+       </template>
+</data>
+</odoo>
