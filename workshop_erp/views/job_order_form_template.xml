@@ -3,48 +3,62 @@
     <template id="web_form_template">
         <t t-call="website.layout">
             <div id="wrap" class="oe_structure oe_empty">
-                <section class="s_website_form">
+<!--                <section class="s_website_form">-->
                     <div class="container">
-                        <form action="/webformsubmit" enctype="multipart/form-data" class="o_mark_required"
-                              method="POST">
+                        <br>
+                        <form action="/webformsubmit" method="post">
+
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <!-- Name Field -->
-                            <div class="s_website_form_rows row s_col_no_bgcolor">
-                                <div class="col-xs-6">
-                                    <!--                               <div class="row">-->
-                                    <label class="col-form-label col-sm-auto" style="width: 100px;"
-                                           data-fill-with='user_name' for="name">
-                                        Name
-                                        <span class="text-danger">*</span>
+                            <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <!--                                  <div class="row">-->
+                                    <label class="col-form-label col-sm-auto" style="width: 200px;" for="customer_id">
+                                        Customer
                                     </label>
-                                    <!--                                   <div class="col-sm">-->
-                                    <input id="name" type="text" class="form-control" t-att-value='user_name'
-                                           required="1"/>
+                                    <div class="col-sm">
+                                        <select name="customer_id" class="form-control" t-att-value='user_name'>
+                                            <t t-foreach="customers" t-as="rec">
+                                                <option t-att-value="rec.id">
+                                                    <t t-esc="rec.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <!--                                  </div>-->
                                 </div>
+<!--                                <div class="col-md-6 mb-3">-->
+<!--                                    <label for="name">Name-->
+<!--                                        <span class="text-danger">*</span>-->
+<!--                                    </label>-->
+<!--                                    &lt;!&ndash;                                   <div class="col-sm">&ndash;&gt;-->
+<!--                                    <input id="name" name="name" type="text" class="form-control" t-att-value='user_name'-->
+<!--                                           required="1"/>-->
+<!--                                </div>-->
 
-                                <div class="col-xs-6">
+                                  <div class="col-md-6 mb-3">
                                     <!--                               <div class="row">-->
                                     <label class="col-form-label col-sm-auto" style="width: 200px;" for="phone">
                                         Phone Number
                                         <span class="text-danger">*</span>
                                     </label>
                                     <!--                                   <div class="col-sm">-->
-                                    <input id="phone" type="tel" class="form-control s_website_form_input" t-att-value='phone'/>
+                                    <input id="phone" name = "phone" type="tel" class="form-control s_website_form_input" t-att-value='phone'/>
                                 </div>
                                 <!--                               </div>-->
 
                                 <!-- Phone Field -->
-                                <div class="col-xs-6">
+                                  <div class="col-md-6 mb-3">
                                     <!--                               <div class="row">-->
                                     <label class="col-form-label col-sm-auto" style="width: 200px;" for="job_date">
                                         Job Date
                                         <span class="text-danger">*</span>
                                     </label>
                                     <!--                                   <div class="col-sm">-->
-                                    <input id="job_date" type="datetime-local" class="form-control" name="job_date" t-att-value='dates'/>
+                                    <input id="job_date"  name="job_date" type="datetime-local" class="form-control" t-att-value='dates'/>
                                     <!--                                   </div>-->
                                 </div>
-                                <div class="form-group col-12">
+                                   <div class="col-md-6 mb-3">
                                     <!--                                  <div class="row">-->
                                     <label class="col-form-label col-sm-auto" style="width: 200px;" for="vehicle_id">
                                         Vehicle
@@ -61,13 +75,13 @@
                                     <!--                                  </div>-->
                                 </div>
 
-                                <div class="form-group col-12">
+                                   <div class="col-md-6 mb-3">
                                     <!--                                  <div class="row">-->
-                                    <label class="col-form-label col-sm-auto" style="width: 200px;" for="mechanic_ids">
+                                    <label class="col-form-label col-sm-auto" style="width: 200px;" for="job_type_id">
                                         Job Type
                                     </label>
                                     <div class="col-sm">
-                                        <select name="job_types" class="form-control">
+                                        <select name="job_type_id" class="form-control">
                                             <t t-foreach="job_types" t-as="rec">
                                                 <option t-att-value="rec.id">
                                                     <t t-esc="rec.name"/>
@@ -79,13 +93,13 @@
                                 </div>
 
 
-                                <div class="form-group col-12">
+                                  <div class="col-md-6 mb-3">
                                     <!--                                  <div class="row">-->
                                     <label class="col-form-label col-sm-auto" style="width: 200px;" for="bay_id">Bay
                                     </label>
                                     <div class="col-sm">
-                                        <select name="bays" class="form-control">
-                                            <t t-foreach="job_types" t-as="rec">
+                                        <select name="bay_id" class="form-control">
+                                            <t t-foreach="bays" t-as="rec">
                                                 <option t-att-value="rec.id">
                                                     <t t-esc="rec.name"/>
                                                 </option>
@@ -95,35 +109,36 @@
                                 </div>
                                 <!--                </div>-->
 
-                                <div class="form-group col-12">
+                                   <div class="col-md-6 mb-3">
                                     <!--                                  <div class="row">-->
                                     <label class="col-form-label col-sm-auto" style="width: 200px;" for="mechanic_ids">
                                         Mechanic
                                     </label>
-                                    <div class="col-sm">
-                                        <select name="mechanic_ids" class="form-control">
-                                            <t t-foreach="mechanics" t-as="rec">
+<!--                                    <div class="col-sm">-->
+                                        <select name="mechanic_ids" id = "mechanic_ids" class="form-control" multiple="multiple">
+                                            <t t-foreach="request.env['hr.employee'].sudo().search([])" t-as="rec">
                                                 <option t-att-value="rec.id">
-                                                    <t t-esc="rec.name"/>
-                                                </option>
+                           <t t-esc="rec.name"/>
+                       </option>
                                             </t>
                                         </select>
                                         <!--                                          </div>-->
-                                    </div>
+<!--                                    </div>-->
+<!--                                        <div class="form-group mt-3">-->
+
                                 </div>
 
-                                <div class="col-xs-6">
+                                  <div class="col-md-6 mb-3">
                                     <!--                               <div class="row">-->
                                     <label class="col-form-label col-sm-auto" style="width: 200px;" for="total">
                                         Total
-                                        <span class="text-danger">*</span>
                                     </label>
                                     <!--                                   <div class="col-sm">-->
-                                    <input id="name" type="number" class="form-control" name="name"/>
+                                    <input id="total" type="number" class="form-control" name="total"/>
                                 </div>
+                            </div>
 
-                                <table class="table table-borderless o_main_table"
-                                       style="margin-top: 20px;">
+                                <table class="table table-bordered mt-3" id="material_table">
                                     <thead>
                                         <tr>
                                             <th>
@@ -138,20 +153,24 @@
                                             <th>
                                                 Sub Total
                                             </th>
+                                            <th width="5%"></th>
+
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         <!--                                    <t t-foreach="job_order.order_line_ids" t-as="order_line">-->
-                                        <tr>
+                                        <tr class="job_order_line">
                                             <td>
                                                 <!--                                                              <div class="form-group col-12">-->
                                                 <!--                                  <div class="row">-->
                                                 <!--                                          <div class="col-sm">-->
-                                                <select name="products" class="order_line_row">
-                                                    <t t-foreach="products" t-as="rec">
-                                                        <option t-att-value="rec.id">
-                                                            <t t-esc="rec.name"/>
+                                                <select name="product" class="form-control s_website_form_input">
+                                                                                                       <option value="">Select Product</option>
+
+                                                    <t t-foreach="products" t-as="product">
+                                                        <option t-att-value="product.id">
+                                                            <t t-esc="product.name"/>
                                                         </option>
                                                     </t>
                                                 </select>
@@ -161,38 +180,46 @@
 
                                             </td>
                                             <td>
-                                                j
+                                              <input id="quantity" name="quantity" type="number" value = "1" placeholder="Quantity" class="form-control"/>
                                             </td>
                                             <td>
 <!--                                                 <label class="col-form-label col-sm-auto" style="width: 200px;" for="price_unit">-->
 <!--                                        Job Date-->
 <!--                                        <span class="text-danger">*</span>-->
 <!--                                    </label>-->
-                                    <!--                                   <div class="col-sm">-->
-<!--                                    <input id="price_unit" type="number" class="form-control" name="price_unit" t-att-value='price_unit'/>-->
-                                    <!--                                   </div>-->
+<!--                                                                       <div class="col-sm">-->
+                                    <input id="price_unit" type="number" class="form-control" name="price_unit" t-att-value='price_unit'/>
+<!--                                                                       </div>-->
                                             </td>
                                             <td>
-                                                o
+                                                                                    <input id="sub_total" type="number" class="form-control" name="sub_total" t-att-value='price_unit'/>
+
                                             </td>
+                                             <td>
+                                               <button type="button" class="btn fa fa-trash-o remove_line text-danger"></button>
+                                           </td>
                                         </tr>
                                         <!--                                    </t>-->
                                     </tbody>
                                 </table>
+                                  <!-- Add Material Button -->
+                           <div class="col-12 text-end">
+                               <button type="button" class="btn btn-info add_total_project">
+                                   <i class="fa fa-plus"></i>
+                                   Add Line
+                               </button>
+                           </div>
 
 
-                                <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label text-end">
+                               <div class="col-12 mt-3">
+  <button type="submit" class="btn btn-primary">Confirm</button>
 
-
-                                    <!--                               <div class="d-grid" style="width: 200px;">-->
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                                <!--                       </div>-->
-                            </div>
+                           </div>
 
                         </form>
+                          </br>
                     </div>
-                </section>
+<!--                </section>-->
             </div>
         </t>
     </template>

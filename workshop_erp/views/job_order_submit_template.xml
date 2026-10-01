@@ -2,16 +2,19 @@
 <odoo>
    <data>
        <!-- The QWeb Template for our Custom Page -->
-       <template id="submit_template" name="Hello Odoo Page">
+       <template id="submit_template" name="jjj">
            <t t-call="website.layout">
                <div id="wrap" class="oe_structure">
                    <div class="container">
                        <div class="row">
                            <div class="col-12 text-center mt-5">
-                               <h1>Welcome to our Custom Odoo Page!</h1>
-                               <p class="lead">
-                                   Hello, <t t-esc="user_name"/>! This page was rendered by a custom controller.
-                               </p>
+                               <h1>&#10004;</h1>
+                           <span style="font-family:courier;font-size: 160%;">Your Job Order <t t-esc="job_order.name"/> is Created </span><br></br>
+                                                       <a href="/joborders">View Job Orders</a>
+
+<!--                               <p class="lead">-->
+<!--                                   Hello, <t t-esc="user_name"/>! This page was rendered by a custom controller.-->
+<!--                               </p>-->
                            </div>
                        </div>
                    </div>
