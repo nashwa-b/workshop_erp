@@ -2,6 +2,8 @@
 from odoo import http
 from odoo.http import request
 from datetime import datetime
+from odoo import api, fields, models
+
 
 class JobOrderController(http.Controller):
     @http.route('/joborders', type='http', auth='public', website=True)
@@ -56,6 +58,9 @@ class JobOrderController(http.Controller):
     def handle_web_form_submission(self, **post):
         print('lkk',self)
         mechanic_ids = [int(x) for x in request.httprequest.form.getlist('mechanic_ids')]
+        product = post.get('product'),
+        quantity = post.get('quantity')
+        price_unit = post.get('price_unit')
 
         job_order = request.env['workshop.job.order'].sudo().create({
             'customer_id':post.get('customer_id'),
@@ -68,16 +73,20 @@ class JobOrderController(http.Controller):
             'job_type_id': post.get('job_type_id'),
             'bay_id': post.get('bay_id'),
             'total': post.get('total'),
-
             'mechanic_ids': [(6, 0, mechanic_ids)],
+            'order_line_ids': [fields.Command.create({
+                'product_id': product,
+                'product_qty': quantity,
+                'price_unit': price_unit
 
+            })]
         })
+
         return request.render('workshop_erp.submit_template',{
             'job_order': job_order
         })
 
         # mechanic_ids = [int(x) for x in request.httprequest.form.getlist('mechanic_ids')]
-
         # mechanic_ids = post.getlist('mechanic_ids')
         # mechanic_ids = list(map(int, mechanic_ids)) if mechanic_ids else []
         # request.env['workshop.job.order'].sudo().create({
@@ -103,17 +112,10 @@ class JobOrderController(http.Controller):
         job_orders = request.env['workshop.job.order'].sudo().search([])
         vehicles = request.env['workshop.vehicle'].sudo().search([])
         customer = request.env['res.partner'].sudo().search([])
-
-        # orders = request.env['workshop.job.order'].sudo().create({
-        #     'customer_id': post.get('name'),
-        #     'job_date': post.get('date'),
-        #     'vehicle_id': post.get('vehicle_id'),
-        # })
         values={
             'customer': customer,
             'job_orders': job_orders,
             'vehicles': vehicles,
-            # 'orders':orders
         }
         return request.render('workshop_erp.appointment', values)
 
@@ -123,20 +125,27 @@ class JobOrderController(http.Controller):
         """Handle form submission and create a new customer"""
         customer = post.get('customer_id')
         date = post.get('date')
-
         vehicle = post.get('vehicle_id')
-
+        start_date = post.get('start_date')
+        end_date = post.get('end_date')
+        s_d = datetime.strptime(start_date, '%Y-%m-%dT%H:%M')
+        e_d = datetime.strptime(end_date, '%Y-%m-%dT%H:%M')
         job_order = request.env['workshop.job.order'].sudo().create({
             'customer_id': customer,
             'job_date': date,
             'vehicle_id': vehicle,
+
         })
-
-
         request.env['calendar.event'].sudo().create({
             'name':post.get('name'),
-            # 'start':post.get('start_date'),
-            # 'stop':post.get('end_date'),
-            # 'job_order_id': job_order.name
+            'start':s_d,
+            'stop':e_d,
+            'job_order_id': job_order.id
         })
+
+        # @http.route('/joborderthis', type='http', auth='public', methods=['POST'], website=True, csrf=True)
+        # def create_job_order_form(self, **post):
+        #     
+
+
 

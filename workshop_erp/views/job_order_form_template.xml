@@ -64,7 +64,7 @@
                                         Vehicle
                                     </label>
                                     <div class="col-sm">
-                                        <select name="vehicle_id" class="form-control">
+                                        <select name="vehicle_id" class="form-control" domain = "[('owner_id', 'in', [customer_id])]">
                                             <t t-foreach="vehicles" t-as="rec">
                                                 <option t-att-value="rec.id">
                                                     <t t-esc="rec.name"/>
@@ -134,7 +134,7 @@
                                         Total
                                     </label>
                                     <!--                                   <div class="col-sm">-->
-                                    <input id="total" type="number" class="form-control" name="total"/>
+                                    <input id="total" type="number" class="form-control total" name="total"/>
                                 </div>
                             </div>
 
@@ -169,7 +169,8 @@
                                                                                                        <option value="">Select Product</option>
 
                                                     <t t-foreach="products" t-as="product">
-                                                        <option t-att-value="product.id">
+                                                        <option t-att-value="product.id" t-att-data-price = "product.list_price">
+
                                                             <t t-esc="product.name"/>
                                                         </option>
                                                     </t>
@@ -180,7 +181,7 @@
 
                                             </td>
                                             <td>
-                                              <input id="quantity" name="quantity" type="number" value = "1" placeholder="Quantity" class="form-control"/>
+                                              <input id="quantity" name="quantity" type="number" value = "1" placeholder="Quantity" class="form-control quantity"/>
                                             </td>
                                             <td>
 <!--                                                 <label class="col-form-label col-sm-auto" style="width: 200px;" for="price_unit">-->
@@ -188,11 +189,11 @@
 <!--                                        <span class="text-danger">*</span>-->
 <!--                                    </label>-->
 <!--                                                                       <div class="col-sm">-->
-                                    <input id="price_unit" type="number" class="form-control" name="price_unit" t-att-value='price_unit'/>
+                                    <input id="price_unit" type="number" class="form-control price_unit" name="price_unit" t-att-value='price_unit'/>
 <!--                                                                       </div>-->
                                             </td>
                                             <td>
-                                                                                    <input id="sub_total" type="number" class="form-control" name="sub_total" t-att-value='price_unit'/>
+                                                <input id="sub_total" type="number" class="form-control" name="sub_total" t-att-value='price_unit'/>
 
                                             </td>
                                              <td>
@@ -209,11 +210,8 @@
                                    Add Line
                                </button>
                            </div>
-
-
                                <div class="col-12 mt-3">
-  <button type="submit" class="btn btn-primary">Confirm</button>
-
+                                <button type="submit" class="btn btn-primary">Confirm</button>
                            </div>
 
                         </form>

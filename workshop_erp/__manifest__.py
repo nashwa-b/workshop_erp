@@ -10,7 +10,7 @@
     'category': 'Workshop',
     'application': True,
     'installable': True,
-    'depends': ['base', 'hr','sale','account','product','website_sale','mail','contacts','calendar', 'website'],
+    'depends': ['base', 'hr','web','sale','account','product','website_sale','mail','contacts','calendar', 'website'],
     'data': [
         "security/workshop_erp_groups.xml",
         "security/workshop_job_order_security.xml",
@@ -43,10 +43,10 @@
     ],
     'assets':{
         'web.assets_backend': [
-                    "workshop_erp/static/src/js/report_xlsx.js"],
+                    'workshop_erp/static/src/js/report_xlsx.js'],
 
-        'web.assets_frontend': ["workshop_erp/static/src/js/job_lines.js"]
+        'web.assets_frontend': ['workshop_erp/static/src/js/job_lines.js'],
 
-    }
+    },
 
 }

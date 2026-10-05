@@ -47,9 +47,8 @@
                            <tbody>
                                     <t t-foreach="job_orders" t-as="job_order">
                                         <tr>
-                                            <td>
-                                                <t t-esc="job_order.name"/>
-
+                                            <td >
+                                                <a href="/jobordersthis"> <t t-esc="job_order.name"/></a>
                                             </td>
                                             <td>
                                                 <t t-esc="job_order.job_date"/>
@@ -66,6 +65,11 @@
                                             </td>
                                             <td>
                                                 <t t-esc="job_order.status"/>
+                                            </td>
+                                            <td t-if="job_order.status == 'draft'">
+                                                <button type="button" class="btn fa fa-trash-o remove_list_line text-danger"></button>
+
+<!--                                                <span t-esc="line['collected']"/>-->
                                             </td>
                                         </tr>
                                     </t>
