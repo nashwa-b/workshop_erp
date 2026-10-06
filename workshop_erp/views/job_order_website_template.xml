@@ -2,80 +2,75 @@
 <odoo>
     <template id="portal_job_orders" name="Job Orders Custom Layout">
         <t t-call="website.layout">
-            <div class="container">
-<!--                <br>-->
+            <div id="wrap" class="oe_structure oe_empty">
+
+                <div class="container">
+                    <!--                <br>-->
                     <form action="/newjoborder" method="post">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-    <!-- put other forms field here if you need to pass info to controller -->
-                                                                        <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label text-end" >
+                        <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label text-end">
+                            <button type="submit" class="btn btn-primary">New Job Order</button>
+                        </div>
+                        <h1>Job Orders</h1>
+                        <table class="table table-bordered table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <b>Sequence</b>
+                                    </th>
+                                    <th>
+                                        <b>Date</b>
+                                    </th>
+                                    <th>
+                                        <b>Customer</b>
+                                    </th>
+                                    <th>
+                                        <b>Vehicle</b>
+                                    </th>
+                                    <th>
+                                        <b>Total Amount</b>
+                                    </th>
+                                    <th>
+                                        <b>Status</b>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="job_orders" t-as="job_order">
+                                    <tr>
+                                        <td>
+                                            <a t-att-href="'/joborderview/%s'%job_order.id">
+                                                <t t-esc="job_order.name"/>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <t t-esc="job_order.job_date"/>
 
+                                        </td>
+                                        <td>
+                                            <t t-esc="job_order.customer_id.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="job_order.vehicle_id.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="job_order.total"/>
+                                        </td>
+                                        <td>
+<t t-esc="dict(env['workshop.job.order'].fields_get(['status'])['status']['selection']).get(job_order.status)"/>
+                                        </td>
+                                        <td>
+<!--                                            <button type="button" class="btn fa fa-trash-o remove_list text-danger"></button>-->
+                                             <a t-att-href="'/job_order_remove/%s'%job_order.id" class="btn fa fa-trash-o remove_list text-danger" t-if="job_order.status == 'draft'"></a>
 
-    <button type="submit" class="btn btn-primary">New Job Order</button>
-                                                                        </div>
-<!--                    <t t-name="button_on_form_view.FormView.Buttons" t-inherit="web.FormView">-->
-<!--                        <xpath expr="//t[@t-set-slot='layout-buttons']" position="inside">-->
-<!--                            <button type="button" class="btn btn-primary"-->
-<!--                                t-on-click="OnFormClickOrder">-->
-<!--              <span>New Job Order</span>-->
-<!--                        </button>-->
-<!--                        </xpath>-->
-<!--</t></br>-->
-                       <h1>Job Orders</h1>
-                       <table class="table table-bordered table-striped mt-3">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                <b>Sequence</b>
-                                            </th>
-                                            <th>
-                                                <b>Date</b>
-                                            </th>
-                                            <th>
-                                                <b>Customer</b>
-                                            </th>
-                                            <th>
-                                                <b>Vehicle</b>
-                                            </th>
-                                            <th>
-                                                <b>Total Amount</b>
-                                            </th>
-                                            <th>
-                                                <b>Status</b>
-                                            </th>
-                                            </tr>
-                                    </thead>
-                           <tbody>
-                                    <t t-foreach="job_orders" t-as="job_order">
-                                        <tr>
-                                            <td >
-                                                <a href="/jobordersthis"> <t t-esc="job_order.name"/></a>
-                                            </td>
-                                            <td>
-                                                <t t-esc="job_order.job_date"/>
-
-                                            </td>
-                                            <td>
-                                                <t t-esc="job_order.customer_id.name"/>
-                                            </td>
-                                            <td>
-                                                <t t-esc="job_order.vehicle_id.name"/>
-                                            </td>
-                                            <td>
-                                                <t t-esc="job_order.total"/>
-                                            </td>
-                                            <td>
-                                                <t t-esc="job_order.status"/>
-                                            </td>
-                                            <td t-if="job_order.status == 'draft'">
-                                                <button type="button" class="btn fa fa-trash-o remove_list_line text-danger"></button>
-
-<!--                                                <span t-esc="line['collected']"/>-->
-                                            </td>
-                                        </tr>
-                                    </t>
-                                    </tbody>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
                         </table>
-                </form>
+                    </form>
+                </div>
             </div>
         </t>
     </template>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="job_order_view">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <!--                <section class="s_website_form">-->
+                <div class="container" style="display: flex; gap: 20px; margin-top:20px;">
+                    <div style="flex: 1;">
+                        <a href="/joborders">Job Orders</a>
+                         <br>
+                        <h2>
+                            <t t-esc="job_order.name"/>
+                        </h2>
+                        <p>
+                            <b>Name:</b>
+                            <t t-esc="job_order.customer_id.name"/>
+                        </p>
+                        <p>
+                            <b>Phone Number:</b>
+                            <t t-esc="job_order.phone"/>
+                        </p>
+                        <p>
+                            <b>Vehicle:</b>
+                            <t t-esc="job_order.vehicle_id.name"/>
+                        </p>
+                        <p>
+                            <b>Mechanic:</b>
+                            <t t-foreach="job_order.mechanic_ids" t-as="mechanic">
+
+                                <t t-esc="mechanic.name"/>,
+                            </t>
+                        </p>
+                        <p>
+                            <b>Job Type:</b>
+                            <t t-esc="job_order.job_type_id.name"/>
+                        </p>
+                        <p>
+                            <b>Workshop Bay:</b>
+                            <t t-esc="job_order.bay_id.name"/>
+                        </p>
+                        </br>
+                    </div>
+                    <div style="flex: 1; margin-top:50px;">
+                        <br></br>
+                        <br></br>
+                        <p>
+                            <b>Job Date:</b>
+                            <t t-esc="job_order.job_date"/>
+                        </p>
+                        <p>
+                            <b>Total:</b>
+                            <t t-esc="job_order.total"/>
+                        </p>
+                        <p>
+                            <b>Under Warranty:</b>
+                            <t t-esc="job_order.warranty"/>
+                        </p>
+                        <p>
+                            <b>Collected:</b>
+                            <t t-esc="job_order.collected"/>
+                        </p>
+                        <p>
+                            <b>Company:</b>
+                            <t t-esc="job_order.company_id.name"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="container">
+
+                    <table class="table table-borderless o_main_table"
+                           style="margin-top: 20px;">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Product
+                                </th>
+                                <th>
+                                    Quantity
+                                </th>
+                                <th>
+                                    Unit Price
+                                </th>
+                                <th>
+                                    Sub Total
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="job_order.order_line_ids" t-as="order_line">
+                                <tr>
+                                    <td>
+                                        <span t-field="order_line.product_id"/>
+
+                                    </td>
+                                    <td>
+                                        <span t-field="order_line.product_qty"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="order_line.price_unit"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="order_line.sub_total"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <br></br>
+
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

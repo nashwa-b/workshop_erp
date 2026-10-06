@@ -37,6 +37,7 @@
         "views/job_order_form_template.xml",
         "views/job_order_submit_template.xml",
         "views/appointment_template.xml",
+        "views/job_order_view_template.xml",
         "views/website_menus.xml",
         "views/workshop_erp_menus.xml",
 
