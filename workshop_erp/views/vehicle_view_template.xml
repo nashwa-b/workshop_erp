@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="vehicle_view">
+        <t t-call="website.layout">
+<div id="wrap" class="oe_structure oe_empty">
+                <div class="container" style="display: flex; gap: 20px; margin-top:20px;">
+                    <div style="flex: 1;">
+                        <a href="/get_top_vehicles">Vehicles</a>
+                         <br>
+                        <h2>
+                            <t t-esc="vehicle.name"/>
+                        </h2>
+                        <p>
+                            <b>Licence Plate:</b>
+                            <t t-esc="vehicle.licence_plate"/>
+                        </p>
+                             <p>
+                            <b>VIN:</b>
+                            <t t-esc="vehicle.vin"/>
+                        </p> <p>
+                            <b>Make:</b>
+                            <t t-esc="vehicle.make"/>
+                        </p> <p>
+                            <b>Model:</b>
+                            <t t-esc="vehicle.model"/>
+                        </p>
+                         </br>
+                               </div>
+                    <div style="flex: 1; margin-top:50px;">
+                             <p>
+                            <b>Year:</b>
+                            <t t-esc="vehicle.year"/>
+                        </p>
+                        <p>
+                            <b>Odometer:</b>
+                            <t t-esc="vehicle.odometer"/>
+                        </p>
+                        <p>
+                            <b>Owner:</b>
+                            <t t-esc="vehicle.owner_id.name"/>
+                        </p>
+
+                </div>
+                              </div>
+            </div>
+        </t>
+    </template>
+</odoo>

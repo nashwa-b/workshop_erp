@@ -11,10 +11,6 @@
                                <h1>&#10004;</h1>
                            <span style="font-family:courier;font-size: 160%;">Your Job Order <t t-esc="job_order.name"/> is Created </span><br></br>
                                                        <a href="/joborders">View Job Orders</a>
-
-<!--                               <p class="lead">-->
-<!--                                   Hello, <t t-esc="user_name"/>! This page was rendered by a custom controller.-->
-<!--                               </p>-->
                            </div>
                        </div>
                    </div>

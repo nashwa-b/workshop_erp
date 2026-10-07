@@ -38,15 +38,18 @@
         "views/job_order_submit_template.xml",
         "views/appointment_template.xml",
         "views/job_order_view_template.xml",
+        "views/vehicle_template.xml",
         "views/website_menus.xml",
         "views/workshop_erp_menus.xml",
 
     ],
     'assets':{
         'web.assets_backend': [
-                    'workshop_erp/static/src/js/report_xlsx.js'],
+                    '/workshop_erp/static/src/js/report_xlsx.js'],
 
-        'web.assets_frontend': ['workshop_erp/static/src/js/job_lines.js'],
+        'web.assets_frontend': ['/workshop_erp/static/src/js/job_lines.js',
+                                '/workshop_erp/static/src/js/top_vehicles.js',
+                               '/workshop_erp/static/src/xml/top_vehicles_template.xml'],
 
     },
 

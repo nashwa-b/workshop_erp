@@ -6,10 +6,10 @@
             <field name="model_id" ref="model_calendar_event"/>
             <field name="state">code</field>
             <field name="code">model._send_remainder()</field>
-            <field name="user_id" ref="base.user_root"/>
+<!--            <field name="user_id" ref="base.user_root"/>-->
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-<!--            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00:00')" />-->
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00:00')" />
             <field name="priority">5</field>
             <field name="active">True</field>
         </record>
@@ -19,10 +19,10 @@
             <field name="model_id" ref="model_workshop_job_order"/>
             <field name="state">code</field>
             <field name="code">model._send_daily_remainder()</field>
-            <field name="user_id" ref="base.user_root"/>
+<!--            <field name="user_id" ref="base.user_root"/>-->
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-<!--            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00:00')" />-->
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00:00')" />
             <field name="priority">5</field>
             <field name="active">True</field>
         </record>

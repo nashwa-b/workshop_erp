@@ -9,10 +9,9 @@
     <field name="sequence">50</field>
         </record>
 
-        <record id="appointmnets_menu_website" model="website.menu" invisible='request.env.user' >
+        <record id="appointmnets_menu_website" model="website.menu">
     <field name="name">Appointments</field>
     <field name="url">/appointments</field>
-<!--    <field name="page_id" ref="workshop_erp.workshop_list_template"/>-->
     <field name="parent_id" ref="website.main_menu"/>
     <field name="sequence">60</field>
         </record>

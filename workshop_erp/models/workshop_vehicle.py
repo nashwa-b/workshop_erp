@@ -23,7 +23,7 @@ class WorkshopVehicle(models.Model):
     odometer = fields.Integer(string='Odometer', required=True, tracking=True)
     owner_id = fields.Many2one('res.partner', string='Owner', required=True, tracking=True)
     active=fields.Boolean(string='Active', default=True, tracking=True)
-    job_order_count = fields.Integer(string='Job Orders', compute='_compute_job_order_count')
+    job_order_count = fields.Integer(string='Job Orders', compute='_compute_job_order_count', store = True)
     job_order_ids = fields.One2many('workshop.job.order','vehicle_id','Job Orders')
 
     def action_view_job_order(self):

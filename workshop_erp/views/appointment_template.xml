@@ -2,27 +2,20 @@
 <odoo>
     <template id="appointment" name="Job Orders Custom Layout">
         <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
             <div class="container">
                 <br>
                     <form action="/createappointment" method="post">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="col-md-6 mb-3">
-
                             <label for="subject">Subject
                             </label>
-                            <!--                                   <div class="col-sm">-->
                             <input id="subject" name="name" type="text" class="form-control"
                             />
                         </div>
 
 
                         <div class="col-md-6 mb-3">
-<!--                             <label for="subject">Subject-->
-<!--                            </label>-->
-                            <!--                                   <div class="col-sm">-->
-<!--                            <input id="customer_id" name="customer_id" type="char" class="form-control"  t-att-value='user_name'-->
-<!--                            />-->
-                            <!--                                  <div class="row">-->
                             <label class="col-form-label col-sm-auto" style="width: 200px;" for="customer_id">
                                 Customer
                             </label>
@@ -35,21 +28,12 @@
                                     </t>
                                 </select>
                             </div>
-                            <!--                                  </div>-->
                         </div>
-                        <!--                        <div class="col-md-6 mb-3">-->
 
-                        <!--                                    <label for="name">Name-->
-                        <!--                                    </label>-->
-                        <!--                                    &lt;!&ndash;                                   <div class="col-sm">&ndash;&gt;-->
-                        <!--                                    <input id="name" name="name" type="text" class="form-control"-->
-                        <!--                                        />-->
-                        <!--                                </div>-->
                         <div class="col-md-6 mb-3">
 
                             <label for="start_date">Start
                             </label>
-                            <!--                                   <div class="col-sm">-->
                             <input id="start_date" name="start_date" type="datetime-local" class="form-control"
                                    required='1'/>
                         </div>
@@ -57,19 +41,17 @@
 
                             <label for="end_date">End
                             </label>
-                            <!--                                   <div class="col-sm">-->
                             <input id="end_date" name="end_date" type="datetime-local" class="form-control"
                                    required='1'/>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <!--                                  <div class="row">-->
                             <label class="col-form-label col-sm-auto" style="width: 200px;" for="vehicle_id">
                                 Vehicle
                             </label>
                             <div class="col-sm">
-                                <select name="vehicle_id" class="form-control">
+                                <select name="vehicle_id" class="form-control vehicle_id">
                                     <t t-foreach="vehicles" t-as="rec">
-                                        <option t-if="rec.owner_id.name == user_name" t-att-value="rec.id" >
+                                        <option t-att-value="rec.id" t-if = "rec.owner_id.name == user_name" >
                                             <t t-esc="rec.name"/>
                                         </option>
                                         <!--                                                <option t-att-value="rec.id" domain = "[('owner_id', 'in', [customer_id])]">-->
@@ -92,6 +74,7 @@
                     </form>
                 </br>
             </div>
+                        </div>
         </t>
     </template>
 </odoo>

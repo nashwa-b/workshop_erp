@@ -22,6 +22,5 @@
                 </p>
             </field>
         </record>
-   <menuitem id="approval_block_menu" name="Approval Blocks"
-             parent="purchase.menu_purchase_config" sequence="11" action="approval_block.approval_block_action"/>
+   <menuitem id="approval_block_menu" name="Approval Blocks" parent="purchase.menu_purchase_config" sequence="11" action="approval_block.approval_block_action"/>
 </odoo>

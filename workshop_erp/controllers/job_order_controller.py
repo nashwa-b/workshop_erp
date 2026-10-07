@@ -21,7 +21,6 @@ class JobOrderController(http.Controller):
     def view_job_orders(self, id):
         """Display form of job orders in list view"""
         job_order = request.env['workshop.job.order'].sudo().browse(id)
-
         return request.render('workshop_erp.job_order_view', {
             'job_order': job_order
         })
@@ -90,8 +89,8 @@ class JobOrderController(http.Controller):
         })
 
 
-    @http.route('/appointments', type='http', auth='public', website=True)
-    def display_appointment(self, **post):
+    @http.route('/appointments', type='http', auth='user', website=True)
+    def display_appointment(self):
         """Display Appointment form"""
         job_orders = request.env['workshop.job.order'].sudo().search([])
         vehicles = request.env['workshop.vehicle'].sudo().search([])

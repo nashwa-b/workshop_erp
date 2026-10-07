@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--Product Category tab content template-->
+<templates xml:space="preserve">
+   <t t-name="workshop_erp.category_data">
+       <section class="categories_section">
+           <div class="container">
+               <h3 class="section_heading">Top vehicles</h3>
+               <div class="categories_wrapper">
+                   <t t-foreach="result.vehicles" t-as="vehicle"  t-key="vehicle.id"                                              >
+                  <div class="type" style="font-weight: 700; font-size: 20px;">
+                      <a t-att-href="'/vehicleview/%s'%vehicle.id">
+                          <t t-esc="vehicle.name"/>
+                      </a>
+
+<!--                       <a t-att-href="'/joborderview/%s '%job_order.id">-->
+<!--                                                <t t-esc="job_order.name"/>-->
+<!--                                            </a>-->
+                                </div>
+                   </t>
+               </div>
+           </div>
+       </section>
+   </t>
+</templates>
+

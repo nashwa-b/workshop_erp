@@ -61,7 +61,6 @@ class WorkshopErpReport(models.AbstractModel):
 
     def get_xlsx_report(self, data, response):
         """Print the XLSX report"""
-
         query = """select jo.id as job_order_id,jo.warranty as warranty, jo.collected as collected,rc.name as company,so.name as sale,iv.name as invoice,jo.name as name,wv.name->>'en_US' as vehicle,wb.name->>'en_US' as bay,pr.name as customer,jo.job_date as job_date,jo.total as total,jo.status as status from workshop_job_order as jo
                                       left join res_partner as pr on pr.id = jo.customer_id
                                       left join res_company as rc on rc.id = jo.company_id
@@ -71,7 +70,6 @@ class WorkshopErpReport(models.AbstractModel):
                                        left join workshop_bay as wb on wb.id = jo.bay_id where 1=1"""
 
         params = []
-        # domain = []
         if data.get('start_date'):
             query += """AND job_date >= %s"""
             params.append(data.get('start_date'))
@@ -125,6 +123,7 @@ class WorkshopErpReport(models.AbstractModel):
         heading_row = 22
         line_row = 27
         i = 0
+
         for line in datas['report']:
             job_order = self.env['workshop.job.order'].browse(line['job_order_id'])
             # for job_order in job_orders:
