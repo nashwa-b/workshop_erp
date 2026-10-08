@@ -2,39 +2,25 @@
 from odoo import http
 from odoo.http import request
 class WebsiteVehicle(http.Controller):
-   @http.route('/get_top_vehicles', auth="public", type='jsonrpc',
-               website=True)
+   @http.route('/get_top_vehicles', auth="public", type='jsonrpc',website=True)
    def get_top_vehicles(self):
-       """Get the website categories for the snippet."""
+       """Get the Top Vehicles."""
        # vehicles = request.env['workshop.vehicle'].search([])
        vehicles = request.env['workshop.vehicle'].search_read(
-          fields=['name', 'id'], order = 'job_order_count DESC', limit = 4
+          fields=['name', 'id','image','licence_plate','vin','model'], order = 'job_order_count DESC', limit = 10
        )
-       print(vehicles)
 
-       # search([('limit', '<', record.amount_total)], order='limit desc', limit=1)
-       # public_categs = request.env[
-       #     'product.public.category'].sudo().search_read(
-       #     [('parent_id', '=', False)], fields=['name', 'image_1920', 'id']
-       # )
+       print(vehicles)
        values = {
            'vehicles': vehicles,
        }
        return values
 
-   @http.route('/vehicleview/<int:id>', type='jsonrpc', auth='public', website=True)
+   @http.route('/vehicleview/<int:id>', type='http', auth='public', website=True)
    def view_vehicle(self, id):
-       """Display form of job orders in list view"""
+       """Get the vehicle using id and display its details."""
        vehicle = request.env['workshop.vehicle'].sudo().browse(id)
-       return request.render('workshop_erp.job_order_view', {
+
+       return request.render('workshop_erp.vehicle_view', {
            'vehicle': vehicle
        })
-
-   # @http.route('/joborderview/<int:id>', type='http', auth='public', website=True)
-   # def view_job_orders(self, id):
-   #     """Display form of job orders in list view"""
-   #     job_order = request.env['workshop.job.order'].sudo().browse(id)
-   #     return request.render('workshop_erp.job_order_view', {
-   #         'job_order': job_order
-   #     })
-

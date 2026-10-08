@@ -15,6 +15,7 @@ class WorkshopVehicle(models.Model):
     )
 
     name = fields.Char(required=True, translate=True, tracking=True)
+    image = fields.Image(string='')
     licence_plate = fields.Char(string='License Plate', required=True, tracking=True)
     vin = fields.Char(string='VIN', required=True, tracking=True)
     make = fields.Char(string='Make', tracking=True)
@@ -23,7 +24,7 @@ class WorkshopVehicle(models.Model):
     odometer = fields.Integer(string='Odometer', required=True, tracking=True)
     owner_id = fields.Many2one('res.partner', string='Owner', required=True, tracking=True)
     active=fields.Boolean(string='Active', default=True, tracking=True)
-    job_order_count = fields.Integer(string='Job Orders', compute='_compute_job_order_count', store = True)
+    job_order_count = fields.Integer(string='Job Orders', compute='_compute_job_order_count',store = True)
     job_order_ids = fields.One2many('workshop.job.order','vehicle_id','Job Orders')
 
     def action_view_job_order(self):
@@ -38,10 +39,12 @@ class WorkshopVehicle(models.Model):
         # "views": [[self.env.ref("account.view_partner_bank_form_inherit_account").id, "form"]],
         }
 
+    @api.depends('job_order_ids')
     def _compute_job_order_count(self):
         """Compute the number of Job Order for a vehicle"""
         for record in self:
             record.job_order_count = len(record.job_order_ids)
+            print("count",record.job_order_count)
 
 
 

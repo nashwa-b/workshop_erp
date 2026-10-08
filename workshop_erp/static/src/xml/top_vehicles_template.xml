@@ -1,25 +1,160 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--Product Category tab content template-->
 <templates xml:space="preserve">
-   <t t-name="workshop_erp.category_data">
-       <section class="categories_section">
-           <div class="container">
-               <h3 class="section_heading">Top vehicles</h3>
-               <div class="categories_wrapper">
-                   <t t-foreach="result.vehicles" t-as="vehicle"  t-key="vehicle.id"                                              >
-                  <div class="type" style="font-weight: 700; font-size: 20px;">
-                      <a t-att-href="'/vehicleview/%s'%vehicle.id">
-                          <t t-esc="vehicle.name"/>
-                      </a>
+   <t t-name="workshop_erp.vehicle_data">
+       <section class="vehicle_section">
+          <div id="course_carousel" class="container carousel slide" data-bs-ride="carousel" t-att-data-bs-interval="interval">
 
-<!--                       <a t-att-href="'/joborderview/%s '%job_order.id">-->
-<!--                                                <t t-esc="job_order.name"/>-->
-<!--                                            </a>-->
+<div class="carousel-inner row w-100 mx-auto" role="listbox">
+
+<t t-foreach="chunks" t-as="chunk">
+
+<div t-att-class="chunk.is_active ? 'carousel-item active' : 'carousel-item'">
+               <div class="row">
+                   <t t-foreach="result.vehicles" t-as="vehicle"  t-key="vehicle.id">
+
+                       <div class="col-md-3">
+                                                 <a t-attf-href="/vehicleview/#{vehicle.id}">
+                               <div class="card p-4">
+
+                                <div class="img_wrapper">
+                                    <t t-if="vehicle.image">
+                                        <img t-att-src="'data:image/png;base64,' + vehicle.image"
+                                             class="img img-fluid rotate-center"
+                                             t-att-alt="vehicle.name or 'Vehicle Image'"
+                                             loading="lazy"/>
+                                    </t>
+                                    <t t-else="">
+                                        <img src=""
+                                             class="img img-fluid rotate-center"
+                                             loading="lazy"/>
+                                    </t>
                                 </div>
+                               </div>
+                                                 </a>
+                           <br></br>
+                                <div class="type">
+                                                                <b>Vehicle Name:</b>
+
+                                    <t t-esc="vehicle.name"/><br></br>
+                                                                <b>Licence Plate:</b>
+
+                                    <t t-esc="vehicle.licence_plate"/><br></br>
+                                                                <b>VIN:</b>
+
+                                    <t t-esc=" vehicle.vin"/><br></br>
+                                                                <b>Model:</b>
+
+                                    <t t-esc="vehicle.model"/><br></br>
+                                </div>
+                        </div>
                    </t>
                </div>
-           </div>
-       </section>
+</div>
+</t>
+</div>
+
+<!--                      <a t-attf-href="/vehicleview/#{vehicle.id}"><div class="card p-4">-->
+
+
+<!--                          <t t-esc="vehicle.name"/>  </div>-->
+
+<!--                      </a>-->
+<!--                                </div>-->
+
+           <br></br>
+
+
+<a t-attf-href="#course_carousel" class="carousel-control-prev" data-bs-slide="prev" role="button" aria-label="Previous" title="Previous">
+
+<span class="fa fa-chevron-circle-left fa-2x"/>
+<span class="visually-hidden">Previous</span>
+
+</a>
+ <a t-attf-href="#course_carousel" class="carousel-control-next" data-bs-slide="next" role="button" aria-label="Next" title="Next">
+
+<span class="fa fa-chevron-circle-right fa-2x"/>
+
+<span class="visually-hidden">Next</span>
+
+</a>           </div>
+
+                </section>
+
+
    </t>
 </templates>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--&lt;!&ndash;Product Category tab content template&ndash;&gt;-->
+<!--<templates xml:space="preserve">-->
+<!--   <t t-name="workshop_erp.vehicle_data">-->
+<!--       <section class="vehicle_section">-->
+<!--           <div class="container">-->
+<!--               <h3 class="fw-bold">Top vehicles</h3>-->
+<!--               <div class="row">-->
+<!--                   <t t-foreach="result.vehicles" t-as="vehicle"  t-key="vehicle.id">-->
+
+<!--                       <div class="col-md-3">-->
+<!--                                                 <a t-attf-href="/vehicleview/#{vehicle.id}">-->
+<!--                               <div class="card p-4">-->
+
+<!--                                <div class="img_wrapper">-->
+<!--                                    <t t-if="vehicle.image">-->
+<!--                                        <img t-att-src="'data:image/png;base64,' + vehicle.image"-->
+<!--                                             class="img img-fluid rotate-center"-->
+<!--                                             t-att-alt="vehicle.name or 'Vehicle Image'"-->
+<!--                                             loading="lazy"/>-->
+<!--                                    </t>-->
+<!--                                    <t t-else="">-->
+<!--                                        <img src=""-->
+<!--                                             class="img img-fluid rotate-center"-->
+<!--                                             loading="lazy"/>-->
+<!--                                    </t>-->
+<!--                                </div>-->
+<!--                               </div>-->
+<!--                                                 </a>-->
+<!--                           <br></br>-->
+<!--                                <div class="type">-->
+<!--                                                                <b>Vehicle Name:</b>-->
+
+<!--                                    <t t-esc="vehicle.name"/><br></br>-->
+<!--                                                                <b>Licence Plate:</b>-->
+
+<!--                                    <t t-esc="vehicle.licence_plate"/><br></br>-->
+<!--                                                                <b>VIN:</b>-->
+
+<!--                                    <t t-esc=" vehicle.vin"/><br></br>-->
+<!--                                                                <b>Model:</b>-->
+
+<!--                                    <t t-esc="vehicle.model"/><br></br>-->
+<!--                                </div>-->
+<!--                        </div>-->
+
+<!--&lt;!&ndash;                      <a t-attf-href="/vehicleview/#{vehicle.id}"><div class="card p-4">&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;                          <t t-esc="vehicle.name"/>  </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                      </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+
+<!--                   </t>-->
+<!--               </div>-->
+<!--           </div>-->
+<!--           <br></br>-->
+<!--       </section>-->
+<!--   </t>-->
+<!--</templates>-->
 

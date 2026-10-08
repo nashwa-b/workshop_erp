@@ -36,12 +36,18 @@
                                 </div>
                             </button>
                         </div>
+                         <group>
+                        <group>
                         <div class="oe-title">
                             <h1>
                                 <field name="name" placeholder="Vehicle"/>
                             </h1>
                         </div>
-                        <group>
+                        </group>
+                     <group>
+                       <field name="image" widget="image" options="{'size': [110, 110]}"/>
+                   </group>
+
                             <group>
                                 <field name="licence_plate"/>
                                 <field name="vin"/>

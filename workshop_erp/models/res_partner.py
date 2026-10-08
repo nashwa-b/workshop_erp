@@ -53,3 +53,4 @@ class ResPartner(models.Model):
         """Compute the number of vehicle for this partner"""
         for record in self:
             record.job_order_count = len(record.job_order_ids)
+            # print(record.job_order_count)
