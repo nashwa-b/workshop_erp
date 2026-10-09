@@ -2,15 +2,13 @@
 <odoo>
     <template id="vehicle_view">
         <t t-call="website.layout">
-<div id="wrap" class="oe_structure oe_empty">
+            <div id="wrap" class="oe_structure oe_empty">
                 <div class="container" style="display: flex; gap: 20px; margin-top:20px;">
                     <div style="flex: 1;">
-<!--                        <a href="/">Home</a>-->
                          <br>
                         <h2><b>
                             <t t-esc="vehicle.name"/></b>
                         </h2>
-
                         <p>
                             <b>Licence Plate:</b>
                             <t t-esc="vehicle.licence_plate"/>
@@ -25,9 +23,12 @@
                             <b>Model:</b>
                             <t t-esc="vehicle.model"/>
                         </p>
+                             <span t-field="vehicle.image" t-options='{"widget": "image", "qweb_img": true, "style": "width: 180px; height: 130px;"}'/><br></br>
+
                          </br>
                                </div>
                     <div style="flex: 1; margin-top:80px;">
+
                              <p>
                             <b>Year:</b>
                             <t t-esc="vehicle.year"/>

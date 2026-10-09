@@ -1,35 +1,40 @@
 /** @odoo-module */
-import { renderToElement } from "@web/core/utils/render";
-// import { sortBy } from "@web/core/utils/arrays";
+import {renderToElement} from "@web/core/utils/render";
 import publicWidget from "@web/legacy/js/public/public_widget";
-import { rpc } from "@web/core/network/rpc";
-export function _chunk(array, size){
+import {rpc} from "@web/core/network/rpc";
+
+export function chunk(array, size) {
     const res = [];
-    for (let i = 0; i<array.length; i+=size){
-        res.push(array.slice(i,i*size))}
-    return res;
+    for (let i = 0; i < array.length; i += size) {
+        res.push(array.slice(i, i + size));
+        console.log("res", res);
     }
+    return res;
+}
 
 publicWidget.registry.get_top_vehicles = publicWidget.Widget.extend({
-   selector : '.vehicle_section',
-   async willStart() {
-       const result = await rpc('/get_top_vehicles', {});
+    selector: '.vehicle_section',
+    async willStart() {
+        const result = await rpc('/get_top_vehicles', {});
+        Object.assign(this,
+            {vehicles: result});
+    },
+    start: function () {
+        const vehicles = this.vehicles.vehicles;
+        const date = this.vehicles.date
 
-       // willStart: async function () { const data = await jsonrpc('/top_selling_products', {})
-           const vehicles = result
-           Object.assign(this,
-               {vehicles}) },
-    start: function ()
-    {
-        const {vehicles} = this
-        const chunks = _chunk(vehicles, 4)
-         if(result){
-           this.$target.empty().html(renderToElement('workshop_erp.vehicle_data', {result: result,chunks:chunks}))
-       }
+        console.log("vehicles", vehicles)
+        // const ne = chunk([1, 2, 3, 4, 5], 2);
+        // console.log('new',ne)
+        const chunks = chunk(vehicles, 4)
+        console.log("chunks", chunks)
 
-   },
+        chunks[0].is_active = true;
+        if(vehicles){
+            this.$target.empty().html(renderToElement('workshop_erp.vehicle_data', {chunks: chunks,date:date}))
+        }
+    },
 });
-
 
 
 // /** @odoo-module */
@@ -46,13 +51,6 @@ publicWidget.registry.get_top_vehicles = publicWidget.Widget.extend({
 //        }
 //    },
 // });
-
-
-
-
-
-
-
 
 
 // selector: '.dynamic_snippet_blog',
