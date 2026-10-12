@@ -49,9 +49,10 @@
                                 Vehicle
                             </label>
                             <div class="col-sm">
-                                <select name="vehicle_id" class="form-control vehicle_id">
+                                <select name="vehicle_id" id = "vehicle_id" class="form-control vehicle_id">
                                     <t t-foreach="vehicles" t-as="rec">
-                                        <option t-att-value="rec.id" t-if = "rec.owner_id.name == user_name" >
+                                        <option t-att-value="rec.id"  t-att-data-owner="rec.owner_id.name" >
+
                                             <t t-esc="rec.name"/>
                                         </option>
                                         <!--                                                <option t-att-value="rec.id" domain = "[('owner_id', 'in', [customer_id])]">-->

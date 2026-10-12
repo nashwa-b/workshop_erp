@@ -47,7 +47,6 @@ class WorkshopErpReport(models.AbstractModel):
         for line in report:
             line['status'] = status_selection.get(line['status'],line['status'])
         print('p',report)
-
         data = {
             'report':report
         }

@@ -44,7 +44,7 @@ class JobOrderController(http.Controller):
         product_id = request.env['product.product'].sudo().search([])
         user_name = request.env.user.name if request.env.user.id else 'Guest'
         phone = request.env.user.phone
-        dates = datetime.today()
+        # dates = datetime.today()
 
         values = {
             'customers': customers,
@@ -55,7 +55,7 @@ class JobOrderController(http.Controller):
             'products': product_id,
             'user_name': user_name,
             'phone': phone,
-            'dates': dates,
+            # 'dates': dates,
         }
         return request.render('workshop_erp.web_form_template',values)
 

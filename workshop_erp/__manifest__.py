@@ -49,7 +49,6 @@
                     '/workshop_erp/static/src/js/report_xlsx.js'],
 
         'web.assets_frontend': ['/workshop_erp/static/src/js/job_lines.js',
-                                # '/web/static/lib/lodash/lodash.js',
                                 '/workshop_erp/static/src/js/top_vehicles.js',
                                '/workshop_erp/static/src/xml/top_vehicles_template.xml'],
 

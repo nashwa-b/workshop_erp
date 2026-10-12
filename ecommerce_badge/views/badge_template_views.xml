@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="product_card_badge" inherit_id="website_sale.products_item" name="Product card badge">
+        <xpath expr="//div[@t-attf-class='oe_product_image position-relative flex-grow-0 overflow-hidden']"
+               position="inside">
+            <t t-set="status_selection" t-value="dict(request.env['product.template']._fields['spare_type'].selection).get(product.spare_type)"/>
+            <t t-if="product.spare_type">
+                <div class="o_ribbon" style="position: absolute; top: 6px; left: 6px; background: green; color: white; font-size: 12px; padding: 3px 8px; border-radius: 4px;
+   z-index: 20;
+   font-weight: bold;
+   height: auto;
+   width: auto;">
+                    <t t-esc="status_selection"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+
+    <template id="product_badge" inherit_id="website_sale.product" name="Product badge">
+
+        <xpath expr="//div[@t-attf-class='o_wsale_product_images col o_wsale_sticky_object']" position='inside'>
+            <t t-set="status_selection"
+               t-value="dict(request.env['product.template']._fields['spare_type'].selection).get(product.spare_type)"/>
+            <t t-if="product.spare_type">
+
+                <div class="o_ribbon" style="position: absolute; top: 6px; left: 6px; background: green; color: white; font-size: 12px; padding: 3px 8px; border-radius: 4px;
+   z-index: 20;
+   font-weight: bold;
+   height: auto;
+   width: auto;">
+
+
+                    <t t-esc="status_selection"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>
