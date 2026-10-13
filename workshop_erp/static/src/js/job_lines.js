@@ -2,7 +2,7 @@
 import publicWidget from "@web/legacy/js/public/public_widget";
 
 publicWidget.registry.JobLineRequest = publicWidget.Widget.extend({
-    selector: "#wrap",
+    selector: ".oe_structure",
     events: {
         'click  .remove_list': '_onClickRemoveList',
         'click .add_total_project': '_onClickAddJobLine',
@@ -51,15 +51,15 @@ publicWidget.registry.JobLineRequest = publicWidget.Widget.extend({
         console.log('ll')
         var $row = $(ev.target).closest('.job_order_line');
         var $selected = $(ev.target).find('option:selected')
-        var price = parseFloat($selected.attr('data-price'))
+        var price = parseFloat($selected.attr('data-price'));
         $row.find('#price_unit').val(price);
-        $row.find('#quantity').val("1")
+        $row.find('#quantity').val("1");
         $row.find('#sub_total').val(price);
         var total = 0
         $('#job_line_table tbody tr.job_order_line').each(function () {
             var subtotal = $(this).find('#sub_total').val();
             // s= parseFloat(subtotal)
-            total += parseFloat(subtotal)
+            total += parseFloat(subtotal);
             console.log("k", subtotal)
             console.log("o", total)
         });
@@ -68,7 +68,6 @@ publicWidget.registry.JobLineRequest = publicWidget.Widget.extend({
     },
 
     _onClickAddJobLine: function () {
-        console.log("!!! Odoo OWL Button successfully clicked !!!");
         var $new_row = $('#job_line_table tbody tr.job_order_line:first').clone();
         $new_row.find('input, select').val('');  // Clear input values
         $new_row.appendTo('#job_line_table tbody');
@@ -90,13 +89,13 @@ publicWidget.registry.JobLineRequest = publicWidget.Widget.extend({
 
     _onChangeCustomer: function (ev) {
         console.log("app")
-        // var customerId = $(ev.target).val();
-        var customerName = $(ev.target).find(':selected').text();
-        console.log(customerName)
-        var $vehicle = $('#vehicle_id');
-        console.log("vehicle", $vehicle)
-        $vehicle.find('option').each(function () {
+        var customerId = $(ev.target).val();
+        console.log(customerId)
+        // var $vehicle = $('#vehicle_id');
+        // console.log("vehicle", $vehicle)
+        $('#vehicle_id option').each(function () {
             var ownerId = $(this).attr('data-owner')
+            // var price = parseFloat($selected.attr('data-price'))
             console.log(ownerId)
             if (customerId == ownerId) {
                 $(this).show()
@@ -104,7 +103,7 @@ publicWidget.registry.JobLineRequest = publicWidget.Widget.extend({
                 $(this).hide()
             }
         });
-        $('.vehicle').val('')
+        $('#vehicle_id').val('')
     },
 });
 

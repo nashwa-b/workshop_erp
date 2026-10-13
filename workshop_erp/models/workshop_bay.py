@@ -19,11 +19,11 @@ class WorkshopBay(models.Model):
         ('closed', 'Closed')], string='Status', tracking=True, default='free')
     job_type_ids = fields.Many2many('job.type', string="Supported Job Types")
     type = fields.Selection(selection=[
-        ('washing','Wash'),
-        ('alignment','Alignment'),
-        ('express','Express'),
-        ('general','General'),
-        ('paint','Painting')
+        ('washing', 'Wash'),
+        ('alignment', 'Alignment'),
+        ('express', 'Express'),
+        ('general', 'General'),
+        ('paint', 'Painting')
     ], tracking=True, required=True)
     ongoing_job_id = fields.Many2one('workshop.job.order', string="Ongoing Job", readonly=True)
 
@@ -34,4 +34,3 @@ class WorkshopBay(models.Model):
     def action_close(self):
         """workshop Bay Close"""
         self.status = 'closed'
-

@@ -3,7 +3,6 @@
     <template id="portal_job_orders" name="Job Orders Custom Layout">
         <t t-call="website.layout">
             <div id="wrap" class="oe_structure oe_empty">
-
                 <div class="container">
                     <!--                <br>-->
                     <form action="/newjoborder" method="post">
@@ -63,7 +62,6 @@
                                         <td>
 <!--                                            <button type="button" class="btn fa fa-trash-o remove_list text-danger"></button>-->
                                              <a t-att-href="'/job_order_remove/%s'%job_order.id" class="btn fa fa-trash-o remove_list text-danger" t-if="job_order.status == 'draft'"></a>
-
                                         </td>
                                     </tr>
                                 </t>

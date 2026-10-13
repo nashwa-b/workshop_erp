@@ -7,7 +7,7 @@ import datetime
 class WebsiteVehicle(http.Controller):
     @http.route('/get_top_vehicles', auth="public", type='jsonrpc', website=True)
     def get_top_vehicles(self):
-        """Get the Top Vehicles."""
+        """Get the Top 10 Vehicles."""
         vehicles = request.env['workshop.vehicle'].search_read(
             fields=['name', 'id', 'image', 'licence_plate', 'vin', 'model'], order='job_order_count DESC', limit=10
         )
@@ -17,7 +17,6 @@ class WebsiteVehicle(http.Controller):
             'date': date,
         }
         return values
-
 
     @http.route('/vehicle_view/<int:id>', type='http', auth='public', website=True)
     def view_vehicle(self, id):

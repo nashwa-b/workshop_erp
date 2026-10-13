@@ -9,15 +9,15 @@ class JobOrderController(http.Controller):
     @http.route('/joborders', type='http', auth='user', website=True)
     def display_job_orders(self, **kwargs):
         """Display list of job orders of current user"""
-        current_user = request.env.user.name
-        print('l',current_user)
-        job_orders = request.env['workshop.job.order'].sudo().search([('customer_id','=',current_user)])
+        current_user = request.env.user.partner_id
+        print('l', current_user)
+        job_orders = request.env['workshop.job.order'].sudo().search([('customer_id', '=', current_user)])
         values = {
             'job_orders': job_orders,
         }
-        return request.render('workshop_erp.portal_job_orders',values)
+        return request.render('workshop_erp.portal_job_orders', values)
 
-    @http.route('/joborderview/<int:id>',type='http', auth='public', website=True)
+    @http.route('/joborderview/<int:id>', type='http', auth='public', website=True)
     def view_job_orders(self, id):
         """Display form of job orders in list view"""
         job_order = request.env['workshop.job.order'].sudo().browse(id)
@@ -33,7 +33,7 @@ class JobOrderController(http.Controller):
         job_order.unlink()
         return request.redirect('/joborders')
 
-    @http.route('/newjoborder', type='http',  auth='public', website=True)
+    @http.route('/newjoborder', type='http', auth='public', website=True)
     def display_job_order_form(self, **kw):
         """Display job order form"""
         customers = request.env['res.partner'].sudo().search([])
@@ -57,37 +57,35 @@ class JobOrderController(http.Controller):
             'phone': phone,
             # 'dates': dates,
         }
-        return request.render('workshop_erp.web_form_template',values)
+        return request.render('workshop_erp.web_form_template', values)
 
     @http.route('/webformsubmit', type='http', auth='public', website=True)
     def handle_web_form_submission(self, **post):
         """Create job orders on clicking confirm button"""
-        print('lkk',self)
+        print('lkk', self)
         mechanic_ids = [int(x) for x in request.httprequest.form.getlist('mechanic_ids')]
         product = post.get('product'),
         quantity = post.get('quantity')
         price_unit = post.get('price_unit')
 
         job_order = request.env['workshop.job.order'].sudo().create({
-            'customer_id':post.get('customer_id'),
-            'phone':post.get('phone'),
-            'job_date':post.get('job_date'),
+            'customer_id': post.get('customer_id'),
+            'phone': post.get('phone'),
+            'job_date': post.get('job_date'),
             'vehicle_id': post.get('vehicle_id'),
             'job_type_id': post.get('job_type_id'),
             'bay_id': post.get('bay_id'),
             'total': post.get('total'),
-            'mechanic_ids': [(6, 0, mechanic_ids)],
+            'mechanic_ids':[fields.Command.set(mechanic_ids)],
             'order_line_ids': [fields.Command.create({
                 'product_id': product,
                 'product_qty': quantity,
                 'price_unit': price_unit
             })]
         })
-
-        return request.render('workshop_erp.submit_template',{
+        return request.render('workshop_erp.submit_template', {
             'job_order': job_order
         })
-
 
     @http.route('/appointments', type='http', auth='user', website=True)
     def display_appointment(self):
@@ -96,8 +94,7 @@ class JobOrderController(http.Controller):
         vehicles = request.env['workshop.vehicle'].sudo().search([])
         customer = request.env['res.partner'].sudo().search([])
         user_name = request.env.user.name
-
-        values={
+        values = {
             'customer': customer,
             'job_orders': job_orders,
             'vehicles': vehicles,
@@ -105,11 +102,11 @@ class JobOrderController(http.Controller):
         }
         return request.render('workshop_erp.appointment', values)
 
-    @http.route('/createappointment', type='http', auth='public', methods=['POST'], website=True)
+    @http.route('/createappointment', type='http', auth='public', website=True)
     def create_appointment(self, **post):
         """Create Appointment and job order"""
         customer = post.get('customer_id')
-        print("lmm",customer)
+        print("lmm", customer)
         vehicle = post.get('vehicle_id')
         start_date = post.get('start_date')
         end_date = post.get('end_date')
@@ -117,15 +114,12 @@ class JobOrderController(http.Controller):
         e_d = datetime.strptime(end_date, '%Y-%m-%dT%H:%M')
         job_order = request.env['workshop.job.order'].sudo().create({
             'customer_id': customer,
-            'job_date':start_date,
+            'job_date': start_date,
             'vehicle_id': vehicle,
         })
         request.env['calendar.event'].sudo().create({
-            'name':post.get('name'),
-            'start':s_d,
-            'stop':e_d,
+            'name': post.get('name'),
+            'start': s_d,
+            'stop': e_d,
             'job_order_id': job_order.id
         })
-
-
-

@@ -18,11 +18,10 @@ publicWidget.registry.get_top_vehicles = publicWidget.Widget.extend({
         const result = await rpc('/get_top_vehicles', {});
         Object.assign(this,
             {vehicles: result});
-    },
+        },
     start: function () {
         const vehicles = this.vehicles.vehicles;
         const date = this.vehicles.date
-
         console.log("vehicles", vehicles)
         // const ne = chunk([1, 2, 3, 4, 5], 2);
         // console.log('new',ne)
@@ -30,8 +29,8 @@ publicWidget.registry.get_top_vehicles = publicWidget.Widget.extend({
         console.log("chunks", chunks)
 
         chunks[0].is_active = true;
-        if(vehicles){
-            this.$target.empty().html(renderToElement('workshop_erp.vehicle_data', {chunks: chunks,date:date}))
+        if (vehicles) {
+            this.$target.empty().html(renderToElement('workshop_erp.vehicle_data', {chunks: chunks, date: date}))
         }
     },
 });

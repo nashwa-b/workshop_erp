@@ -2,7 +2,7 @@
 <odoo>
    <data>
        <!-- The QWeb Template for our Custom Page -->
-       <template id="submit_template" name="jjj">
+       <template id="submit_template">
            <t t-call="website.layout">
                <div id="wrap" class="oe_structure">
                    <div class="container">
