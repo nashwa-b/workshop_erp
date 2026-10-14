@@ -20,3 +20,10 @@ class ProductProduct(models.Model):
                print("k",record.average_cost)
            else:
                record.average_cost = 0
+
+           # sub_total = sum(record.purchase_order_line_ids.mapped('price_subtotal'))
+           # qty = sum(record.purchase_order_line_ids.mapped('product_qty'))
+           # if qty:
+           #     record.average_cost = sub_total / qty
+           # else:
+           #     record.average_cost = 0

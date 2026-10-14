@@ -8,10 +8,9 @@
     'description': """Sale Orders""",
     'sequence': -10,
     'category': 'customer sale orders',
-    'application': True,
+    'applictaion': True,
     'installable': True,
-    'depends': ['base','sale','purchase','product'],
+    'depends': ['base','sale','product'],
     'data': [
-        "security/ir.model.access.csv",
-            "views/res_partner_views.xml"]
+    "views/res_partner_views.xml",]
 }

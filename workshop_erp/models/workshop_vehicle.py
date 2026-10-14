@@ -36,7 +36,6 @@ class WorkshopVehicle(models.Model):
             "name": "Job Orders",
             "views": [[self.env.ref('workshop_erp.workshop_job_order_history_view_list').id, "list"], [False, "form"]],
             "domain": [('vehicle_id', '=', self.id)],
-        # "views": [[self.env.ref("account.view_partner_bank_form_inherit_account").id, "form"]],
         }
 
     @api.depends('job_order_ids')

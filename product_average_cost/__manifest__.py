@@ -8,7 +8,7 @@
     'description': """Product Average Cost""",
     'sequence': 1,
     'category': 'Product Average Cost',
-    # 'application': True,
+    'application': True,
     'installable': True,
     'depends': ['product'],
     'data': [

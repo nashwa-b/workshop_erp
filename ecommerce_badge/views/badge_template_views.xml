@@ -23,14 +23,11 @@
             <t t-set="status_selection"
                t-value="dict(request.env['product.template']._fields['spare_type'].selection).get(product.spare_type)"/>
             <t t-if="product.spare_type">
-
                 <div class="o_ribbon" style="position: absolute; top: 6px; left: 6px; background: green; color: white; font-size: 12px; padding: 3px 8px; border-radius: 4px;
    z-index: 20;
    font-weight: bold;
    height: auto;
    width: auto;">
-
-
                     <t t-esc="status_selection"/>
                 </div>
             </t>

@@ -7,7 +7,6 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_ref']" position="after">
                     <field name="limit_id"/>
-<!--                    <field name="products" widget="many2many_tags"/>-->
             </xpath>
         </field>
     </record>
