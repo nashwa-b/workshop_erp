@@ -1,3 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-product_sale.access_product_brand,access_product_brand,product_sale.model_product_brand,base.group_user,1,1,1,1
-product_sale.access_res_partner,access_res_partner,product_sale.model_res_partner,base.group_user,1,1,1,1
+product_fields.access_product_brand,access_product_brand,product_fields.model_product_brand,base.group_user,1,1,1,1

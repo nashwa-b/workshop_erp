@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--    main menu-->
+        <menuitem id="employee_loan_management_menu_root" name="Employee Loan Management" />
+5
+        <!--    submenu-->
+        <menuitem id="employee_loan_menu_action" name="Employee Loan" parent="employee_loan_management_menu_root" sequence='1' action="employee_loan_management.employee_loan_action"/>
+    </data>
+</odoo>

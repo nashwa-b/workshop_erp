@@ -42,7 +42,7 @@
                                statusbar_visible="draft,confirmed,in_progress,done,invoiced"/>
                         <button name="action_confirm" string="Confirm" class="oe_highlight" type="object"
                                 invisible="status != 'draft'"/>
-<!--                        <button  name="action_sale_order" string="Sale Order" class="oe_highlight" type="object"/>-->
+                        <!--                        <button  name="action_sale_order" string="Sale Order" class="oe_highlight" type="object"/>-->
                         <button name="action_start" string="Start" class="oe_highlight" type="object"
                                 invisible="status != 'confirmed'"/>
                         <button name="action_done" string="Done" class="oe_highlight" type="object"
@@ -60,22 +60,33 @@
 
                     <sheet>
                         <widget name="web_ribbon" title="Paid" bg_color="text-bg-success" invisible="not invoice_paid"/>
-                        <div class="oe_button_box" name="button_box">
-                            <button name="action_view_sale_order" type="object" string="Sale Order" icon="fa-dollar"
-                                    class="oe_stat_button" invisible="not sale_order_id ">
-                                <div class="o_field_widget o_stat_info">
-                                    <span class="o_stat_value">
-                                        <field name="sale_order_id" widget="statinfo" nolabel="1" class="mr4"/>
-                                    </span>
-                                    <span class="o_stat_text">Sale Order</span>
-                                </div>
-                            </button>
+                                                <div class="oe_button_box" name="button_box">
 
-                            <button name="action_view_invoice" type="object" class="oe_stat_button"
-                                    icon="fa-pencil-square-o" invisible="invoice_count == 0">
-                                <field name="invoice_count" widget="statinfo" string="Invoices"/>
-                            </button>
-                        </div>
+                         <button name="action_view_vehicle"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-truck">
+                    <field name="vehicle_count" widget="statinfo" string="Vehicles"/>
+
+
+                </button>  </div>
+
+<!--                        <div class="oe_button_box" name="button_box">-->
+<!--                            <button name="action_view_sale_order" type="object" string="Sale Order" icon="fa-dollar"-->
+<!--                                    class="oe_stat_button" invisible="not sale_order_id ">-->
+<!--                                <div class="o_field_widget o_stat_info">-->
+<!--                                    <span class="o_stat_value">-->
+<!--                                        <field name="sale_order_id" widget="statinfo" nolabel="1" class="mr4"/>-->
+<!--                                    </span>-->
+<!--                                    <span class="o_stat_text">Sale Order</span>-->
+<!--                                </div>-->
+<!--                            </button>-->
+
+<!--                            <button name="action_view_invoice" type="object" class="oe_stat_button"-->
+<!--                                    icon="fa-pencil-square-o" invisible="invoice_count == 0">-->
+<!--                                <field name="invoice_count" widget="statinfo" string="Invoices"/>-->
+<!--                            </button>-->
+<!--                        </div>-->
                         <h1>
                             <field name="name" readonly="1"/>
                         </h1>
@@ -98,7 +109,7 @@
                                 <field name="warranty" readonly="status == 'cancel'"/>
                                 <field name="collected" readonly="status == 'cancel'"/>
                                 <field name="company_id" readonly="status == 'cancel'"/>
-<!--                                <field name="sale_order_id"/>-->
+                                <!--                                <field name="sale_order_id"/>-->
                             </group>
                         </group>
                         <notebook>

@@ -4,7 +4,7 @@ from odoo import fields, models, api
 
 
 class ProductBrand(models.Model):
-    """Extends product template to display total sale count"""
+    """Product brand model"""
     _name = 'product.brand'
 
     name = fields.Char(string='Product Brand')

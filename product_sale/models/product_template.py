@@ -17,7 +17,7 @@ class ProductTemplate(models.Model):
 
     @api.onchange('list_price')
     def _onchange_list_price(self):
-        """Change unit price of all sale orders lines in draft state on changing the price"""
+        """Change unit price of all sale order lines in draft state on changing the product's sale price"""
         sale_order_lines = self.env['sale.order.line'].search([('product_id', 'in', self.ids),('order_id.state','=', 'draft')])
         sale_order_lines.write({'price_unit': self.list_price})
 

@@ -7,11 +7,9 @@ class SaleOrderLine(models.Model):
     """Extends sale order line to add new field brand"""
     _inherit = 'sale.order.line'
 
-    product_brand_id = fields.Many2one(
-        'product.brand', string='Brand', related='product_id.product_brand',
-    )
+    product_brand_id = fields.Many2one('product.brand', string='Brand', related = 'product_id.product_brand_id')
     allowed_product_ids = fields.Many2many('product.product')
-
+    
     @api.onchange('product_id')
     def _onchange_product_id(self):
         """To filter products in sale order line according to boolean field in res partner"""

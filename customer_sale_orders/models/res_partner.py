@@ -14,14 +14,15 @@ class ResPartner(models.Model):
         """Compute sales order product count"""
         for record in self:
             sale_orders = record.sale_order_ids.filtered(lambda order: order.state not in ['draft'])
-            products = sale_orders.order_line.mapped('product_id')
+            # products = sale_orders.order_line.mapped('product_id')
+            products = sale_orders.mapped('order_line.product_id')
             record.product_count = len(products)
 
     def action_view_products(self):
-        """View Products in customer's sales order"""
+        """View product list view in customer's sales order"""
         self.ensure_one()
         sale_orders = self.sale_order_ids.filtered(lambda order: order.state not in ['draft'])
-        products = sale_orders.order_line.mapped('product_id')
+        products = sale_orders.mapped('order_line.product_id')
         return {
             "type": "ir.actions.act_window",
             "res_model": "product.product",

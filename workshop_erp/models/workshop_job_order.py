@@ -21,7 +21,6 @@ class WorkshopJobOrder(models.Model):
     mechanic_ids = fields.Many2many('hr.employee', string='Mechanics', tracking=True)
     job_type_id = fields.Many2one('job.type', string="Job Type")
     bay_id = fields.Many2one('workshop.bay', string='Workshop Bay', tracking = True)
-
     job_date = fields.Date(string='Job Date', default=datetime.today())
     customer_note = fields.Text(string='Customer Note')
     total = fields.Float(string='Total', compute='_compute_total',  store=True)
@@ -31,22 +30,18 @@ class WorkshopJobOrder(models.Model):
     repair_instructions = fields.Html('Repair Instructions')
     warranty = fields.Boolean(string="Under Warranty", default=False)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
-
     order_line_ids = fields.One2many(
         comodel_name='workshop.job.line',
         inverse_name='order_id',
         string='Job Order Lines')
     sale_order_id = fields.Many2one('sale.order', string='Sale Order')
-
     invoice_count = fields.Integer(string='Invoice Count', compute='_compute_invoice_count')
     invoice_paid = fields.Boolean(string='Invoice Paid', compute='_compute_invoice_paid')
-
     vehicle_image_ids = fields.One2many(
         string="Vehicle Images",
         comodel_name='product.image',
         inverse_name='job_order_id',
     )
-
     invoice_id = fields.Many2one('account.move', string='Invoice')
     hide = fields.Boolean(string="Hide", compute="_compute_hide", store=False)
     appointment_ids = fields.One2many("calendar.event", "job_order_id", string="Appointments")

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="employee_loan_view_list" model="ir.ui.view">
+            <field name="name">employee.loan.view.list</field>
+            <field name="model">employee.loan</field>
+            <field name="arch" type="xml">
+                <list string="Employee Loan">
+                    <field name="name"/>
+                    <field name="employee_id" string="Employee"/>
+                    <field name="loan_amount" string="Loan Amount"/>
+                    <field name="installment_count" string="Installment Count"/>
+                    <field name="total_payable" string="Total Payable"/>
+                    <field name="start_date" string="Date"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+         <record id="employee_loan_line_view_list" model="ir.ui.view">
+            <field name="name">employee.loan.line.view.list</field>
+            <field name="model">employee.loan.line</field>
+            <field name="arch" type="xml">
+                <list string="Employee Loan">
+                    <field name="loan_id" string="Loan"/>
+                    <field name="date" string="Date"/>
+                    <field name="amount" string="Amount"/>
+                    <field name="paid" string="Paid"/>
+
+                </list>
+            </field>
+        </record>
+
+
+        <record id="employee_loan_view_form" model="ir.ui.view">
+            <field name="name">employee.loan.view.form</field>
+            <field name="model">employee.loan</field>
+            <field name="arch" type="xml">
+                <form string="Employee Loan" editable="bottom">
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,approved,ongoing,paid"/>
+                         <button name="action_approve_loan" string="Approve Loan" class="oe_highlight" type="object"
+                                invisible="state != 'draft'"/>
+                         <button name="action_generate_installments" string="Generate Installments" class="oe_highlight" type="object"
+                                invisible="state != 'approved'"/>
+                        <button name="action_pay_installments" string="Pay" class="oe_highlight" type="object"
+                                invisible="state != 'ongoing'"/>
+                    </header>
+                    <sheet>
+                                                 <div class="oe_button_box" name="button_box">
+
+
+                         <button name="action_view_installments"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-id-card-o">
+                    <field name="loan_line_count" widget="statinfo" string="Installments"/>
+                </button>
+                                                 </div>
+<!--                         <div class="oe_button_box" name="button_box">-->
+<!--                            <button name="action_view_sale_order" type="object" string="Sale Order" icon="fa-dollar"-->
+<!--                                    class="oe_stat_button" invisible="not sale_order_id ">-->
+<!--                                <div class="o_field_widget o_stat_info">-->
+<!--                                    <span class="o_stat_value">-->
+<!--                                        <field name="sale_order_id" widget="statinfo" nolabel="1" class="mr4"/>-->
+<!--                                    </span>-->
+<!--                                    <span class="o_stat_text">Sale Order</span>-->
+<!--                                </div>-->
+<!--                            </button>-->
+<!--                         </div>-->
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="employee_id" string="Employee" readonly="state == 'approved'"/>
+                                <field name="loan_amount" string="Loan Amount" readonly="state == 'approved'"/>
+                            </group>
+                            <group>
+                                <field name="installment_count" string="Installment Count" readonly="state == 'approved'"/>
+                                <field name="start_date" string="Date"/>
+                                <field name="installment_amount" readonly="state == 'approved'"/>
+                                <field name="total_payable" readonly="state == 'approved'"/>
+                            </group>
+
+                            <notebook id="new_id">
+                                <page string="Employee Loan Lines">
+                                    <field name="loan_line_ids">
+                                        <list editable="bottom">
+                                            <field name="loan_id" string="Loan"/>
+                                            <field name="date" string="Date"/>
+                                            <field name="amount" string="Amount"/>
+                                            <field name="paid"/>
+
+                                        </list>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                        <div class="oe_chatter">
+                            <chatter/>
+                        </div>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="employee_loan_action" model="ir.actions.act_window">
+            <field name="name">Employee Loan</field>
+            <field name="res_model">employee.loan</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click here to create your first Employee Loan.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
+
+
