@@ -14,6 +14,7 @@
     'data': [
         "security/ir.model.access.csv",
         "data/sequence_data.xml",
+        "views/hr_employee_views.xml",
         "views/employee_loan_menus.xml",
         "views/employee_loan_views.xml"
       ]

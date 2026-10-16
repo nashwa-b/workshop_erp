@@ -8,11 +8,10 @@
     'description': """Sale Order Historys""",
     'sequence': -10,
     'category': 'sale order history',
-    'applictaion': True,
     'installable': True,
-    'depends': ['base','sale','product','purchase'],
+    'depends': ['base','sale'],
     'data': ['security/ir.model.access.csv',
-                'data/ir_cron_data.xml',
+            'data/ir_cron_data.xml',
              'views/sale_purchase_history_views.xml'
     ]
 }

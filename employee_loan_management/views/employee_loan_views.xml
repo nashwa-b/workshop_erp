@@ -82,6 +82,8 @@
                                 <field name="start_date" string="Date"/>
                                 <field name="installment_amount" readonly="state == 'approved'"/>
                                 <field name="total_payable" readonly="state == 'approved'"/>
+                                <field name="paid_amount" readonly="state == 'approved'"/>
+                                <field name="balance_amount" readonly="state == 'approved'"/>
                             </group>
 
                             <notebook id="new_id">

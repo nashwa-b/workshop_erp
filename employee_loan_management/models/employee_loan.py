@@ -20,7 +20,24 @@ class EmployeeLoan(models.Model):
     installment_amount = fields.Float(string='Installment Amount')
     total_payable = fields.Float(string='Total Payable', compute='_compute_total_payable')
     loan_line_count = fields.Integer(string='Loan Line Count', compute='_compute_loan_line_count', store=True)
+    paid_amount = fields.Float(string='Paid Amount', compute='_compute_paid_amount', store=True)
+    balance_amount = fields.Float(string='Balance Amount', compute= '_compute_balance_amount', store=True)
+
     # total_payable = fields.Float(string='Total Payable')
+
+    def _compute_balance_amount(self):
+        for record in self:
+            record.balance_amount = record.total_payable - record.paid_amount
+
+    @api.depends('loan_line_ids')
+    def _compute_paid_amount(self):
+        for record in self:
+            for line in record.loan_line_ids:
+                if line.paid:
+                    record.paid_amount += line.amount
+
+
+
 
     @api.depends('loan_line_ids')
     def _compute_loan_line_count(self):
@@ -59,7 +76,18 @@ class EmployeeLoan(models.Model):
     def action_pay_installments(self):
         for record in self:
             for line in record.loan_line_ids:
-                line.unlink()
+                print('pp',line.paid)
+                if line.paid == False:
+                    print('ppp')
+                    line.paid = True
+
+                    break
+
+                else:
+                    self.state = 'paid'
+            # break
+
+        # print(line[0])
         # self.state = 'paid'
 
     @api.depends('loan_amount')
