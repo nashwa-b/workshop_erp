@@ -57,11 +57,12 @@
                                             <t t-esc="job_order.total"/>
                                         </td>
                                         <td>
-<t t-esc="dict(env['workshop.job.order'].fields_get(['status'])['status']['selection']).get(job_order.status)"/>
+                                            <t t-esc="dict(env['workshop.job.order'].fields_get(['status'])['status']['selection']).get(job_order.status)"/>
                                         </td>
                                         <td>
-<!--                                            <button type="button" class="btn fa fa-trash-o remove_list text-danger"></button>-->
-                                             <a t-att-href="'/job_order_remove/%s'%job_order.id" class="btn fa fa-trash-o remove_list text-danger" t-if="job_order.status == 'draft'"></a>
+                                            <a t-att-href="'/job_order_remove/%s'%job_order.id"
+                                               class="btn fa fa-trash-o remove_list text-danger"
+                                               t-if="job_order.status == 'draft'"></a>
                                         </td>
                                     </tr>
                                 </t>

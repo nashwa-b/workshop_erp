@@ -38,8 +38,8 @@ class SaleOrder(models.Model):
     def _create_so_po_history(self):
         """Create SO PO history of previous day"""
         print("so", self)
-        yesterday = datetime.today()
-        # yesterday = datetime.now() - timedelta(days=1)
+        # yesterday = datetime.today()
+        yesterday = datetime.now() - timedelta(days=1)
         print(yesterday)
         print(yesterday.strftime('%y-%m-%d'))
         day_start = datetime.combine(yesterday, time.min)
@@ -70,7 +70,7 @@ class SaleOrder(models.Model):
                 else:
                      self.env['sale.purchase.history'].create({
                         'sale_id': rec.id,
-                        'date': yesterday,
+                        'date': self.date_order,
                         'vendor_ids': [fields.Command.set(vendor.ids)],
                         'partner_id': rec.partner_id.id,
                         'purchase_ids': [fields.Command.set(purchases.ids)],

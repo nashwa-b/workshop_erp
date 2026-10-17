@@ -22,7 +22,6 @@ class ImportLinesWizard(models.TransientModel):
         )
         ws = wb.active
 
-
         for record in ws.iter_rows(min_row=2, max_row=None, min_col=None,
                                    max_col=None, values_only=True):
             active_id = self.env.context.get('active_id')
@@ -52,5 +51,5 @@ class ImportLinesWizard(models.TransientModel):
                 'product_uom_qty': record[1],
                 'product_uom_id': unit.id,
             })
-
+            
         return new

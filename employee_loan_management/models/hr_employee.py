@@ -3,8 +3,8 @@
 from odoo import fields, models
 
 
-class ResUsers(models.Model):
-    """Extend res user to create transfer request"""
+class HrEmployee(models.Model):
+    """Extend hr employee to add loan not allowed field"""
     _inherit = 'hr.employee'
 
-    loan_not_allowed = fields.Boolean(string="Not Allowed")
+    loan_not_allowed = fields.Boolean(string="Loan Not Allowed")

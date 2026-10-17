@@ -7,7 +7,8 @@ class PurchaseOrder(models.Model):
     """Extends purchase to add limit to the total purchase amount"""
     _inherit = 'purchase.order'
 
-    limit_id = fields.Many2one(string="Limit", comodel_name='approval.block',compute="_compute_limit",store=True,inverse="_inverse_total")
+    limit_id = fields.Many2one(string="Limit", comodel_name='approval.block', compute="_compute_limit", store=True,
+                               inverse="_inverse_total")
 
     @api.depends('amount_total')
     def _compute_limit(self):

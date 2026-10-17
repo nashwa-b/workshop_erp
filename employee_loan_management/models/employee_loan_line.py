@@ -13,5 +13,3 @@ class EmployeeLoanLine(models.Model):
     amount = fields.Float(string='Amount')
     paid = fields.Boolean(string='Paid')
 
-
-
