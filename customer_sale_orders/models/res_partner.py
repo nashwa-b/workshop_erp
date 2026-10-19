@@ -28,7 +28,8 @@ class ResPartner(models.Model):
             "res_model": "product.product",
             "name": "Products",
             "views": [[self.env.ref("product.product_product_tree_view").id, "list"]],
-            "domain":[('id', 'in', products.ids)]
+            "domain":[('id', 'in', products.ids)],
+            "context":{'create': False}
         }
 
 

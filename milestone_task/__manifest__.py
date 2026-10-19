@@ -8,10 +8,10 @@
     'description': """Milestone Task""",
     'sequence': 1,
     'category': 'Milestone Task',
-    'application': True,
     'installable': True,
     'depends': ['project','sale'],
     'data': [
-        "views/sale_order_views.xml"
+        "views/sale_order_views.xml",
+        "views/sale_order_line_views.xml"
     ]
 }
