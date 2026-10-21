@@ -6,11 +6,10 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <field name="project_id" invisible = "1"/>
                 <button name="action_create_project_sale"
                         string="Create Project"
                         type="object"
-                        class="btn-primary" invisible="project_id" />
+                        class="btn-primary" invisible="project_id"/>
                  <button name="action_update_project"
                         string="Update Project"
                         type="object"

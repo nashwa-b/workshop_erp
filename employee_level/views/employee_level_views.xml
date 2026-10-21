@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="employee_level_view_list" model="ir.ui.view">
+            <field name="name">employee.level.view.list</field>
+            <field name="model">employee.level</field>
+            <field name="arch" type="xml">
+                <list string="Employee Level">
+                    <field name="level"/>
+                    <field name="salary"/>
+                    <field name="is_max_level"/>
+                </list>
+            </field>
+        </record>
+
+      <record id="employee_level_action" model="ir.actions.act_window">
+            <field name="name">Employee Level</field>
+            <field name="res_model">employee.level</field>
+            <field name="view_mode">list</field>
+        </record>
+           <menuitem id="employee_level_menu" name="Employee Level" parent="hr.menu_config_employee" sequence="11" action="employee_level.employee_level_action"/>
+</odoo>
+

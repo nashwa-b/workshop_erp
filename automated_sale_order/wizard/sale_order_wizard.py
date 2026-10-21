@@ -13,12 +13,12 @@ class SaleOrderWizard(models.TransientModel):
     price_unit = fields.Float(string="Unit Price")
     product_id = fields.Many2one('product.product', string="Product")
 
-
     def action_create_sale_order(self):
         """Sale Order Creation"""
         self.ensure_one()
-        sale_order = self.env['sale.order'].search([('state', '=', 'draft'),('partner_id','=', self.customer_id)],limit=1)
-        print('j',sale_order)
+        sale_order = self.env['sale.order'].search([('state', '=', 'draft'), ('partner_id', '=', self.customer_id)],
+                                                   limit=1)
+        print('j', sale_order)
         if not sale_order:
             sale_order = self.env['sale.order'].create({
                 'partner_id': self.customer_id.id,
@@ -54,7 +54,3 @@ class SaleOrderWizard(models.TransientModel):
             "views": [[False, "form"]],
             'target': 'current'
         }
-
-
-
-

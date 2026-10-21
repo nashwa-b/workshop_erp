@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="example_view_list" model="ir.ui.view">
+            <field name="name">example.view.list</field>
+            <field name="model">example</field>
+            <field name="arch" type="xml">
+                <list string="Example">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="tag_ids"/>
+                </list>
+            </field>
+        </record>
+
+       <record id="example_view_form" model="ir.ui.view">
+            <field name="name">example.view.form</field>
+            <field name="model">example</field>
+            <field name="arch" type="xml">
+                <form string="Example">
+                    <sheet>
+                        <group>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="tag_ids" widget="many2many_tags"/>
+                        </group>
+                         <notebook>
+                            <page string="Example Lines">
+                                <field name="line_ids">
+                                    <list editable="bottom">
+                                        <field name="product_id" string="Product"/>
+                                        <field name="qty"/>
+                                        <field name="price"/>
+                                        <field name="subtotal"/>
+                                    </list>
+                                </field>
+                            </page>
+                         </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+</odoo>
