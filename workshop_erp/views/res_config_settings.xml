@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.workshop_erp</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='iface_splitbill']" position='after'>
+                <div class = "row">
+                    <label string="Enable Category-Wise Discount" for="category_wise_discount" class="o_form_label"/>
+<!--               <block title="Workshop">-->
+<!--                   <setting string="Sale Order Status for Filter" help="Select a status to filter (Stored via config_parameter)">-->
+                       <field name="category_wise_discount"/>
+<!--                   </setting>-->
+<!--               </block>-->
+                </div>
+           </xpath>
+             </field>
+    </record>
+</odoo>
+
+<!--id="iface_splitbill"-->

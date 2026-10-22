@@ -10,7 +10,8 @@
     'category': 'Workshop',
     'application': True,
     'installable': True,
-    'depends': ['base', 'hr','web','sale','account','product','website_sale','mail','contacts','calendar', 'website'],
+    'depends': ['base', 'hr', 'web', 'sale', 'account', 'product', 'website_sale', 'mail', 'contacts', 'calendar',
+                'website','point_of_sale'],
     'data': [
         "security/workshop_erp_groups.xml",
         "security/workshop_job_order_security.xml",
@@ -40,17 +41,27 @@
         "views/job_order_view_template.xml",
         "views/snippets/vehicle_template.xml",
         "views/vehicle_view_template.xml",
+        "views/res_config_settings.xml",
         "views/website_menus.xml",
         "views/workshop_erp_menus.xml",
 
     ],
-    'assets':{
+    'assets': {
         'web.assets_backend': [
-                    '/workshop_erp/static/src/js/report_xlsx.js'],
+            '/workshop_erp/static/src/js/report_xlsx.js'],
 
-        'web.assets_frontend': ['/workshop_erp/static/src/js/job_lines.js',
+        'web.assets_frontend': [
+            '/workshop_erp/static/src/js/job_lines.js',
                                 '/workshop_erp/static/src/js/top_vehicles.js',
-                               '/workshop_erp/static/src/xml/top_vehicles_template.xml'],
+                                '/workshop_erp/static/src/xml/top_vehicles_template.xml'
+                                ],
+
+        'point_of_sale._assets_pos': [
+            # '/workshop_erp/static/src/js/pos_spare_type.js',
+
+            '/workshop_erp/static/src/xml/pos_spare_type.xml',
+            '/workshop_erp/static/src/css/pos_spare_type.css'
+        ],
 
     },
 
