@@ -11,6 +11,7 @@ from .import job_type
 from .import calendar_event
 from .import pos_spare_type
 from .import res_config_settings
+from .import pos_category
 
 
 

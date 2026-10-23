@@ -42,6 +42,7 @@
         "views/snippets/vehicle_template.xml",
         "views/vehicle_view_template.xml",
         "views/res_config_settings.xml",
+        "views/pos_category_views.xml",
         "views/website_menus.xml",
         "views/workshop_erp_menus.xml",
 
@@ -56,9 +57,12 @@
                                 '/workshop_erp/static/src/xml/top_vehicles_template.xml'
                                 ],
 
-        'point_of_sale._assets_pos': [
-            # '/workshop_erp/static/src/js/pos_spare_type.js',
+        'web.assets_unit_tests': [
+            '/workshop_erp/static/tests/pos_category.data.js',
+        ],
 
+        'point_of_sale._assets_pos': [
+            '/workshop_erp/static/src/js/discount_validation.js',
             '/workshop_erp/static/src/xml/pos_spare_type.xml',
             '/workshop_erp/static/src/css/pos_spare_type.css'
         ],
