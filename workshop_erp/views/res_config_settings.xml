@@ -8,7 +8,15 @@
             <xpath expr="//block[@id='restaurant_section']" position='inside'>
                 <div class = "row">
                     <setting help="Restrict discount for product category" id="category_wise_discount">
-                    <field name="category_wise_discount" string="Enable Category-Wise Discount"/>
+                    <field name="enable_category_wise_discount" string="Enable Category-Wise Discount"/>
+                         <field name="max_discount_ids">
+                                    <list editable="bottom">
+                                        <field name="names" string="Category"/>
+                                        <field name="max_discount"/>
+<!--                                        <field name="price_unit"/>-->
+<!--                                        <field name="sub_total"/>-->
+                                    </list>
+                                </field>
                 </setting>
                 </div>
            </xpath>

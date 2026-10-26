@@ -5,7 +5,7 @@
        owl="1">
         <xpath expr="//div[hasclass('product-img')]" position="before">
                 <div t-if="props.product.spare_type" class="pos-ribbon">
-                <t t-esc="props.product.spare_type"/>
+                <t t-esc="props.product.spare_type_label"/>
             </div>
         </xpath>
     </t>
@@ -15,7 +15,7 @@
        t-inherit-mode="extension">
         <xpath expr="//t[@t-esc='vals.name']" position="after">
            <span t-if="line.getProduct().spare_type"> |
-                               <t t-esc="line.getProduct().spare_type"/>
+                               <t t-esc="line.getProduct().spare_type_label"/>
            </span>
        </xpath>
    </t>
