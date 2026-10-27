@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="material_request_view_list" model="ir.ui.view">
+            <field name="name">material.request.view.list</field>
+            <field name="model">material.request</field>
+            <field name="arch" type="xml">
+                <list string="Material Request">
+                    <field name="name"/>
+
+                </list>
+            </field>
+        </record>
+
+        <record id="material_request_view_form" model="ir.ui.view">
+            <field name="name">material.request.view.form</field>
+            <field name="model">material.request</field>
+            <field name="arch" type="xml">
+                <form string="Material request" editable="bottom">
+
+                    <sheet>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+          <record id="material_request_action" model="ir.actions.act_window">
+            <field name="name">Material Request</field>
+            <field name="res_model">material.request</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click here to create your first Material Request.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

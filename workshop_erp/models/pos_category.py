@@ -5,12 +5,10 @@ from odoo.exceptions import ValidationError
 
 
 class PosCategory(models.Model):
-    """Extends partner model by adding smart buttons for vehicles and job orders associated with that partner"""
+    """Extends pos.category model to add new field to restrict max discount allowed to that category"""
     _inherit = 'pos.category'
 
     max_discount = fields.Float(string="Discount(%)", default=0)
-    con_id = fields.Many2one('pos.config','id')
-    names = fields.Many2one('pos.category','name')
 
     @api.constrains('max_discount')
     def _check_discount(self):
@@ -22,16 +20,7 @@ class PosCategory(models.Model):
     @api.model
     def _load_pos_data_fields(self, config):
         fields = super()._load_pos_data_fields(config)
-        # if self.max_discount not in fields:
         fields += ['max_discount']
-
         print(fields)
         return fields
-
-    # @api.model
-    # def _load_pos_data_fields(self, config):
-    #     fields = super()._load_pos_data_fields(config)
-    #     fields += ['event_ticket_id', 'event_registration_ids']
-    #     return fields
-
 

@@ -62,9 +62,13 @@
         ],
 
         'point_of_sale._assets_pos': [
-            '/workshop_erp/static/src/js/discount_validation.js',
+            '/workshop_erp/static/src/js/order_display.js',
+            '/workshop_erp/static/src/js/order_line.js',
+            # '/workshop_erp/static/src/js/pos_order_line.js',
+            # '/workshop_erp/static/src/js/discount_validation.js',
             '/workshop_erp/static/src/xml/pos_spare_type.xml',
-            '/workshop_erp/static/src/css/pos_spare_type.css'
+            '/workshop_erp/static/src/css/pos_spare_type.css',
+            '/workshop_erp/static/src/xml/pos_order_line_views.xml'
         ],
 
     },
