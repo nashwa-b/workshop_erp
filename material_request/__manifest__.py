@@ -13,7 +13,8 @@
     'depends': ['base','purchase'],
     'data': [
         "security/ir.model.access.csv",
+        "security/purchase_groups.xml",
+        "data/sequence_data.xml",
         "views/material_request_views.xml",
-        "views/purchase_order_views.xml"
     ]
 }

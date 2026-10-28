@@ -19,6 +19,9 @@
             configuration
         </field>
 
+<!--        sales_team.res_groups_privilege_sales-->
+<!--        purchase.res_groups_privilege_purchase-->
+
     </record>
 
     <record id="group_workshop_job_order_manager" model="res.groups">

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-
-        <menuitem id="approval_block_menu" name="Approval Blocks" parent="purchase.menu_purchase_form_action" sequence="11" action="material_request.material_request_action"/>
-</odoo>

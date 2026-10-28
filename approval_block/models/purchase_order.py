@@ -19,3 +19,5 @@ class PurchaseOrder(models.Model):
     def _inverse_total(self):
         """make the limit field editable"""
         pass
+
+
