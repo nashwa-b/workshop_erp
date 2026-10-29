@@ -1,107 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="material_request_view_list" model="ir.ui.view">
-            <field name="name">material.request.view.list</field>
-            <field name="model">material.request</field>
-            <field name="arch" type="xml">
-                <list string="Material Request" default_order="name desc">
-                    <field name="name"/>
-                    <field name="date"/>
-                    <field name="requested_by"/>
-                    <field name="state" widget="badge"/>
-                </list>
-            </field>
-        </record>
-
-        <record id="material_request_view_form" model="ir.ui.view">
-            <field name="name">material.request.view.form</field>
-            <field name="model">material.request</field>
-            <field name="arch" type="xml">
-                <form string="Material request" editable="bottom">
-                    <header>
-                        <field name="state" widget="statusbar"
-                               statusbar_visible="draft,manager_approval,head_approval,request_order"/>
-                        <button name="action_confirm" string="Confirm" class="oe_highlight" type="object" invisible="state != 'draft'"/>
-                        <button name = "action_manager_approval" string="Approve" class="oe_highlight" type="object"
-                                invisible="state != 'manager_approval'" groups="material_request.group_requisition_department_manager"/>
-                        <button name = "action_head_approval" string="Approve" class="oe_highlight" type="object"
-                                invisible="state != 'head_approval'"  groups = "material_request.group_requisition_head"/>
-                        <button name = "action_reject" string="Reject" class="oe_highlight" type="object"
-                                invisible="state != 'head_approval'" groups = "material_request.group_requisition_head"/>
-                    </header>
-                    <sheet>
-                        <div class="oe_button_box" name="button_box">
-                            <button name="action_view_purchase"
-                                    type="object"
-                                    class="oe_stat_button"
-                                    icon="fa-credit-card" invisible="purchase_count == 0">
-
-                                <field name="purchase_count" widget="statinfo" string="Purchase Orders"/>
-                            </button>
-<!--                        </div>-->
-<!--                        <div class="oe_button_box" name="button_box">-->
-                            <button name="action_view_internal_transfer"
-                                    type="object"
-                                    class="oe_stat_button"
-                                    icon="fa-credit-card" invisible="transfer_count == 0">
-
-                                <field name="transfer_count" widget="statinfo" string="Internal Transfers"/>
-                            </button>
-                        </div>
-                        <h1>
-                            <field name="name" readonly="1"/>
-                        </h1>
+    <record id="material_request_view_list" model="ir.ui.view">
+        <field name="name">material.request.view.list</field>
+        <field name="model">material.request</field>
+        <field name="arch" type="xml">
+            <list string="Material Request" default_order="name desc">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="requested_by"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="purchase_order_view_list_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.view.list.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="arch" type="xml">
+            <list string="Purchase Order">
+                <field name="name" string="Reference"/>
+                <field name="company_id"/>
+                <field name="partner_id"/>
+                <field name="date_order"/>
+                <field name="amount_total"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="material_request_view_form" model="ir.ui.view">
+        <field name="name">material.request.view.form</field>
+        <field name="model">material.request</field>
+        <field name="arch" type="xml">
+            <form string="Material request" editable="bottom">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,manager_approval,head_approval,request_order"/>
+                    <button name="action_confirm" string="Confirm" class="oe_highlight" type="object"
+                            invisible="state != 'draft'"/>
+                    <button name="action_manager_approval" string="Approve" class="oe_highlight" type="object"
+                            invisible="state != 'manager_approval'"
+                            groups="material_request.group_requisition_department_manager"/>
+                    <button name="action_head_approval" string="Approve" class="oe_highlight" type="object"
+                            invisible="state != 'head_approval'" groups="material_request.group_requisition_head"/>
+                    <button name="action_reject" string="Reject" class="oe_highlight" type="object"
+                            invisible="state != 'head_approval'" groups="material_request.group_requisition_head"/>
+                    <button name="action_reset" string="Reset" class="oe_highlight" type="object"
+                            invisible="state != 'reject'"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_purchase"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-credit-card" invisible="purchase_count == 0">
+                            <field name="purchase_count" widget="statinfo" string="Purchase Orders"/>
+                        </button>
+                        <button name="action_view_internal_transfer"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-credit-card" invisible="transfer_count == 0">
+                            <field name="transfer_count" widget="statinfo" string="Internal Transfers"/>
+                        </button>
+                    </div>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+                    <group>
                         <group>
-                            <group>
-                                <field name="requested_by"/>
-
-
-                            </group>
-                            <group>
-                                <field name="date"/>
-
-                            </group>
-                            <notebook id="line">
-                                <page string="Request Lines">
-                                    <field name="request_line_ids">
+                            <field name="requested_by"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                        <notebook id="line">
+                            <page string="Request Lines">
+                                <field name="request_line_ids">
                                     <list editable="bottom">
-                                        <field name="product_id" string="Product"/>
+                                        <field name="product_id" string="Product" domain="[('type', '==', 'consu')]"/>
+                                        <field name="vendor_id" string="Vendor"/>
                                         <field name="quantity" string="Quantity"/>
-                                        <field name="uom_id" string="Unit"/>
                                         <field name="price_unit" string="Price"/>
+                                        <field name="uom_id" string="Unit"/>
                                         <field name="sub_total" string="Sub Total"/>
                                         <field name="get_by"/>
-                                        <field name="picking_type_id" string="Operation Type" column_invisible="context.get('get_by') == 'internal_transfer'"/>
-                                        <field name="source_location_id" string ="Source Location" column_invisible="context.get('get_by') != 'internal_transfer'"/>
-                                        <field name="destination_location_id" string ="Destination Location" column_invisible="context.get('get_by') != 'internal_transfer'"/>
+                                        <field name="picking_type_id" invisible="get_by !='internal_transfer'"/>
+                                        <field name="source_location_id" invisible="get_by !='internal_transfer'"/>
+                                        <field name="destination_location_id" invisible="get_by !='internal_transfer'"/>
                                     </list>
-                                    </field>
-                                </page>
-                            </notebook>
-                        </group>
-                        <div class="oe_chatter">
-                            <chatter/>
-                        </div>
-                    </sheet>
-                </form>
-            </field>
-        </record>
 
-        <record id="material_request_action" model="ir.actions.act_window">
-            <field name="name">Material Request</field>
-            <field name="res_model">material.request</field>
-            <field name="view_mode">list,form</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Click here to create your first Material Request.
-                </p>
-            </field>
-        </record>
+                                </field>
+                            </page>
+                        </notebook>
+                    </group>
+                    <div class="oe_chatter">
+                        <chatter/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <menuitem id="material_request_menu" name="Material Requests" parent="purchase.menu_purchase_form_action"
-                  sequence="11" action="material_request.material_request_action" groups="material_request.group_requisition_user"/>
+    <record id="material_request_action" model="ir.actions.act_window">
+        <field name="name">Material Request</field>
+        <field name="res_model">material.request</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click here to create your first Material Request.
+            </p>
+        </field>
+    </record>
 
-
-    </data>
+    <menuitem id="material_request_menu" name="Material Requests" parent="purchase.menu_purchase_form_action"
+              sequence="11" action="material_request.material_request_action"/>
 </odoo>
