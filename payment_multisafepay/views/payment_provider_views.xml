@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="payment_provider_form_multisafepay" model="ir.ui.view">
+        <field name="name">payment.provider.form.inherit.multisafepay</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='provider_credentials']" position="inside">
+                <field
+                    name="multisafepay_api_key"
+                    password="True"
+                    invisible="code != 'multisafepay'"
+                    widget="password"
+                />
+            </xpath>
+            <xpath expr="//field[@name='allow_tokenization']" position="attributes">
+                <attribute name="readonly">code == 'multisafepay'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='capture_manually']" position="attributes">
+                <attribute name="readonly">code == 'multisafepay'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='allow_express_checkout']" position="attributes">
+                <attribute name="readonly">code == 'multisafepay'</attribute>
+            </xpath>
+            <xpath expr="//page[@name='configuration']" position="inside">
+                <group
+                    name="multisafepay_advanced_configuration"
+                    string="Advanced"
+                    invisible="code != 'multisafepay'"
+                >
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

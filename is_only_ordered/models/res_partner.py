@@ -4,7 +4,7 @@ from odoo import fields, models
 
 
 class ResPartner(models.Model):
-    """Extends partner model by adding smart buttons for vehicles and job orders associated with that partner"""
+    """Extends partner model"""
     _inherit = 'res.partner'
 
     is_only_ordered = fields.Boolean(string = 'Is Only Ordered')

@@ -4,7 +4,7 @@ from odoo import fields, models, api
 
 
 class SaleOrderLine(models.Model):
-    """Extends sale order line to add new field brand"""
+    """Extends sale order line"""
     _inherit = 'sale.order.line'
 
     allowed_products_ids = fields.Many2many('product.product')
@@ -14,7 +14,7 @@ class SaleOrderLine(models.Model):
         """To filter products in sale order line according to boolean field in res partner"""
         print(self)
         if self.order_id.partner_id.is_only_ordered:
-            products = self.env['product.product'].search([('invoice_policy', '=', 'order')])
+            products = self.env['product.product'].search([('invoice_policy', '=', 'order'),('type','=','consu')])
             self.allowed_products_ids = products
         else:
             products = self.env['product.product'].search([])
