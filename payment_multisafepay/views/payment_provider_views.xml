@@ -10,7 +10,7 @@
                     name="multisafepay_api_key"
                     password="True"
                     invisible="code != 'multisafepay'"
-                    widget="password"
+                    widget="password" string = "API"
                 />
             </xpath>
             <xpath expr="//field[@name='allow_tokenization']" position="attributes">

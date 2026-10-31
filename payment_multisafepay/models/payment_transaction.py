@@ -11,6 +11,8 @@ from odoo.addons.payment import utils as payment_utils
 from odoo.addons.payment.logging import get_payment_logger
 from odoo.addons.payment_paypal.const import PAYMENT_STATUS_MAPPING
 from odoo.addons.payment_paypal import utils as paypal_utils
+from odoo.addons.payment import const
+
 
 
 # from odoo.addons.payment_mollie import const
@@ -22,6 +24,7 @@ _logger = get_payment_logger(__name__)
 
 class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
+
 
     def _get_specific_processing_values(self, processing_values):
         """Override to return specific processing values for MultiSafepay.
@@ -88,61 +91,6 @@ class PaymentTransaction(models.Model):
 
         return tx
 
-    def _paypal_prepare_order_payload(self):
-        """ Prepare the payload for the Paypal create order request.
-
-        :return: The requested payload to create a Paypal order.
-        :rtype: dict
-        """
-        partner_first_name, partner_last_name = payment_utils.split_partner_name(self.partner_name)
-        if self.partner_id.is_public:
-            invoice_address_vals = {'address': {'country_code': self.company_id.country_code}}
-            shipping_address_vals = {}
-        else:
-            invoice_address_vals = paypal_utils.format_partner_address(self.partner_id)
-            shipping_address_vals = paypal_utils.format_shipping_address(self)
-        shipping_preference = 'SET_PROVIDED_ADDRESS' if shipping_address_vals else 'NO_SHIPPING'
-
-        # See https://developer.paypal.com/docs/api/orders/v2/#orders_create!ct=application/json
-        payload = {
-            'intent': 'CAPTURE',
-            'purchase_units': [
-                {
-                    'reference_id': self.reference,
-                    'description': f'{self.company_id.name}: {self.reference}',
-                    'amount': {
-                        'currency_code': self.currency_id.name,
-                        'value': self.amount,
-                    },
-                    'payee': {
-                        'display_data': {
-                            'brand_name': self.provider_id.company_id.name,
-                        },
-                        'email_address': self.provider_id.paypal_email_account,
-                    },
-                    **shipping_address_vals,
-                },
-            ],
-            'payment_source': {
-                'paypal': {
-                    'experience_context': {
-                        'shipping_preference': shipping_preference,
-                    },
-                    'name': {
-                        'given_name': partner_first_name,
-                        'surname': partner_last_name,
-                    },
-                    **invoice_address_vals,
-                },
-            },
-        }
-        # PayPal does not accept None set to fields and to avoid users getting errors when email
-        # is not set on company we will add it conditionally since its not a required field.
-        if company_email := self.provider_id.company_id.email:
-            payload['purchase_units'][0]['payee']['display_data']['business_email'] = company_email
-
-        return payload
-
     @api.model
     def _extract_reference(self, provider_code, payment_data):
         """Override of `payment` to extract the reference from the payment data."""
@@ -164,43 +112,121 @@ class PaymentTransaction(models.Model):
         }
 
     def _apply_updates(self, payment_data):
-        """Override of `payment` to update the transaction based on the payment data."""
-        if self.provider_code != 'paypal':
-            return super()._apply_updates(payment_data)
+        """Override of `payment` to update the transaction based on MultiSafepay data.
 
-        if not payment_data:
-            self._set_canceled(state_message=_("The customer left the payment page."))
+        :param payment_data: The payment data recorded by the MultiSafepay controllers
+        :return: None
+        """
+        self.ensure_one()
+
+        if self.provider_code != "multisafepay":
+            super()._apply_updates(payment_data)
             return
 
-        # Update the provider reference.
-        txn_id = payment_data.get('id')
-        txn_type = payment_data.get('txn_type')
-        if not all((txn_id, txn_type)):
-            self._set_error(_(
-                "Missing value for txn_id (%(txn_id)s) or txn_type (%(txn_type)s).",
-                txn_id=txn_id, txn_type=txn_type
-            ))
-            return
-        self.provider_reference = txn_id
-        self.paypal_type = txn_type
+        transaction_id = payment_data.get("reference")
+        if transaction_id and not self.provider_reference:
+            self.provider_reference = transaction_id
+            _logger.debug("Updated provider_reference to: %s", transaction_id)
 
-        # Force PayPal as the payment method if it exists.
-        self.payment_method_id = self.env['payment.method'].search(
-            [('code', '=', 'paypal')], limit=1
-        ) or self.payment_method_id
+        status = payment_data.get("status")
+        # If it's already a native Odoo state, return it directly
+        odoo_native_states = [
+            "draft",
+            "pending",
+            "authorized",
+            "done",
+            "cancel",
+            "error",
+        ]
 
-        # Update the payment state.
-        payment_status = payment_data.get('status')
-
-        if payment_status in PAYMENT_STATUS_MAPPING['pending']:
-            self._set_pending(state_message=payment_data.get('pending_reason'))
-        elif payment_status in PAYMENT_STATUS_MAPPING['done']:
-            self._set_done()
-        elif payment_status in PAYMENT_STATUS_MAPPING['cancel']:
-            self._set_canceled()
+        if status in odoo_native_states:
+            _logger.debug("Status '%s' is native Odoo state - using as-is", status)
+            odoo_state = status
         else:
-            _logger.info(
-                "Received data with invalid payment status (%s) for transaction %s.",
-                payment_status, self.reference
+            odoo_state = self._get_multisafepay_status_to_odoo_state(status)
+
+        if odoo_state == "draft":
+            _logger.debug(
+                "MSP status '%s' → keeping transaction in draft (ref=%s)",
+                status,
+                self.reference,
             )
-            self._set_error(_("Received data with invalid payment status: %s", payment_status))
+
+        elif odoo_state == "done":
+            _logger.debug(
+                "MSP status '%s' → marking transaction done (ref=%s)",
+                status,
+                self.reference,
+            )
+            # Fix: Odoo 19 compatibility - _set_done() no longer accepts message parameter
+            self._set_done()
+
+        elif odoo_state == "cancel":
+            _logger.debug(
+                "MSP status '%s' → canceling transaction (ref=%s)",
+                status,
+                self.reference,
+            )
+            # Fix: Odoo 19 compatibility - _set_canceled() no longer accepts message parameter
+            self._set_canceled()
+
+        elif odoo_state == "error":
+            _logger.debug(
+                "MSP status '%s' → setting transaction to error (ref=%s)",
+                status,
+                self.reference,
+            )
+
+            self._set_error("Transaction was declined in MultiSafepay.")
+
+        elif odoo_state == "pending":
+            _logger.debug(
+                "MSP status '%s' → setting transaction to pending (ref=%s)",
+                status,
+                self.reference,
+            )
+            # Fix: Odoo 19 compatibility - _set_pending() no longer accepts message parameter
+            self._set_pending()
+
+        elif odoo_state == "partial_refunded":
+            _logger.debug(
+                "MSP status '%s' → payment partially refunded (ref=%s)",
+                status,
+                self.reference,
+            )
+            # Fix: Odoo 19 compatibility - _set_done() no longer accepts message parameter
+            self._set_done()
+
+        _logger.info("Transaction %s updated to state '%s'", self.reference, odoo_state)
+
+        # def _apply_updates(self, payment_data):
+        #     """Override of `payment` to update the transaction based on the payment data."""
+        #     if self.provider_code != 'mollie':
+        #         return super()._apply_updates(payment_data)
+        #
+        #     # Update the payment method.
+        #     payment_method_type = payment_data.get('method', '')
+        #     if payment_method_type == 'creditcard':
+        #         payment_method_type = payment_data.get('details', {}).get('cardLabel', '').lower()
+        #     payment_method = self.env['payment.method']._get_from_code(
+        #         payment_method_type, mapping=const.PAYMENT_METHODS_MAPPING
+        #     )
+        #     self.payment_method_id = payment_method or self.payment_method_id
+        #
+        #     # Update the payment state.
+        #     payment_status = payment_data.get('status')
+        #     if payment_status in ('pending', 'open'):
+        #         self._set_pending()
+        #     elif payment_status == 'authorized':
+        #         self._set_authorized()
+        #     elif payment_status == 'paid':
+        #         self._set_done()
+        #     elif payment_status in ['expired', 'canceled', 'failed']:
+        #         self._set_canceled(_("Cancelled payment with status: %s", payment_status))
+        #     else:
+        #         _logger.info(
+        #             "Received data with invalid payment status (%s) for transaction %s.",
+        #             payment_status, self.reference
+        #         )
+        #         self._set_error(_("Received data with invalid payment status: %s.", payment_status))
+        #

@@ -11,7 +11,6 @@
             file="payment_multisafepay/static/description/icon.png"
         />
         <field name="module_id" ref="base.module_payment_multisafepay" />
-
         <field name="support_refund">partial</field>
         <field name="allow_tokenization" eval="False" />
         <field name="capture_manually" eval="False" />
@@ -25,7 +24,7 @@
                          ref('payment.payment_method_naps'),
                          ref('payment.payment_method_omannet'),
                          ref('payment.payment_method_benefit'),
-                   ])]"
+                         ref('payment.payment_method_ach_direct_debit')])]"
         />
     </record>
 </odoo>
