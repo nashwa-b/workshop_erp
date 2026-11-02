@@ -8,9 +8,10 @@
             <xpath expr="//group[@name='provider_credentials']" position="inside">
                 <field
                     name="multisafepay_api_key"
+                    string = "API Key"
                     password="True"
                     invisible="code != 'multisafepay'"
-                    widget="password" string = "API"
+                    widget="password"
                 />
             </xpath>
             <xpath expr="//field[@name='allow_tokenization']" position="attributes">
