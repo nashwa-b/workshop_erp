@@ -33,7 +33,6 @@ class PaymentProvider(models.Model):
             api_url = 'https://api.multisafepay.com/v1/json'
         else:
             api_url = 'https://testapi.multisafepay.com/v1/json'
-
         return urljoin(api_url, endpoint)
 
     def _build_request_headers(self, method, endpoint, payload, **kwargs):

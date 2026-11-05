@@ -24,11 +24,17 @@ class PaymentTransaction(models.Model):
         except ValidationError as error:
             self._set_error(str(error))
             return {}
-        self.provider_reference = payment_data.get('id')
+        # self.provider_reference = payment_data.get('data', {}).get('id')
+
+        # self.provider_reference = payment_data.get('scheme_reference_id')
+        _logger.info("reference'%s'",self.provider_reference)
+        print("refernce", self.provider_reference)
 
         payment_url = payment_data['data']['payment_url']
+        # print("payment_url", payment_url)
         parsed_url = url_parse(payment_url)
         url_params = url_decode(parsed_url.query)
+        # print("url_params", url_params)
         return {
             'api_url': payment_url,
             'url_params': url_params
@@ -72,6 +78,8 @@ class PaymentTransaction(models.Model):
         """Override of `payment` to extract the reference from the payment data."""
         if provider_code != 'multisafepay':
             return super()._extract_reference(provider_code, payment_data)
+        get = payment_data.get('reference_id')
+        print("get",get)
         return payment_data.get('reference_id')
 
     def _extract_amount_data(self, payment_data):
@@ -85,17 +93,17 @@ class PaymentTransaction(models.Model):
         datas = payment_data.get('data')
         print('lkj',datas)
 
-        amount_data = 2000
         data = payment_data.get('data',{})
         amount = data.get('amount')
-        am = amount*100
+        amount_data = amount/100
+        print('am',amount_data)
         currency = data.get('currency')
         print("a",amount)
 
         # currency_code = payment_data.get('currency')
         print("c",currency)
         return {
-            'amount': float(am),
+            'amount': float(amount_data),
             'currency_code': currency,
         }
 
@@ -103,9 +111,6 @@ class PaymentTransaction(models.Model):
         _logger.info("apply_updates")
 
         """Override of `payment` to update the transaction based on MultiSafepay data.
-
-        :param payment_data: The payment data recorded by the MultiSafepay controllers
-        :return: None
         """
         self.ensure_one()
 
@@ -113,16 +118,23 @@ class PaymentTransaction(models.Model):
             super()._apply_updates(payment_data)
             return
 
+        self.provider_reference = payment_data.get('data', {}).get('payment_details', {}).get('scheme_reference_id')
+        print("opp",self.provider_reference)
         status = payment_data.get('data', {}).get('status')
 
-        if status == "initialized":
-            _logger.debug(
-                "status '%s' → keeping transaction in draft (ref=%s)",
-                status,
-                self.reference,
-            )
-        elif status == "completed":
+        # if status == "initialized":
+        #     _logger.debug(
+        #         "status '%s' → keeping transaction in draft (ref=%s)",
+        #         status,
+        #         self.reference,
+        #     )
+        if status == "completed":
             self._set_done()
+            print("l",self.sale_order_ids)
+
+            # for sale_order in self.sale_order_ids:
+            #     if not sale_order.invoice_ids:
+            #         sale_order._create_invoices()
 
         elif status == "cancelled":
             self._set_canceled()
@@ -135,34 +147,44 @@ class PaymentTransaction(models.Model):
 
         _logger.info("Transaction %s updated to state '%s'", self.reference, status)
 
-        # {'success': True, 'data': {'amount': 2000, 'amount_refunded': 0, 'completed': '2026-11-04T06:06:22', 'costs': [
-        #     {'amount': 0.69, 'description': '2.9 % For MasterCard Transactions (min 0.6)', 'transaction_id': 14502368,
-        #      'type': 'SYSTEM'}], 'created': '2026-11-04T06:06:22', 'currency': 'USD',
-        #                            'custom_info': {'custom_1': None, 'custom_2': None, 'custom_3': None},
-        #                            'customer': {'address1': None, 'address2': None, 'city': None, 'cocnumber': None,
-        #                                         'company_name': None, 'country': None, 'country_name': None,
-        #                                         'email': 'demo@test.com', 'first_name': None, 'house_number': None,
-        #                                         'last_name': None, 'locale': 'en_GB', 'phone1': None, 'phone2': None,
-        #                                         'state': None, 'zip_code': None}, 'description': 'S01046-11',
-        #                            'fastcheckout': 'NO', 'financial_status': 'completed', 'items': None,
-        #                            'modified': '2026-11-04T06:06:22', 'order_id': 'S01046-11',
-        #                            'payment_details': {'account_holder_name': 'dfcvgb', 'account_id': None,
-        #                                                'acquirer_reference_number': '02303636308000000334300',
-        #                                                'authorization_code': '006459', 'card_acceptor_id': '100021808',
-        #                                                'card_acceptor_location': 'Dummy City',
-        #                                                'card_acceptor_name': 'test', 'card_entry_mode': 'UNKNOWN',
-        #                                                'card_expiry_date': '2901', 'card_funding': 'C',
-        #                                                'card_product': 'MCS', 'card_product_type': 1,
-        #                                                'card_program': 'MCC', 'external_transaction_id': '630805032758',
-        #                                                'issuer_bin': '550000', 'issuer_country_code': 'KR',
-        #                                                'last4': '0004', 'mcc': '1234', 'recurring_flow': None,
-        #                                                'recurring_id': None, 'recurring_model': None,
-        #                                                'response_code': '00', 'scheme_reference_id': 'MCS060623042',
-        #                                                'type': 'MASTERCARD'}, 'payment_methods': [
-        #         {'account_holder_name': 'dfcvgb', 'amount': 2000, 'card_expiry_date': '2901', 'currency': 'USD',
-        #          'description': 'S01046-11', 'external_transaction_id': '630805032758',
-        #          'payment_description': 'MasterCard', 'status': 'completed', 'type': 'MASTERCARD'}],
-        #                            'reason': 'Approved or completed successfully', 'reason_code': '1000',
-        #                            'related_transactions': None, 'status': 'completed',
-        #                            'transaction_id': 1793768782108476, 'var1': None, 'var2': None, 'var3': None}}
+    def _post_process(self):
+        """create invoive along with saleorder creation"""
+        res = super(PaymentTransaction, self)._post_process()
+        print("lkjh",self.sale_order_ids)
+        for sale_order in self.sale_order_ids:
+            if not sale_order.invoice_ids:
+                sale_order._create_invoices()
+        return res
 
+    # _check_amount_and_confirm_order
+
+    # {'success': True, 'data': {'amount': 2000, 'amount_refunded': 0, 'completed': '2026-11-05T06:09:17', 'costs': [
+    #     {'amount': 0.69, 'description': '2.9 % For MasterCard Transactions (min 0.6)', 'transaction_id': 14505680,
+    #      'type': 'SYSTEM'}], 'created': '2026-11-05T06:09:16', 'currency': 'USD',
+    #                            'custom_info': {'custom_1': None, 'custom_2': None, 'custom_3': None},
+    #                            'customer': {'address1': 'Rue des Bourlottes 9 23', 'address2': None, 'city': None,
+    #                                         'cocnumber': None, 'company_name': None, 'country': None,
+    #                                         'country_name': None, 'email': 'demo@test.com', 'first_name': 'Demo User',
+    #                                         'house_number': None, 'last_name': 'Demo User', 'locale': 'en_GB',
+    #                                         'phone1': None, 'phone2': None, 'state': None, 'zip_code': None},
+    #                            'description': 'S01078', 'fastcheckout': 'NO', 'financial_status': 'completed',
+    #                            'items': None, 'modified': '2026-11-05T06:09:17', 'order_id': 'S01078',
+    #                            'payment_details': {'account_holder_name': 'dfcvgb', 'account_id': None,
+    #                                                'acquirer_reference_number': '02303636309000000335256',
+    #                                                'authorization_code': '006459', 'card_acceptor_id': '100021808',
+    #                                                'card_acceptor_location': 'Dummy City', 'card_acceptor_name': 'test',
+    #                                                'card_entry_mode': 'UNKNOWN', 'card_expiry_date': '2901',
+    #                                                'card_funding': 'C', 'card_product': 'MCS', 'card_product_type': 1,
+    #                                                'card_program': 'MCC', 'external_transaction_id': '630905033803',
+    #                                                'issuer_bin': '550000', 'issuer_country_code': 'KR', 'last4': '0004',
+    #                                                'mcc': '5995', 'recurring_flow': None, 'recurring_id': None,
+    #                                                'recurring_model': None, 'response_code': '00',
+    #                                                'scheme_reference_id': 'MCS060917837', 'type': 'MASTERCARD'},
+    #                            'payment_methods': [
+    #                                {'account_holder_name': 'dfcvgb', 'amount': 2000, 'card_expiry_date': '2901',
+    #                                 'currency': 'USD', 'description': 'S01078',
+    #                                 'external_transaction_id': '630905033803', 'payment_description': 'MasterCard',
+    #                                 'status': 'completed', 'type': 'MASTERCARD'}],
+    #                            'reason': 'Approved or completed successfully', 'reason_code': '1000',
+    #                            'related_transactions': None, 'status': 'completed', 'transaction_id': 1793855356107732,
+    #                            'var1': None, 'var2': None, 'var3': None}}

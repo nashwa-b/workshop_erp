@@ -76,7 +76,7 @@ class MultisafepayController(http.Controller):
                 'GET', f'/orders/{tx_sudo.reference}'
             )
             print('verified_data', verified_data)
-            _logger.info(verified_data)
+            # _logger.info(verified_data)
 
         except ValidationError:
             _logger.error("Unable to process the payment data")
