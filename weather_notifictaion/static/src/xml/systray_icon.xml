@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+   <t t-name="systray_icon" owl="1">
+       <div class="o_mail_navbar_item" style="cursor: pointer;">
+           <i class="oi oi-smile-add" title="My Custom Systray Icon"
+              style="cursor: pointer;"
+              t-on-click="onClick"/>
+       </div>
+   </t>
+</templates>
