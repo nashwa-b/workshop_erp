@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_weather" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.weather</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='contacts_setting_container']" position='after'>
+                 <div id="weather_settings">
+                            <block title="Weather" name="weather_setting_container">
+<!--                <div class = "row">-->
+                    <setting help="Restrict discount for product category" id="weather_condition">
+<!--                    <field name="location" string="Location"/>-->
+                    <field name="weather_api_key" string="API KEY"/>
+                </setting>
+                            </block>
+                </div>
+           </xpath>
+             </field>
+    </record>
+</odoo>

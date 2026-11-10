@@ -1,10 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-   <t t-name="systray_icon" owl="1">
-       <div class="o_mail_navbar_item" style="cursor: pointer;">
-           <i class="oi oi-smile-add" title="My Custom Systray Icon"
-              style="cursor: pointer;"
-              t-on-click="onClick"/>
-       </div>
+   <t t-name="weather_condition"
+      owl="1">
+        <xpath expr="//div[hasclass('o_switch_company_menu d-none d-md-block')]" position="before">
+                <Dropdown position="'bottom-end'" state="dropdown" bottomSheet="false">
+
+<!--                <xpath expr="//div[hasclass('o_menu_systray')]" position="inside">-->
+
+                    <!--   <t t-name="weather_condition" owl="1">-->
+                    <!--            <div class="weather_systray" style="cursor: pointer;">-->
+                    <!--                 <Dropdown state="dropdown"  position="'bottom-end'"  bottomSheet="false">-->
+                    <!--                    <button class="bg-transparent">-->
+                    <!--                <span>cloud</span>-->
+                    <i class="fa fa-cloud" title="Weather Condition"
+                       style="cursor: pointer; color:white; margin-top:4px"
+                       t-on-click="onClick"/>
+                    <t t-set-slot="content">
+                        <div class="weather_systray" style="cursor: pointer;">
+                            <span>congrats</span>
+                                                </div>
+                            </t>
+
+
+                    <!--                    </button>-->
+                    <!--                 </Dropdown>-->
+                    <!--       </div>-->
+                </Dropdown>
+        </xpath>
    </t>
 </templates>
+
+
+        <!--<?xml version="1.0" encoding="UTF-8"?>-->
+        <!--<templates xml:space="preserve">-->
+        <!--   <t t-name="systray_icon" t-inherit="web.NavBar"-->
+        <!--      t-inherit-mode="extension" owl="1">-->
+        <!--        <xpath expr="//div[hasclass('o_menu_systray')]" position="inside">-->
+        <!--&lt;!&ndash;                <xpath expr="//div[hasclass('o_menu_systray')]" position="inside">&ndash;&gt;-->
+
+        <!--            &lt;!&ndash;   <t t-name="weather_condition" owl="1">&ndash;&gt;-->
+        <!--            <div class="weather_systray">-->
+        <!--&lt;!&ndash;                <span>cloud</span>&ndash;&gt;-->
+        <!--                     <i class="fa fa-cloud"/>-->
+        <!--       </div>-->
+        <!--        </xpath>-->
+        <!--   </t>-->
+        <!--</templates>-->
+
+

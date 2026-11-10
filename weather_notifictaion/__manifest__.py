@@ -4,11 +4,14 @@
    'category': 'Tools',
    'summary': 'Systray Icon',
    'description': """  """,
-   'depends': ['web'],
+   'depends': ['base','web'],
+    'data':[
+        'security/ir.model.access.csv',
+        'views/res_config_settings.xml'],
    'assets': {
        'web.assets_backend': [
-           'systray_icon/static/src/js/systray_icon.js',
-           'systray_icon/static/src/xml/systray_icon.xml',
+           '/weather_notifictaion/static/src/xml/systray_icon.xml',
+            '/weather_notifictaion/static/src/js/systray_icon.js',
        ],
    },
    'application': True,
