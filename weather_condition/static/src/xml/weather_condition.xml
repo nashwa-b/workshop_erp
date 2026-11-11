@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+   <t t-name="weather_condition.WeatherCondition">
+        <xpath expr="//div[hasclass('o_switch_company_menu d-none d-md-block')]" position="before">
+                <Dropdown position="'bottom-end'" state="dropdown" bottomSheet="false">
+                    <button t-on-click="getWeather">
+
+                    <i class="fa fa-cloud" title="Weather Condition"
+                       style="cursor: pointer; color:white; margin-top:4px"
+                    />
+                                        </button>
+                    <div style ="margin-left:50px">
+                    <t t-set-slot="content">
+                        <DropdownItem>
+
+                              <t t-esc="weather.formatted_date"/>
+<!--                              <t t-esc="weather.icon"/>-->
+
+
+
+                        </DropdownItem>
+                        <DropdownItem>
+
+<!--                        <div class="weather_systray" style="cursor: pointer;">-->
+                            <!--                            <t t-if="weather">-->
+                            <strong></strong>
+
+                            <DropdownItem>
+                                <span>Day</span>  <t t-esc="weather.temp"/>  <strong>°</strong> ⬆ , <span>Night</span>  <t t-esc="weather.temp"/>  <strong>° ⬇</strong>    <img class="img-fluid" width="80px" height
+                                    ="80px"
+                                 t-att-src
+                                         ="weather.icon"
+                                 alt="Card image cap" style=""/>
+
+                            </DropdownItem>
+
+                             <DropdownItem>
+                                 <div style="font-size:20px">
+                                 <b>
+
+                                                <t t-esc="weather.temp"/>  <strong>°C  </strong>
+
+
+
+                        <t t-esc="weather.main"/></b> </div>
+                                                 </DropdownItem>
+                                                        <DropdownItem>
+
+
+                                                                                                                                                                   </DropdownItem>
+                            <t t-esc="weather.description"/> in <t t-esc="weather.location"/>
+                       </DropdownItem>
+                         <DropdownItem>
+                                     <t t-esc="weather.location"/>
+                            </DropdownItem>
+
+                         <DropdownItem>
+
+                            <b> <span>last update:</span></b>
+                                                                         </DropdownItem>
+
+                        <DropdownItem>
+                                     <t t-esc="weather.date"/>
+                                                       </DropdownItem>
+
+
+
+                        <!--                            <span>congrats</span>-->
+                        <!--                            </t>-->
+                        <!--                                                </div>-->
+                            </t>
+
+                    </div>
+
+                    <!--                    </button>-->
+                    <!--                 </Dropdown>-->
+                    <!--       </div>-->
+                </Dropdown>
+        </xpath>
+   </t>
+</templates>
+
+
+
+

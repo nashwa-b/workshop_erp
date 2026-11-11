@@ -1,20 +1,21 @@
 {
-   'name': 'Weather Notification',
+   'name': 'Weather Condition',
    'version': '19.0.1.0.0',
    'category': 'Tools',
    'summary': 'Systray Icon',
    'description': """  """,
    'depends': ['base','web'],
     'data':[
-        'security/ir.model.access.csv',
-        'views/res_config_settings.xml'],
+        'views/res_config_settings.xml'
+    ],
    'assets': {
        'web.assets_backend': [
-           '/weather_notifictaion/static/src/xml/systray_icon.xml',
-            '/weather_notifictaion/static/src/js/systray_icon.js',
+           '/weather_condition/static/src/xml/weather_condition.xml',
+           '/weather_condition/static/src/js/weather_condition.js',
        ],
    },
    'application': True,
    'installable': True,
+    'sequence':1,
    'auto_install': False,
 }

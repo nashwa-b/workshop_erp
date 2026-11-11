@@ -9,10 +9,14 @@
                  <div id="weather_settings">
                             <block title="Weather" name="weather_setting_container">
 <!--                <div class = "row">-->
-                    <setting help="Restrict discount for product category" id="weather_condition">
-<!--                    <field name="location" string="Location"/>-->
-                    <field name="weather_api_key" string="API KEY"/>
+                    <setting help="Location" id="weather_condition">
+                    <field name="location" string="Location"/>
+
                 </setting>
+                                <setting help="OpenWeather API KEY">
+
+                                 <field name="weather_api_keys" string="API KEY"/>
+                                </setting>
                             </block>
                 </div>
            </xpath>
