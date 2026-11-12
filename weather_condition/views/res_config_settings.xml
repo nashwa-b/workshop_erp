@@ -5,21 +5,51 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//block[@name='contacts_setting_container']" position='after'>
-                 <div id="weather_settings">
-                            <block title="Weather" name="weather_setting_container">
-<!--                <div class = "row">-->
-                    <setting help="Location" id="weather_condition">
-                    <field name="location" string="Location"/>
+            <xpath expr="//block[@name='integration']" position='inside'>
+                <div id="weather_settings">
+                    <!--                            <block title="Weather" name="weather_setting_container">-->
+                    <!--                <div class = "row">-->
+                    <setting>
+                        <field name="enable_weather" string="Weather"/>
+      e              </setting>
+                    <setting help="Latitude">
+                        <field name="latitude" string="Latitude" invisible="not enable_weather" />
+                    </setting>
+                        <setting help="Longitude" >
+                        <field name="longitude" string="Longitude" invisible="not enable_weather" />
 
-                </setting>
-                                <setting help="OpenWeather API KEY">
+                    </setting>
+                    <setting help="OpenWeather API KEY">
+                        <field name="weather_api_keys" string="API KEY" invisible="not enable_weather"/>
+                    </setting>
 
-                                 <field name="weather_api_keys" string="API KEY"/>
-                                </setting>
-                            </block>
+                     <div name="fetch_location_button">
+                                        <button t-on-click="getWeather"
+                                                icon="fa-gear" string="Compute Location" title="Compute Location"
+                                                name="fetch_location" type="object" class="btn btn-link p-0"/>
+
+<!--                         invisible="[('location', '!=', False)]"-->
+                     </div>
+                    <div class="location_manual_selection">
+                     <button
+                                                 string="Manual Location" title="Manual Location"
+                                                name="manual_location" type="object" class="btn btn-link p-0"/>
+                     </div>
+                    <!--                            </block>-->
+
+
+<!--                    <setting string="Geolocation" help="Geolocate your partners" id="base_geolocalize" documentation="/applications/general/integrations/geolocation.html">-->
+<!--                                <field name="module_base_geolocalize"/>-->
+<!--                                <div id="geolocalize_params" class="content-group" invisible="not module_base_geolocalize">-->
+<!--                    API: <field name="geoloc_provider_id" on_change="1" can_create="False" can_write="False"/>-->
+<!--                    <field name="geoloc_provider_techname" invisible="1"/>-->
+<!--                    <div invisible="geoloc_provider_techname != 'googlemap'">-->
+<!--                        Key: <field name="geoloc_provider_googlemap_key"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </setting>-->
                 </div>
-           </xpath>
-             </field>
+            </xpath>
+        </field>
     </record>
 </odoo>

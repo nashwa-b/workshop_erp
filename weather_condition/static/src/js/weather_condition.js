@@ -20,6 +20,7 @@ export class WeatherCondition extends Component {
     setup() {
         super.setup();
         this.orm = useService("orm");
+        this.location="";
         this.weather = ""
         this.state = useState({
             formatted_date:"",
@@ -28,6 +29,7 @@ export class WeatherCondition extends Component {
             weather_api_key: "",
             data:"",
             icon:""
+
         });
 
         // getWeather(ev) {
@@ -95,7 +97,43 @@ export class WeatherCondition extends Component {
         console.log('ll',this.state.data)
 
 
+         if (navigator.geolocation) {
+             navigator.geolocation.getCurrentPosition(
+                 (position) => {
+                     const lat = position.coords.latitude;
+                     const lng = position.coords.longitude;
+                     this.location ={
+                                                  latitude: lat,
+                         longitude: lng,
+                     }
+                 },
+                 (error) => {
+                     console.error("Error getting location: ", error.message);
+                 }
+             );
+         }
      }
+
+     // }
+
+
+     //     if (navigator.geolocation) {
+     //         navigator.geolocation.getCurrentPosition(
+     //             (position) => {
+     //                 const lat = position.coords.latitude;
+     //                 const lng = position.coords.longitude;
+     //                 this.location ={
+     //                                              latitude: lat,
+     //                     longitude: lng,
+     //                 }
+     //             },
+     //             (error) => {
+     //                 console.error("Error getting location: ", error.message);
+     //             }
+     //         );
+     //     }
+     // }
+
      }
 
      console.log(WeatherCondition.template)
@@ -108,6 +146,9 @@ registry.category("systray").add(
 systrayItem,
 {sequence: 10}
 );
+
+
+
 
 
 

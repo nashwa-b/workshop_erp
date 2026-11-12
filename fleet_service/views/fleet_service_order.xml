@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="fleet_service_order_view_list" model="ir.ui.view">
+            <field name="name">fleet.servic.order.view.list</field>
+            <field name="model">fleet.service.order</field>
+            <field name="arch" type="xml">
+                <list string="Fleet Service order">
+                    <field name="name"/>
+                    <field name="vehicle_id" string="Vehicle"/>
+                    <field name="service_date" string="Service Date"/>
+                    <field name="technician_id" string = "Technician"/>
+<!--                    <field name="part_ids" string="Installment Count"/>-->
+<!--                    <field name="checklist_ids" string="Total Payable"/>-->
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+          <record id="fleet_service_order_view_form" model="ir.ui.view">
+            <field name="name">fleet.service.order.view.form</field>
+            <field name="model">fleet.service.order</field>
+            <field name="arch" type="xml">
+                <form string="Fleet Service Order" editable="bottom">
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,confirmed,in_progress,done,cancelled"/>
+                         <button name="action_confirm" string="Confirm" class="oe_highlight" type="object"
+                                invisible="state != 'draft'"/>
+                         <button name="action_start_service" string="Start Service" class="oe_highlight" type="object"
+                                invisible="state != 'confirmed'"/>
+                        <button name="action_cancel" string="Cancel" class="oe_highlight" type="object"
+                                invisible="state == 'done'"/>
+                         <button name="action_done" string="Done" class="oe_highlight" type="object"
+                                invisible="state != 'in_progress'"/>
+                          <button name="action_generate_ckecklist" string="Generate Checklist" class="oe_highlight" type="object"
+                                invisible="state != 'confirmed'"/>
+                    </header>
+                    <sheet>
+                     <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    <group>
+                        <group>
+<!--                            <field name="name"/>-->
+                    <field name="vehicle_id" string="Vehicle" readonly="state in ['cancelled','in_progress']"/>
+                             <field name="technician_id" string = "Technician" readonly="state in ['cancelled','in_progress']"/>
+                    <field name="service_date" string="Service Date" readonly="state in ['cancelled','in_progress']"/>
+                    <field name="type_ids" string="Types" widget="many2many_tags" readonly="state in ['cancelled','in_progress']"/>
+                        </group>
+                        <group>
+                            <field name="parts_total" string="Parts Total" readonly="state in ['cancelled','in_progress']"/>
+                            <field name="labour_cost" string="Labour Cost" readonly="state in ['cancelled','in_progress']"/>
+
+                            <field name="grand_total" string="Grand Total" readonly="state in ['cancelled','in_progress']"/>
+                            <field name="checklist_progress" string="Checklist Progress" readonly="state in ['cancelled','in_progress']"/>
+                        </group>
+
+                    <notebook id="fleet_lines_id">
+                                <page string="Fleet Lines">
+                                    <field name="part_ids" readonly="state in ['cancel','in_progress']">
+                                        <list editable="bottom">
+                                            <field name="product_id" string="Product"/>
+                                            <field name="quantity" string="Quantity"/>
+                                            <field name="unit_price" string="Unit Price"/>
+                                        </list>
+                                    </field>
+                                </page>
+
+<!--                        <group>-->
+
+<!--                     <notebook id="fleet_lines_checklist_id">-->
+                                <page string="Fleet Checklist">
+                                    <field name="checklist_ids" readonly="state in ['cancel','in_progress']">
+                                        <list editable="bottom">
+                                            <field name="task_name" string="Task"/>
+                                            <field name="is_done" string="Is Done"/>
+                                            <field name="note" string="Note"/>
+                                        </list>
+                                    </field>
+                                </page>
+                            </notebook>
+                            </group>
+
+                      <div class="oe_chatter">
+                            <chatter/>
+                        </div>
+<!--                                                </group>-->
+
+                </sheet>
+
+
+                </form>
+            </field>
+          </record>
+
+        <record id="fleet_service_action" model="ir.actions.act_window">
+            <field name="name">Fleet service</field>
+            <field name="res_model">fleet.service.order</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click here to create your first Employee Loan.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
+
+
+
+

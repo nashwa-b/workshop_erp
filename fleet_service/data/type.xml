@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="check_engine_oil" model="checklist.type">
+            <field name="name">Check Engine Oil</field>
+        </record>
+        <record id="inspect_brakes" model="checklist.type">
+            <field name="name">Inspect Brakes</field>
+        </record>
+        <record id="test_battery" model="checklist.type">
+            <field name="name">Test Battery</field>
+        </record>
+        <record id="check_tyre_pressure" model="checklist.type">
+            <field name="name">Check Tyre Pressure</field>
+        </record>
+         <record id="inspect_lights" model="checklist.type">
+            <field name="name">Inspect Lights</field>
+        </record>
+    </data>
+</odoo>
+
+
+<!--e.g. "Check engine oil", "Inspect brakes", "Test battery", -->
+<!--"Check tyre pressure", "Inspect lights"-->

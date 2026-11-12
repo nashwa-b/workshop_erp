@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="fleet_service_menu_root" name="Fleet Service"/>
+        <menuitem id="fleet_service_menu_action" name="Fleet Service Order" parent="fleet_service_menu_root" sequence='1' action="fleet_service.fleet_service_action"/>
+    </data>
+</odoo>

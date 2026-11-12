@@ -9,32 +9,35 @@
                        style="cursor: pointer; color:white; margin-top:4px"
                     />
                                         </button>
-                    <div style ="margin-left:50px">
+
                     <t t-set-slot="content">
-                        <DropdownItem>
+        <div class="dropdown_styles" style="padding: 10px;margin-left:10px;margin-right:10px;">
+<!--                        <DropdownItem>-->
 
                               <t t-esc="weather.formatted_date"/>
 <!--                              <t t-esc="weather.icon"/>-->
 
 
 
-                        </DropdownItem>
-                        <DropdownItem>
+<!--                        </DropdownItem>-->
+<!--                        <DropdownItem>-->
 
 <!--                        <div class="weather_systray" style="cursor: pointer;">-->
                             <!--                            <t t-if="weather">-->
                             <strong></strong>
+                            <br></br>
 
-                            <DropdownItem>
+<!--                            <DropdownItem>-->
                                 <span>Day</span>  <t t-esc="weather.temp"/>  <strong>°</strong> ⬆ , <span>Night</span>  <t t-esc="weather.temp"/>  <strong>° ⬇</strong>    <img class="img-fluid" width="80px" height
                                     ="80px"
                                  t-att-src
                                          ="weather.icon"
                                  alt="Card image cap" style=""/>
+                            <br></br>
 
-                            </DropdownItem>
+<!--                            </DropdownItem>-->
 
-                             <DropdownItem>
+<!--                             <DropdownItem>-->
                                  <div style="font-size:20px">
                                  <b>
 
@@ -43,40 +46,58 @@
 
 
                         <t t-esc="weather.main"/></b> </div>
-                                                 </DropdownItem>
+<!--                                                 </DropdownItem>-->
                                                         <DropdownItem>
 
 
                                                                                                                                                                    </DropdownItem>
                             <t t-esc="weather.description"/> in <t t-esc="weather.location"/>
-                       </DropdownItem>
-                         <DropdownItem>
+                        <br></br>
+<!--                       </DropdownItem>-->
+<!--                         <DropdownItem>-->
                                      <t t-esc="weather.location"/>
-                            </DropdownItem>
+                        <br></br>
+<!--                            </DropdownItem>-->
 
-                         <DropdownItem>
+<!--                         <DropdownItem>-->
 
                             <b> <span>last update:</span></b>
-                                                                         </DropdownItem>
+                        <br></br>
+<!--                                                                         </DropdownItem>-->
 
-                        <DropdownItem>
+<!--                        <DropdownItem>-->
                                      <t t-esc="weather.date"/>
-                                                       </DropdownItem>
+            <br></br>
+                                     <t t-esc="location.latitude"/>
+<!--                                                       </DropdownItem>-->
 
 
 
                         <!--                            <span>congrats</span>-->
                         <!--                            </t>-->
-                        <!--                                                </div>-->
+                        <!--
+                                                                    </div>-->
+                        </div>
                             </t>
 
-                    </div>
+
 
                     <!--                    </button>-->
                     <!--                 </Dropdown>-->
                     <!--       </div>-->
                 </Dropdown>
         </xpath>
+
+<!--               <xpath expr="//div[hasclass('o_setting_right_pane')]" position="before">-->
+<!--                       <button t-on-click="get_location">-->
+<!--                           <span>Fetch Location</span>-->
+<!--                       </button>-->
+<!--               </xpath>-->
+
+<!--       location_manual_selection-->
+
+
+
    </t>
 </templates>
 
