@@ -15,8 +15,11 @@
         "security/ir.model.access.csv",
         "data/sequence_data.xml",
         "data/type.xml",
+        "views/fleet_vehicle_views.xml",
         "views/fleet_service_order.xml",
+        "views/hr_employee_views.xml",
         "views/fleet_service_menus.xml",
+
         # "security/ir.model.access.csv",
         # "data/sequence_data.xml",
         # "views/hr_employee_views.xml",

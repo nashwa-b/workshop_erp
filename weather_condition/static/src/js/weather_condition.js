@@ -25,7 +25,9 @@ export class WeatherCondition extends Component {
         this.state = useState({
             formatted_date:"",
             date: "",
-            location: "",
+            // location: "",
+            latitude:"",
+            longitude:"",
             weather_api_key: "",
             data:"",
             icon:""
@@ -39,8 +41,10 @@ export class WeatherCondition extends Component {
 
             this.state.date = settings.date
             this.state.formatted_date = settings.formatted_date
-            this.state.location = settings.location
+            this.state.latitude = settings.latitude
+            this.state.longitude = settings.longitude
             this.state.weather_api_key = settings.weather_api_key
+            this.state.enable_weather = settings.enable_weather
             console.log(settings)
             console.log(settings.date)
             console.log('k',settings.location)
@@ -61,62 +65,47 @@ export class WeatherCondition extends Component {
         // console.log('wet',wet)
 
 
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.location}&units=metric&appid=${this.state.weather_api_key}`
+        // const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.location}&units=metric&appid=${this.state.weather_api_key}`
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${this.state.latitude}&lon=${this.state.longitude}&units=metric&appid=${this.state.weather_api_key}`
         const response = await fetch(url)
         this.state.data = await response.json();
         const datas = this.state.data
-        console.log("kjh",this.state.data)
+        console.log("kjh", this.state.data)
 
         // const icons = await fetch("https://openweathermap.org/payload/api/media/file/10d@2x.png")
         // this.state.icon = await icons.json();
         // console.log("kjkjhgf",this.state.icon)
-        this.state.icon = 'https://openweathermap.org/payload/api/media/file/{this.state.data.weather?.[0]?.icon}@2x.png'
+        // this.state.icon = 'https://openweathermap.org/payload/api/media/file/{this.state.data.weather?.[0]?.icon}@2x.png'
 
 
+        this.state.iconUrl = `http://openweathermap.org/img/w/${this.state.data.weather?.[0]?.icon}.png`
 
-         this.state.iconUrl =  `http://openweathermap.org/img/w/${this.state.data.weather?.[0]?.icon}.png`
-
-         this.weather = {
-            'formatted_date':this.state.formatted_date ,
-             'date': this.state.date,
-             'location': this.state.location,
-             'api_key': this.state.weather_api_key,
+        this.weather = {
+            'formatted_date': this.state.formatted_date,
+            'date': this.state.date,
+            'latitude': this.state.latitude,
+            'longitude': this.state.longitude,
+            'api_key': this.state.weather_api_key,
+            'enable_weather':this.state.enable_weather,
             // 'date': this.state.date,
             // 'location':this.state.location,
             // 'api_key':this.state.weather_api_key,
-             'description': this.state.data.weather?.[0]?.description,
-             'main': this.state.data.weather?.[0]?.main,
-             'icon': this.state.iconUrl,
+            'description': this.state.data.weather?.[0]?.description,
+            'main': this.state.data.weather?.[0]?.main,
+            'icon': this.state.iconUrl,
 
-             'temp': this.state.data.main?.temp,
+            'temp': this.state.data.main?.temp,
         }
 
-        console.log('wetheicon',this.weather.icon)
+        console.log('wetheicon', this.weather.icon)
         console.log(url)
-        console.log('ll',this.state.data)
-        console.log('ll',this.state.data)
+        console.log('ll', this.state.data)
+        console.log('ll', this.state.data)
+    }
 
-
-         if (navigator.geolocation) {
-             navigator.geolocation.getCurrentPosition(
-                 (position) => {
-                     const lat = position.coords.latitude;
-                     const lng = position.coords.longitude;
-                     this.location ={
-                                                  latitude: lat,
-                         longitude: lng,
-                     }
-                 },
-                 (error) => {
-                     console.error("Error getting location: ", error.message);
-                 }
-             );
-         }
-     }
-
-     // }
-
-
+     //    onCustomButtonClick(){
+     //
+     //
      //     if (navigator.geolocation) {
      //         navigator.geolocation.getCurrentPosition(
      //             (position) => {

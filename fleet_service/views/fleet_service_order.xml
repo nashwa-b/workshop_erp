@@ -33,7 +33,7 @@
                                 invisible="state == 'done'"/>
                          <button name="action_done" string="Done" class="oe_highlight" type="object"
                                 invisible="state != 'in_progress'"/>
-                          <button name="action_generate_ckecklist" string="Generate Checklist" class="oe_highlight" type="object"
+                          <button name="action_generate_checklist" string="Generate Checklist" class="oe_highlight" type="object"
                                 invisible="state != 'confirmed'"/>
                     </header>
                     <sheet>

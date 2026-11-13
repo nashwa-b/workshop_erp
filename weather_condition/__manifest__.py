@@ -11,6 +11,8 @@
    'assets': {
        'web.assets_backend': [
            '/weather_condition/static/src/xml/weather_condition.xml',
+           '/weather_condition/static/src/xml/button_widget.xml',
+           '/weather_condition/static/src/js/fetch_orders.js',
            '/weather_condition/static/src/js/weather_condition.js',
        ],
    },

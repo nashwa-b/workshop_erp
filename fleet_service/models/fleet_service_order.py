@@ -10,8 +10,9 @@ class FleetServiceOrder(models.Model):
     _inherit = ['mail.thread']
 
     name = fields.Char(readonly=True, default='New')
-    vehicle_id = fields.Many2one('fleet.vehicle')
-    technician_id = fields.Many2one('hr.employee')
+    vehicle_id = fields.Many2one('fleet.vehicle',domain=[('service_blocked','=',False)])
+    # domain = "[('country_id', '=?', private_country_id)]"
+    technician_id = fields.Many2one('hr.employee',domain=[('is_available_technician','=',True)])
     service_date = fields.Datetime(string='Date')
     state = fields.Selection([('draft', 'Draft'), ('confirmed', 'Confirmed'), ('in_progress', 'In Progress'), ('done', 'Done'),('cancelled', 'Cancelled')],
                              string='Status', default='draft')
@@ -22,8 +23,10 @@ class FleetServiceOrder(models.Model):
     grand_total = fields.Float(string='Grand Total',compute="_compute_grand_total",store=True)
     checklist_progress = fields.Float(string='Checklist Progress', compute="_compute_checklist_progress",store=True)
     type_ids = fields.Many2many(
-        'checklist.type',
+        'checklist.type'
     )
+
+
 
 
     @api.onchange('checklist_progress')
@@ -31,24 +34,35 @@ class FleetServiceOrder(models.Model):
         if self.checklist_progress >= 100 and self.state == 'in_progress':
             self.state = 'done'
 
-    def action_generate_ckecklist(self):
-        for order in self:
+    def action_generate_checklist(self):
+        # for order in self:
+        #     exist = []
+            new = self.type_ids.filtered(lambda type: type.name not in self.checklist_ids.mapped('task_name'))
+            print('new',new)
+            existing = self.type_ids.filtered(lambda type: type.name in self.checklist_ids.mapped('task_name'))
+            print('existing',existing)
 
-            exist_types = order.mapped('type_ids.name')
-            print(exist_types)
-            print(order.checklist_ids)
+            if new:
+                for i in new:
+                    self.checklist_ids = [fields.Command.create({
+                        'task_name': i.name
+                    })]
+                    print("i",i)
+                    print(self.checklist_ids)
 
-            for i in exist_types:
-                print("i",i)
-                print("cehck",order.checklist_ids.mapped('task_name'))
-                if i not in order.checklist_ids.mapped('task_name'):
-                    order.checklist_ids = [fields.Command.create({
-                        'task_name': i,
-                    }) ]
-                    print(order.checklist_ids)
 
-                else:
-                    raise ValidationError("Type Already Exists in Lines")
+            if self.checklist_ids:
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'title': 'do not duplicate!',
+                        'message': f'Duplicate Lines',
+                        'type': 'warning',
+                        'sticky': False,
+                    }
+                }
+
 
 
     def action_done(self):
@@ -68,10 +82,6 @@ class FleetServiceOrder(models.Model):
         if not self.technician_id:
             raise ValidationError(" technician_id must be set")
         self.state = 'in_progress'
-
-
-
-
 
     @api.depends('checklist_ids')
     def _compute_checklist_progress(self):

@@ -12,29 +12,42 @@
                     <setting>
                         <field name="enable_weather" string="Weather"/>
       e              </setting>
-                    <setting help="Latitude">
-                        <field name="latitude" string="Latitude" invisible="not enable_weather" />
+                    <setting help="Mode" string="Mode" invisible="not enable_weather">
+                        <field name="state" />
                     </setting>
-                        <setting help="Longitude" >
-                        <field name="longitude" string="Longitude" invisible="not enable_weather" />
-
-                    </setting>
-                    <setting help="OpenWeather API KEY">
-                        <field name="weather_api_keys" string="API KEY" invisible="not enable_weather"/>
+                     <setting help="Location" string="Location" invisible="state != 'manual_location'">
+                        <field name="location" />
                     </setting>
 
-                     <div name="fetch_location_button">
-                                        <button t-on-click="getWeather"
-                                                icon="fa-gear" string="Compute Location" title="Compute Location"
-                                                name="fetch_location" type="object" class="btn btn-link p-0"/>
+                    <setting help="Latitude" string="Latitude" invisible="state!= 'fetch_location'">
+                        <field name="latitude" />
+                    </setting>
+                        <setting help="Longitude" string="Longitude" invisible="state != 'fetch_location'">
+                        <field name="longitude" />
 
+                    </setting>
+                    <setting help="OpenWeather API KEY"  string="API KEY" invisible="state != 'fetch_location'">
+                        <field name="weather_api_keys"/>
+                    </setting>
+                    <setting invisible="state != 'fetch_location'">
+
+<!--                     <div name="fetch_location_button">-->
+                                 <widget name="fetch_button"/>
+                    </setting>
+
+
+<!--                    Fetch Location-->
+<!--                </button>-->
 <!--                         invisible="[('location', '!=', False)]"-->
-                     </div>
-                    <div class="location_manual_selection">
-                     <button
-                                                 string="Manual Location" title="Manual Location"
-                                                name="manual_location" type="object" class="btn btn-link p-0"/>
-                     </div>
+<!--                     </div>-->
+<!--                    <div class="location_manual_selection">-->
+<!--                                        <setting string="Manual Location" invisible="not enable_weather">-->
+
+<!--                     <button-->
+<!--                             title="Manual Location"-->
+<!--                                                name="manual_location" type="object" class="btn btn-link p-0"/>-->
+<!--                                        </setting>-->
+<!--                     </div>-->
                     <!--                            </block>-->
 
 

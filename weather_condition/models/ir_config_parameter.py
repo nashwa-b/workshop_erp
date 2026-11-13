@@ -7,17 +7,21 @@ class WeatherCondition(models.Model):
     _name = 'weather.condition'
 
 class IrConfig_Parameter(models.Model):
-    """workshop job types"""
+    """IrConfig_Parameter model"""
     _inherit = 'ir.config_parameter'
 
     @api.model
     def get_weather_parameter(self):
+        """ Return weather condition parameter"""
         now = datetime.now()
         formatted_date = now.strftime("%d %B %Y")
 
         return {
-            'location':self.sudo().get_param('weather_notification.location'),
+            # 'location':self.sudo().get_param('weather_notification.location'),
+            'latitude':self.sudo().get_param('weather_notification.latitude'),
+            'longitude':self.sudo().get_param('weather_notification.longitude'),
             'weather_api_key':self.sudo().get_param('weather_notification.weather_api_key'),
+            'enable_weather':self.sudo().get_param('weather_notification.enable_weather'),
             'formatted_date': formatted_date,
             'date': now
         }
