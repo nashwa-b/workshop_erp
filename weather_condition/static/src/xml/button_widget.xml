@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="weather_condition.LocationButtonWidget">
-        <button type="button"  class="btn btn-link p-0" t-on-click="onClick">
+        <button type="button" class="btn btn-link p-0" t-on-click="onClick">
             Fetch Location
         </button>
     </t>
-
 </templates>

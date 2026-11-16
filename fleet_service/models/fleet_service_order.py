@@ -27,8 +27,6 @@ class FleetServiceOrder(models.Model):
     )
 
 
-
-
     @api.onchange('checklist_progress')
     def onchange_checklist_progress(self):
         if self.checklist_progress >= 100 and self.state == 'in_progress':
@@ -43,15 +41,23 @@ class FleetServiceOrder(models.Model):
             print('existing',existing)
 
             if new:
+                # for i in new:
+                #     self.checklist_ids = [fields.Command.create({
+                #         'task_name': i.name
+                #     })]
+                #     print("i",i)
+                #     print(self.checklist_ids)
+
                 for i in new:
-                    self.checklist_ids = [fields.Command.create({
+
+                    self.checklist_ids += self.env['fleet.service.order.checklist'].create({
                         'task_name': i.name
-                    })]
-                    print("i",i)
+                    })
+                    print("i", i)
                     print(self.checklist_ids)
 
 
-            if self.checklist_ids:
+            if existing:
                 return {
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',

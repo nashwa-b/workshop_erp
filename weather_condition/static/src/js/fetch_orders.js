@@ -3,7 +3,6 @@
 import { Component } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
-import { useService } from "@web/core/utils/hooks";
 
 export class LocationButtonWidget extends Component {
     static template = "weather_condition.LocationButtonWidget";
@@ -31,10 +30,6 @@ export class LocationButtonWidget extends Component {
                          longitude: lng,
                      }
                  },
-                 //
-                 // (error) => {
-                 //     console.error("Error getting location: ", error.message);
-                 // },
                   await this.props.record.update({
             latitude: this.location.latitude,
             longitude: this.location.longitude,

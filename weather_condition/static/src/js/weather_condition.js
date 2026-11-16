@@ -1,13 +1,9 @@
 /** @odoo-module **/
 import {registry} from "@web/core/registry";
 import {Component, useState, onWillStart} from "@odoo/owl";
-// import {Dialog} from "@web/core/dialog/dialog";
 import {useService} from "@web/core/utils/hooks";
 import { Dropdown } from "@web/core/dropdown/dropdown";
 import { DropdownItem } from "@web/core/dropdown/dropdown_item";
-
-// import { useDropdownState } from "@web/core/dropdown/dropdown_hooks";
-// import { DropdownGroup } from "@web/core/dropdown/dropdown_group";
 
 
 export class WeatherCondition extends Component {
@@ -20,17 +16,20 @@ export class WeatherCondition extends Component {
     setup() {
         super.setup();
         this.orm = useService("orm");
-        this.location="";
+        this.location = "";
         this.weather = ""
         this.state = useState({
-            formatted_date:"",
+            formatted_date: "",
             date: "",
-            // location: "",
-            latitude:"",
-            longitude:"",
+            location: "",
+            latitude: "",
+            longitude: "",
             weather_api_key: "",
-            data:"",
-            icon:""
+            data: "",
+            icon: "",
+            location_data: "",
+            status: ""
+
 
         });
 
@@ -43,85 +42,68 @@ export class WeatherCondition extends Component {
             this.state.formatted_date = settings.formatted_date
             this.state.latitude = settings.latitude
             this.state.longitude = settings.longitude
+            this.state.location = settings.location
             this.state.weather_api_key = settings.weather_api_key
             this.state.enable_weather = settings.enable_weather
+            this.state.status = settings.status
             console.log(settings)
             console.log(settings.date)
-            console.log('k',settings.location)
+            console.log('k', settings.location)
+
+            if (this.state.status == 'fetch_location') {
+                console.log('fte')
+                this.state.location = false
+
+            }
+
+            if (this.state.status == 'manual_location') {
+                console.log('kj')
+                this.state.latitude = 0
+                this.state.longitude = 0
+            }
+
+            console.log('status', this.state.status)
+
+            if (this.state.longitude && this.state.latitude) {
+                console.log("poiuh")
+                const url = `https://api.openweathermap.org/data/2.5/weather?lat=${this.state.latitude}&lon=${this.state.longitude}&units=metric&appid=${this.state.weather_api_key}`
+                const response = await fetch(url)
+                // console.log('ll',respose)
+                this.state.data = await response.json();
+                console.log('llllll', this.state.data)
+            }
+
+            if (this.state.location) {
+                console.log("locat")
+                const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.location}&units=metric&appid=${this.state.weather_api_key}`
+                const response = await fetch(url)
+                // console.log('ll',respose)
+
+                this.state.data = await response.json();
+                console.log('looooooo', this.state.data)
+            }
+
+
+            this.state.iconUrl = `http://openweathermap.org/img/w/${this.state.data.weather?.[0]?.icon}.png`
+
+            this.weather = {
+                'formatted_date': this.state.formatted_date,
+                'date': this.state.date,
+                'latitude': this.state.latitude,
+                'longitude': this.state.longitude,
+                'api_key': this.state.weather_api_key,
+                'enable_weather': this.state.enable_weather,
+                'location': this.state.location,
+                'description': this.state.data.weather?.[0]?.description,
+                'main': this.state.data.weather?.[0]?.main,
+                'icon': this.state.iconUrl,
+                'cod': this.state.data.cod,
+                'temp': this.state.data.main?.temp,
+            }
+
+            console.log('wetheicon', this.weather.icon)
         });
     }
-
-
-
-    async getWeather() {
-        // console.log('l',this.state.date)
-
-
-        // console.log(this.state.weather_api_key)
-        // console.log(this.state.location)
-        // const loc = this.state.location
-        // const wet = this.state.weather_api_key
-        // console.log('loc',loc)
-        // console.log('wet',wet)
-
-
-        // const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.location}&units=metric&appid=${this.state.weather_api_key}`
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${this.state.latitude}&lon=${this.state.longitude}&units=metric&appid=${this.state.weather_api_key}`
-        const response = await fetch(url)
-        this.state.data = await response.json();
-        const datas = this.state.data
-        console.log("kjh", this.state.data)
-
-        // const icons = await fetch("https://openweathermap.org/payload/api/media/file/10d@2x.png")
-        // this.state.icon = await icons.json();
-        // console.log("kjkjhgf",this.state.icon)
-        // this.state.icon = 'https://openweathermap.org/payload/api/media/file/{this.state.data.weather?.[0]?.icon}@2x.png'
-
-
-        this.state.iconUrl = `http://openweathermap.org/img/w/${this.state.data.weather?.[0]?.icon}.png`
-
-        this.weather = {
-            'formatted_date': this.state.formatted_date,
-            'date': this.state.date,
-            'latitude': this.state.latitude,
-            'longitude': this.state.longitude,
-            'api_key': this.state.weather_api_key,
-            'enable_weather':this.state.enable_weather,
-            // 'date': this.state.date,
-            // 'location':this.state.location,
-            // 'api_key':this.state.weather_api_key,
-            'description': this.state.data.weather?.[0]?.description,
-            'main': this.state.data.weather?.[0]?.main,
-            'icon': this.state.iconUrl,
-
-            'temp': this.state.data.main?.temp,
-        }
-
-        console.log('wetheicon', this.weather.icon)
-        console.log(url)
-        console.log('ll', this.state.data)
-        console.log('ll', this.state.data)
-    }
-
-     //    onCustomButtonClick(){
-     //
-     //
-     //     if (navigator.geolocation) {
-     //         navigator.geolocation.getCurrentPosition(
-     //             (position) => {
-     //                 const lat = position.coords.latitude;
-     //                 const lng = position.coords.longitude;
-     //                 this.location ={
-     //                                              latitude: lat,
-     //                     longitude: lng,
-     //                 }
-     //             },
-     //             (error) => {
-     //                 console.error("Error getting location: ", error.message);
-     //             }
-     //         );
-     //     }
-     // }
 
      }
 

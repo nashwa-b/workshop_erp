@@ -2,129 +2,71 @@
 <templates xml:space="preserve">
    <t t-name="weather_condition.WeatherCondition">
         <xpath expr="//div[hasclass('o_switch_company_menu d-none d-md-block')]" position="before">
-<!--                <Dropdown position="'bottom-end'" state="dropdown" bottomSheet="false">-->
-<!--<div t-if="weather.enable_weather">-->
-<!--    <button-->
-<!--            class="fa fa-cloud"-->
-<!--            t-on-click="getWeather" style="cursor: pointer; color:white; margin-top:3px">-->
-<!--    </button>-->
-<!--            <t t-if="weather.enable_weather">-->
 
+            <Dropdown position="'bottom-end'" state="dropdown" bottomSheet="false">
+                <button type="button">
+        <t t-if="weather.enable_weather">
+            <i class="fa fa-cloud"/>
+        </t>
+          </button>
+                <t t-set-slot="content">
+                    <div class="dropdown_styles" style="padding: 10px;margin-left:10px;margin-right:10px;">
+                            <t t-if="weather.cod !=200">
+                                <span style="color:red;margin-left:50px;margin-right:50px;">⚠️  City Not Found !</span>
+            </t>
+                        <t t-else="">
+                            <t t-esc="weather.formatted_date"/>
 
-    <Dropdown position="'bottom-end'" state="dropdown" bottomSheet="false">
-<!--        t-if="weather.enable_weather"-->
-    <button class="fa fa-cloud"
-            t-on-click="getWeather"
-            style="cursor: pointer; color:white; margin-top:3px">
-    </button>
-
-<!--    <t t-set-slot="content">-->
-<!--    </t>-->
-<!--</Dropdown>-->
-<!--                    <i t-on-click="getWeather" class="fa fa-cloud" title="Weather Condition"-->
-<!--                       style="cursor: pointer; color:white; margin-top:4px"-->
-<!--                    />-->
-<!--                                        </button>-->
-
-                    <t t-set-slot="content">
-
-<div t-if="weather.latitude == 0 or weather.longitude == 0">
-                                   <span style="color:red;margin-left:50px;margin-right:50px;">⚠️  Enter valid location details !</span>
-                           </div>
-        <div t-else="" class="dropdown_styles" style="padding: 10px;margin-left:10px;margin-right:10px;">
-                              <t t-esc="weather.formatted_date"/>
-<!--                              <t t-esc="weather.icon"/>-->
-<!--                        </DropdownItem>-->
-<!--                        <DropdownItem>-->
-
-<!--                        <div class="weather_systray" style="cursor: pointer;">-->
-                            <!--                            <t t-if="weather">-->
                             <strong></strong>
                             <br></br>
-
-<!--                            <DropdownItem>-->
-                                <span>Day</span>  <t t-esc="weather.temp"/>  <strong>°</strong> ⬆ , <span>Night</span>  <t t-esc="weather.temp"/>  <strong>° ⬇</strong>    <img class="img-fluid" width="80px" height
+                            <span>Day</span>
+                            <t t-esc="weather.temp"/>
+                            <strong>°</strong>
+                            ⬆ ,
+                            <span>Night</span>
+                            <t t-esc="weather.temp"/>
+                            <strong>° ⬇</strong>
+                            <img class="img-fluid" width="80px" height
                                     ="80px"
                                  t-att-src
                                          ="weather.icon"
                                  alt="Card image cap" style=""/>
                             <br></br>
 
-<!--                            </DropdownItem>-->
-
-<!--                             <DropdownItem>-->
-                                 <div style="font-size:20px">
+                            <div style="font-size:20px">
                                  <b>
+                                                <t t-esc="weather.temp"/>
+                                     <strong>°C  </strong>
+                                     <t t-esc="weather.main"/></b> </div>
+                            <br></br>
+                            <div t-if="weather.location and weather.latitude == 0 or weather.longitude == 0">
 
-                                                <t t-esc="weather.temp"/>  <strong>°C  </strong>
-
-
-
-                        <t t-esc="weather.main"/></b> </div>  <br></br>
-              <b><span>Latitude:</span></b>
-                                      <t t-esc="weather.latitude"/> <br></br>
-                                      <b><span>Longitude:</span></b>
-                                     <t t-esc="weather.longitude"/>
-<!--                                                 </DropdownItem>-->
-                                                        <DropdownItem>
-                                                                                                                                                                   </DropdownItem>
-<!--                            <t t-esc="weather.description"/> in <t t-esc="weather.location"/>-->
-<!--                        <br></br>-->
-<!--                       </DropdownItem>-->
-<!--                         <DropdownItem>-->
-<!--                                     <t t-esc="weather.location"/>-->
-<!--                        <br></br>-->
-
-<!--             <div>-->
-<!--        <span>Lat: <t t-esc="props.location.latitude"/></span>-->
-<!--        <span>Lng: <t t-esc="props.location.longitude"/></span>-->
-<!--    </div>-->
-<!--                            </DropdownItem>-->
-
-<!--                         <DropdownItem>-->
+                                <b><span>Location:</span></b>
+                                <t t-esc="weather.location"/>
+                    </div>
+                            <div t-else="">
+                <b><span>Latitude:</span></b>
+                                <t t-esc="weather.latitude"/>
+                                <br></br>
+                                <b><span>Longitude:</span></b>
+                                <t t-esc="weather.longitude"/>
+                                <br></br>
+                    </div>
 
                             <b> <span>last update:</span></b>
-                        <br></br>
-<!--                                                                         </DropdownItem>-->
+                            <br></br>
 
-<!--                        <DropdownItem>-->
-                                     <t t-esc="weather.date"/>
-            <br></br>
+                            <t t-esc="weather.date"/>
+                            <br></br>
+                            <DropdownItem>
+                                                                                                                                                                   </DropdownItem>
 
-<!--                                                       </DropdownItem>-->
-
-
-
-                        <!--                            <span>congrats</span>-->
-                        <!--                            </t>-->
-                        <!--
-                                                                    </div>-->
-                        </div>
-
-
+                        </t>
+        </div>
 
                             </t>
-<!--</div>-->
-
-
-
-                    <!--                    </button>-->
-                    <!--                 </Dropdown>-->
-                    <!--       </div>-->
                 </Dropdown>
-<!--            </t>-->
         </xpath>
-
-<!--               <xpath expr="//div[hasclass('o_setting_right_pane')]" position="before">-->
-<!--                       <button t-on-click="get_location">-->
-<!--                           <span>Fetch Location</span>-->
-<!--                       </button>-->
-<!--               </xpath>-->
-
-<!--       location_manual_selection-->
-
-
-
    </t>
 </templates>
 

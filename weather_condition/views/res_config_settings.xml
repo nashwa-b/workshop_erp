@@ -7,60 +7,28 @@
         <field name="arch" type="xml">
             <xpath expr="//block[@name='integration']" position='inside'>
                 <div id="weather_settings">
-                    <!--                            <block title="Weather" name="weather_setting_container">-->
-                    <!--                <div class = "row">-->
                     <setting>
                         <field name="enable_weather" string="Weather"/>
       e              </setting>
                     <setting help="Mode" string="Mode" invisible="not enable_weather">
                         <field name="state" />
                     </setting>
-                     <setting help="Location" string="Location" invisible="state != 'manual_location'">
+                     <setting help="Location" string="Location" invisible="state != 'manual_location' or not enable_weather">
                         <field name="location" />
                     </setting>
 
-                    <setting help="Latitude" string="Latitude" invisible="state!= 'fetch_location'">
+                    <setting help="Latitude" string="Latitude" invisible="state!= 'fetch_location' or not enable_weather">
                         <field name="latitude" />
                     </setting>
-                        <setting help="Longitude" string="Longitude" invisible="state != 'fetch_location'">
+                        <setting help="Longitude" string="Longitude" invisible="state != 'fetch_location' or not enable_weather">
                         <field name="longitude" />
-
                     </setting>
-                    <setting help="OpenWeather API KEY"  string="API KEY" invisible="state != 'fetch_location'">
+                    <setting help="OpenWeather API KEY"  string="API KEY" invisible="not enable_weather">
                         <field name="weather_api_keys"/>
                     </setting>
-                    <setting invisible="state != 'fetch_location'">
-
-<!--                     <div name="fetch_location_button">-->
+                    <setting invisible="state != 'fetch_location' or not enable_weather">
                                  <widget name="fetch_button"/>
                     </setting>
-
-
-<!--                    Fetch Location-->
-<!--                </button>-->
-<!--                         invisible="[('location', '!=', False)]"-->
-<!--                     </div>-->
-<!--                    <div class="location_manual_selection">-->
-<!--                                        <setting string="Manual Location" invisible="not enable_weather">-->
-
-<!--                     <button-->
-<!--                             title="Manual Location"-->
-<!--                                                name="manual_location" type="object" class="btn btn-link p-0"/>-->
-<!--                                        </setting>-->
-<!--                     </div>-->
-                    <!--                            </block>-->
-
-
-<!--                    <setting string="Geolocation" help="Geolocate your partners" id="base_geolocalize" documentation="/applications/general/integrations/geolocation.html">-->
-<!--                                <field name="module_base_geolocalize"/>-->
-<!--                                <div id="geolocalize_params" class="content-group" invisible="not module_base_geolocalize">-->
-<!--                    API: <field name="geoloc_provider_id" on_change="1" can_create="False" can_write="False"/>-->
-<!--                    <field name="geoloc_provider_techname" invisible="1"/>-->
-<!--                    <div invisible="geoloc_provider_techname != 'googlemap'">-->
-<!--                        Key: <field name="geoloc_provider_googlemap_key"/>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </setting>-->
                 </div>
             </xpath>
         </field>

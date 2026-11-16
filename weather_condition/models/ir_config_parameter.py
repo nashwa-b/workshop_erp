@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models, api
+from odoo import models, api
 from datetime import datetime
 
 class WeatherCondition(models.Model):
@@ -17,11 +17,12 @@ class IrConfig_Parameter(models.Model):
         formatted_date = now.strftime("%d %B %Y")
 
         return {
-            # 'location':self.sudo().get_param('weather_notification.location'),
-            'latitude':self.sudo().get_param('weather_notification.latitude'),
-            'longitude':self.sudo().get_param('weather_notification.longitude'),
-            'weather_api_key':self.sudo().get_param('weather_notification.weather_api_key'),
-            'enable_weather':self.sudo().get_param('weather_notification.enable_weather'),
+            'latitude':self.sudo().get_param('weather_condition.latitude'),
+            'longitude':self.sudo().get_param('weather_condition.longitude'),
+            'location':self.sudo().get_param('weather_condition.location'),
+            'weather_api_key':self.sudo().get_param('weather_condition.weather_api_keys'),
+            'enable_weather':self.sudo().get_param('weather_condition.enable_weather'),
+            'status':self.sudo().get_param('weather_condition.state'),
             'formatted_date': formatted_date,
             'date': now
         }
