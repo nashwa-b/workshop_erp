@@ -3,26 +3,100 @@
     <template id="product_return_template" inherit_id="sale.sale_order_portal_template" name="Return">
         <xpath expr="//div[hasclass('o_download_pdf')]"
                position="after">
-<!--               <div id="product_return"-->
-<!--                                    class="product_return d-flex gap-2 flex-lg-column flex-xl-row flex-wrap">-->
+            <!--                                    <form action="/returnformsubmit/%s'%sale_order.id" method="post">-->
+            <form t-attf-action="/returnformsubmit/#{sale_order.id}" method="post">
 
-                    <div>
-              <button id="create_return_button" type="button" class="btn btn-primary"
-                                    data-bs-toggle="modal" data-bs-target="#create_product_return">
-Return                                </button>
-            </div>
-<!--                                    <a t-att-href="'/return_product'" class="btn btn-light flex-grow-1"   title="Return" role="button" target="_blank"><i class=""/>Return</a>-->
-<!--                                </div>-->
-<!--            <t t-set="status_selection"-->
-<!--               t-value="dict(request.env['product.template']._fields['spare_type'].selection).get(product.spare_type)"/>-->
-<!--            <t t-if="product.spare_type">-->
-<!--                <div class="o_ribbon" style="position: absolute; top: 6px; left: 6px; background: green; color: white; font-size: 12px; padding: 3px 8px; border-radius: 4px; z-index: 20;-->
-<!--   font-weight: bold;-->
-<!--   height: auto;-->
-<!--   width: auto;">-->
-<!--                    <t t-esc="status_selection"/>-->
-<!--                </div>-->
-<!--            </t>-->
+
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+
+                <!--               <div id="product_return"-->
+                <!--                                    class="product_return d-flex gap-2 flex-lg-column flex-xl-row flex-wrap">-->
+
+                <!--                    <div>-->
+                <button id="create_return_button" type="button" class="btn btn-primary"
+                        data-bs-toggle="modal" data-bs-target="#create_product_return">
+                    Return
+                </button>
+                <!--            </div>-->
+
+                <div class="modal fade" id="create_product_return" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header pb-0">
+                                <h3 class="modal-title">Return</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!--                            <div>-->
+                                <!--                            <form action="/webformsubmit" method="post">-->
+
+                                <table class="table table-borderless o_main_table"
+                                       style="margin-top: 20px;">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Product
+                                            </th>
+                                            <th>
+                                                Quantity
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                        <t t-foreach="sale_order.order_line" t-as="line">
+<!--                                            <input type="hidden" name="sale_order_id" t-att-value="sale_order"/>-->
+
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="line.product_id.name"/>
+
+
+                                                </td>
+                                                <td>
+                                                    <input id="quantity" name="quantity" type="number" value="0"
+                                                           placeholder="Quantity" class="form-control quantity"/>
+<!--                                                                                                <input type="hidden" name="quantity" t-att-value="quantity"/>-->
+
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--                </div>-->
+                            <!--                            <div>-->
+                            <div class="modal-footer justify-content-between">
+                                <!-- <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label text-end">-->
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                                <!--                            </div>&lt;!&ndash;                            </div>&ndash;&gt;-->
+                                <!--                            <div class="modal-footer justify-content-between">-->
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                            <!-- <t t-out="sale_order.name"/>-->
+
+                            <!--                            </form>-->
+                            <!--                       </div>-->
+                        </div>
+                    </div>
+                    <!--                </div>-->
+                </div>
+                <!--                                    <a t-att-href="'/return_product'" class="btn btn-light flex-grow-1"   title="Return" role="button" target="_blank"><i class=""/>Return</a>-->
+                <!--                                </div>-->
+                <!--            <t t-set="status_selection"-->
+                <!--               t-value="dict(request.env['product.template']._fields['spare_type'].selection).get(product.spare_type)"/>-->
+                <!--            <t t-if="product.spare_type">-->
+                <!--                <div class="o_ribbon" style="position: absolute; top: 6px; left: 6px; background: green; color: white; font-size: 12px; padding: 3px 8px; border-radius: 4px; z-index: 20;-->
+                <!--   font-weight: bold;-->
+                <!--   height: auto;-->
+                <!--   width: auto;">-->
+                <!--                    <t t-esc="status_selection"/>-->
+                <!--                </div>-->
+                <!--            </t>-->
+            </form>
         </xpath>
     </template>
 </odoo>

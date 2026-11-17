@@ -15,7 +15,7 @@ class HrEmployee(models.Model):
     def action_promote(self):
         """ Increase level and salary and hides button if level is highest """
         record = self.env['employee.level'].search([('level', '>', self.employee_level_id.id)], order='level asc',
-                                                   limit=1)
+                                limit=1)
         if record:
             self.employee_level_id = record.id
             self.salary = record.salary

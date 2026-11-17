@@ -13,7 +13,6 @@
     'depends': ['base','product','website_sale'],
     'data': [
         'views/product_return_template.xml',
-        'views/return_view_template.xml'
         # 'security/ir.model.access.csv',
         # "views/product_template_views.xml",
         # "views/badge_template_views.xml"
