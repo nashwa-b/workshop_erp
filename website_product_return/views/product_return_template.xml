@@ -14,7 +14,7 @@
                 <!--                                    class="product_return d-flex gap-2 flex-lg-column flex-xl-row flex-wrap">-->
 
                 <!--                    <div>-->
-                <button id="create_return_button" type="button" class="btn btn-primary"
+                <button id="create_return_button" type="button" class="btn btn-secondary o_wsale_reorder_button oe_website_sale flex-grow-1"
                         data-bs-toggle="modal" data-bs-target="#create_product_return">
                     Return
                 </button>
