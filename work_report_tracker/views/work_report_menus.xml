@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="work_report_tracker_menu_root" name="Work Report Tracker"/>
+        <menuitem id="work_report_action_menu" name="Work Report" parent="work_report_tracker_menu_root" sequence='1' action="work_report_tracker.work_report_action"/>
+    </data>
+</odoo>
