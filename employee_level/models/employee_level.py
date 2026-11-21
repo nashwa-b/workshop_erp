@@ -14,7 +14,7 @@ class EmployeeLevel(models.Model):
     is_max_level = fields.Boolean(string="Is Max Level", compute="_compute_is_max_level", default=False, store=True)
 
 
-    @api.ondelete(at_uninstall=False)
+    @api.depends('level')
     def _compute_is_max_level(self):
         records = self.env['employee.level'].search([('is_max_level','=',True)])
         records.write({'is_max_level': False})

@@ -17,6 +17,7 @@ class WorkReport(models.Model):
                 ]
     _primary_email = 'email_from'
     _description = 'Work Report'
+    _rec_name = 'subject'
 
     subject = fields.Char(required=True)
     email_from = fields.Char(required=True)
@@ -29,27 +30,17 @@ class WorkReport(models.Model):
     def message_new(self, msg_dict, custom_values=None):
         print("okjnhvgcx")
         print("msg_dict",msg_dict)
-        # remove default author when going through the mail gateway. Indeed we
-        # do not want to explicitly set an user as responsible. We prefer that
-        # assignment is done automatically (scoring) or manually. Otherwise it
-        # would always be root (gateway user). It also allows to exclude portal
-        # and public users.
+
         self = self.with_context(default_user_id=False)
         email_address = email_normalize(msg_dict.get('email_from'))
         print(email_address)
         if not email_address:
             return self.env['hr.employee']
-        # employee = self.env['hr.employee'].search([
-        #     ('user_id', '!=', False), '|', ('work_email', 'in', email_address),
-        #     ('user_id.email', 'in', email_address),
-        # ])
+
         employee = self.env['hr.employee'].search([
             ('work_email', '=ilike', email_address)
-
         ])
         print(employee)
-
-
 
         if custom_values is None:
             custom_values = {}
@@ -60,13 +51,11 @@ class WorkReport(models.Model):
             'date': msg_dict.get('date'),
             'body': msg_dict.get('body'),
         }
-        # if msg_dict.get('priority') in dict(crm_stage.AVAILABLE_PRIORITIES):
-        #     defaults['priority'] = msg_dict.get('priority')
-        # defaults.update(custom_values)
 
-        new_lead = super().message_new(msg_dict, custom_values=defaults)
+
+        new_report = super().message_new(msg_dict, custom_values=defaults)
         # new_lead._assign_userless_lead_in_team(_('incoming email'))
-        return new_lead
+        return new_report
 
     # @api.model
     # def _get_employee_from_email(self, email_address):

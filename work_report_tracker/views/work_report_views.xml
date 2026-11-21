@@ -49,10 +49,50 @@
             </field>
           </record>
 
-          <record id="work_report_action" model="ir.actions.act_window">
+
+          <record id="work_report_view_filter" model="ir.ui.view">
+            <field name="name">work.report.view.select</field>
+            <field name="model">work.report</field>
+            <field name="arch" type="xml">
+                <search string="Search Work Report">
+
+                    <group name="groupby">
+                        <filter string="Employee" name="group_by_employee" domain="[]"
+                                context="{'group_by': 'employee_id'}"/>
+                        <filter string="Report Date" name="group_by_date" context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+           <record id="work_report_view_graph" model="ir.ui.view">
+            <field name="name">work.report.view.graph</field>
+            <field name="model">work.report</field>
+            <field name="arch" type="xml">
+                <graph string="Work Report Analysis" sample="1">
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                </graph>
+            </field>
+        </record>
+
+
+        <record id="work_report_view_pivot" model="ir.ui.view">
+            <field name="name">work.report.view.pivot</field>
+            <field name="model">work.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Work Report Analysis" sample="1">
+                    <field name="date" type="row"/>
+                    <field name="employee_id"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="work_report_action" model="ir.actions.act_window">
             <field name="name">Work Report</field>
             <field name="res_model">work.report</field>
-            <field name="view_mode">list,form</field>
+            <field name="view_mode">list,form,graph,pivot</field>
+              <field name="search_view_id" ref="work_report_view_filter"/>
         </record>
 
     </data>
