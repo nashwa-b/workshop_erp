@@ -14,6 +14,9 @@
     'data': [
         'security/ir.model.access.csv',
         'views/work_report_views.xml',
+        'wizard/work_report_wizard_views.xml',
+        'report/work_report_template.xml',
+        'report/work_report_history_views.xml',
         'views/work_report_menus.xml'
 
         # 'security/ir.model.access.csv',

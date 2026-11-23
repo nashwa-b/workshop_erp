@@ -3,5 +3,9 @@
     <data>
         <menuitem id="work_report_tracker_menu_root" name="Work Report Tracker"/>
         <menuitem id="work_report_action_menu" name="Work Report" parent="work_report_tracker_menu_root" sequence='1' action="work_report_tracker.work_report_action"/>
+        <menuitem id="work_report_menu" name="Reporting" parent="work_report_tracker_menu_root">
+                 <menuitem id ="work_report_history_menu_action" name = "Work Report History" action="work_report_tracker.action_open_work_report_wizard"/>
+        </menuitem>
+
     </data>
 </odoo>

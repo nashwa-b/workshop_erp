@@ -6,71 +6,79 @@
             <field name="model">work.report</field>
             <field name="arch" type="xml">
                 <list string="Daily Work Report">
-                    <field name="employee_id" string="Employee"/>
-                     <field name="email_from" string="mail"/>
+                    <field name="name" string="Employee"/>
+                    <field name="email_from" string="Email"/>
                     <field name="subject" string="Subject"/>
-                     <field name="date"/>
+                    <field name="date"/>
 
                 </list>
             </field>
         </record>
 
-          <record id="work_report_view_form" model="ir.ui.view">
+        <record id="work_report_view_form" model="ir.ui.view">
             <field name="name">work.report.view.form</field>
             <field name="model">work.report</field>
             <field name="arch" type="xml">
                 <form string="Daily Work Report" editable="bottom">
                     <sheet>
-                    <group>
                         <group>
-                    <field name="employee_id" string="Employee"/>
-                                                        <field name="email_from" string="Email"/>
+                            <group>
+                                <field name="name" string="Employee"/>
+                                <field name="email_from" string="Email"/>
 
-                    <field name="subject" string="Subject"/>
+                                <field name="subject" string="Subject"/>
+                                <field name="project" string="project" invisible="1"/>
+                                <field name="remarks" string="remarks" invisible="1"/>
 
-                        </group>
-                        <group>
-                            <field name="date"/>
-                        </group>
-                         <notebook id="report_page_id">
+
+                            </group>
+                            <group>
+                                <field name="date"/>
+                            </group>
+                            <notebook id="report_page_id">
                                 <page string="Work Report">
-   <field name="body"/>
+                                    <field name="body"/>
                                 </page>
-                         </notebook>
+                            </notebook>
 
-                        <div class="oe_chatter">
-                            <chatter/>
-                        </div>
+                            <div class="oe_chatter">
+                                <chatter/>
+                            </div>
 
-                    </group>
+                        </group>
                     </sheet>
 
                 </form>
             </field>
-          </record>
+        </record>
 
 
-          <record id="work_report_view_filter" model="ir.ui.view">
+        <record id="work_report_view_filter" model="ir.ui.view">
             <field name="name">work.report.view.select</field>
             <field name="model">work.report</field>
             <field name="arch" type="xml">
                 <search string="Search Work Report">
+                                <filter name="report_filter">
+                                                        <filter string="Create Date" name="filter_create_report_date" date="date"/>
+
+                                </filter>
+
 
                     <group name="groupby">
                         <filter string="Employee" name="group_by_employee" domain="[]"
-                                context="{'group_by': 'employee_id'}"/>
+                                context="{'group_by': 'name'}"/>
                         <filter string="Report Date" name="group_by_date" context="{'group_by':'date'}"/>
                     </group>
                 </search>
             </field>
         </record>
 
-           <record id="work_report_view_graph" model="ir.ui.view">
+        <record id="work_report_view_graph" model="ir.ui.view">
             <field name="name">work.report.view.graph</field>
             <field name="model">work.report</field>
             <field name="arch" type="xml">
                 <graph string="Work Report Analysis" sample="1">
-                    <field name="employee_id"/>
+                    <field name="name"/>
                     <field name="date"/>
                 </graph>
             </field>
@@ -83,7 +91,7 @@
             <field name="arch" type="xml">
                 <pivot string="Work Report Analysis" sample="1">
                     <field name="date" type="row"/>
-                    <field name="employee_id"/>
+                    <field name="name"/>
                 </pivot>
             </field>
         </record>
@@ -92,7 +100,7 @@
             <field name="name">Work Report</field>
             <field name="res_model">work.report</field>
             <field name="view_mode">list,form,graph,pivot</field>
-              <field name="search_view_id" ref="work_report_view_filter"/>
+            <field name="search_view_id" ref="work_report_view_filter"/>
         </record>
 
     </data>
