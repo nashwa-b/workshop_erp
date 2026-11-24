@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="view_work_report_wizard_form" model="ir.ui.view">
-       <field name="name">work.report.wizard.form</field>
-       <field name="model">work.report.wizard</field>
-       <field name="arch" type="xml">
-           <form string="Work Report history">
-               <group>
-                   <field name="employee_id"/>
-                   <field name="project"/>
-                <field name = "start_date"/>
-                <field name = "end_date"/>
-
+        <field name="name">work.report.wizard.form</field>
+        <field name="model">work.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Work Report history">
+                <group>
+                    <field name="employee_id"/>
+                    <field name="project_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
                 </group>
-           <footer>
-               <button name="action_print_work_report" string="Print PDF" class="oe_highlight" type="object"/>
-<!--               <button name="action_print_xlsx" string="Print Excel" class="oe_highlight" type="object"/>-->
-           </footer>
-              </form>
-       </field>
-   </record>
+                <footer>
+                    <button name="action_print_work_report" string="Print PDF" class="oe_highlight" type="object"/>
+                </footer>
+            </form>
+        </field>
+    </record>
 
     <record id="action_open_work_report_wizard" model="ir.actions.act_window">
-    <field name="name">Work Report History</field>
-    <field name="res_model">work.report.wizard</field>
-    <field name="view_mode">form</field>
-    <field name="target">new</field>
-</record>
+        <field name="name">Work Report History</field>
+        <field name="res_model">work.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 </odoo>

@@ -10,7 +10,7 @@
     'category': 'work report',
     'installable': True,
     'application': True,
-    'depends': ['base','hr'],
+    'depends': ['base','hr','project'],
     'data': [
         'security/ir.model.access.csv',
         'views/work_report_views.xml',

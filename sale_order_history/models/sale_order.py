@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 
 from odoo import fields, models
 from datetime import datetime, timedelta, time

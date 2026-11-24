@@ -20,7 +20,7 @@
         <field name="model">work.report.wizard</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">work_report_tracker.report_work_report</field>
-        <field name="report_file">workshop_erp.report_work_report</field>
+        <field name="report_file">work_report_tracker.report_work_report</field>
         <field name="binding_type">report</field>
         <field name="paperformat_id" ref="paperformat_student_report"/>
     </record>

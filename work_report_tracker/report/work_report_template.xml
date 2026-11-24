@@ -2,21 +2,21 @@
 <odoo>
     <template id="report_work_report">
         <t t-call="web.external_layout">
-          <t t-foreach="docs" t-as="wizard">
-            <t t-call="web.html_container">
-<!--                <t t-call="web.external_layout">-->
+            <t t-foreach="docs" t-as="wizard">
+                <t t-call="web.html_container">
                     <div class="page">
-                         <center>
+                        <center>
                             <h2>Work Report
                             </h2>
                         </center>
                         <div style="margin-top: 100px;">
                             <br>
-                            <b t-if="wizard.employee_id">Employee:</b></br>
+                                <b t-if="wizard.employee_id">Employee:</b>
+                            </br>
                             <span t-field="wizard.employee_id"/>
-                             <br>
+                            <br>
                                 <b>Project:</b>
-                                <span t-field="wizard.project"/>
+                                <span t-field="wizard.project_id"/>
                             </br>
                             <br>
 
@@ -29,108 +29,64 @@
                             </br>
 
                         </div>
-                 <table class="table">
-                      <thead>
-                                        <tr>
-                                            <th>
-                                                <b>Sl No</b>
-                                            </th>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <b>Sl No</b>
+                                    </th>
 
-                                            <th>
-                                                <b>Date</b>
-                                            </th>
-                                             <th>
-                                                <b>Project</b>
-                                            </th>
-                                             <th>
-                                                <b>Remarks</b>
-                                            </th>
-                         </tr>
-                                    </thead>
-                          <t t-foreach="data['report']" t-as="line">
-                            <t t-set="work_report" t-value="env['work.report'].browse(line['work_report_id'])"/>
-                        <br></br>
-<!--                                <h2>-->
-<!--                                    <span t-field="work_report.name"/>-->
-<!--                                </h2>-->
-<!--                                <table class="table" style="margin-top: 20px;">-->
+                                    <th>
+                                        <b>Date</b>
+                                    </th>
+                                    <th>
+                                        <b>Project</b>
+                                    </th>
+                                    <th>
+                                        <b>Tasks</b>
+                                    </th>
+                                    <th>
+                                        <b>Remarks</b>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <t t-foreach="data['report']" t-as="line">
+                                <t t-set="work_report" t-value="env['work.report'].browse(line['work_report_id'])"/>
+                                <t t-foreach="work_report.work_ids" t-as="work_line">
+                                    <t t-if="work_line.project_id.name == wizard.project_id.name">
+                                        <br></br>
 
-<!--                                            <th t-if="not wizard.vehicle_id">-->
-<!--                                                <b>Vehicle</b>-->
-<!--                                            </th>-->
-<!--                                            <th>-->
-<!--                                                <b>Total</b>-->
-<!--                                            </th>-->
-<!--                                            <th>-->
-<!--                                                <b>Status</b>-->
-<!--                                            </th>-->
-<!--                                            <th t-if="wizard.detailed_view">-->
-<!--                                                <b>Warranty</b>-->
-<!--                                            </th>-->
-<!--                                            <th t-if="wizard.detailed_view">-->
-<!--                                                <b>Collected</b>-->
-<!--                                            </th>-->
-<!--                                            <th t-if="wizard.detailed_view">-->
-<!--                                                <b>Company</b>-->
-<!--                                            </th>-->
-<!--                                            <th t-if="wizard.detailed_view">-->
-<!--                                                <b>Sale Order No</b>-->
-<!--                                            </th>-->
-<!--                                            <th t-if="wizard.detailed_view">-->
-<!--                                                <b>Invoice No</b>-->
-<!--                                            </th>-->
 
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <span t-esc="line_index + 1"/>
-                                            </td>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="line_index + 1"/>
+                                                </td>
 
-                                            <td>
-                                                <span t-esc="line['date']"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="line['project']"/>
-                                            </td>
-                                             <td>
-                                                <span t-esc="line['remarks']"/>
-                                            </td>
-<!--                                            <td t-if="not wizard.vehicle_id">-->
-<!--                                                <span t-esc="line['vehicle']"/>-->
-<!--                                            </td>-->
-<!--                                            <td>-->
-<!--                                                <span t-esc="line['total']"/>-->
-<!--                                            </td>-->
-<!--                                            <td>-->
-<!--                                                <span t-esc="line['status']"/>-->
-<!--                                            </td>-->
-<!--                                            <td t-if="wizard.detailed_view">-->
-<!--                                                <span t-esc="line['warranty']"/>-->
-<!--                                            </td>-->
-<!--                                            <td t-if="wizard.detailed_view">-->
-<!--                                                <span t-esc="line['collected']"/>-->
-<!--                                            </td>-->
-<!--                                            <td t-if="wizard.detailed_view">-->
-<!--                                                <span t-esc="line['company']"/>-->
-<!--                                            </td>-->
-<!--                                            <td t-if="wizard.detailed_view">-->
-<!--                                                <span t-esc="line['sale']"/>-->
-<!--                                            </td>-->
-<!--                                            <td t-if="wizard.detailed_view">-->
-<!--                                                <span t-esc="line['invoice']"/>-->
-<!--                                            </td>-->
-                                        </tr>
-                                    </tbody>
-                          </t>
-                                </table>
+                                                <td>
+                                                    <span t-esc="line['date']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="work_line.project_id.name"/>
+                                                </td>
+                                                 <td>
+                                                    <span t-esc="work_line['task']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="work_line['remarks']"/>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </t>
+                                </t>
+                            </t>
+                        </table>
                     </div>
 
-                          </t>
-
-
-
+                </t>
             </t>
-          </t>
+        </t>
 
     </template>
 </odoo>

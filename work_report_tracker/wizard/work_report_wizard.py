@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models
-from odoo.tools import json_default
-import json
 
 
 class WorkReportWizard(models.TransientModel):
@@ -11,7 +9,7 @@ class WorkReportWizard(models.TransientModel):
     _description = 'Work Report Wizard'
 
     employee_id = fields.Many2one('hr.employee', string="Employee")
-    project = fields.Char(string="Project")
+    project_id = fields.Many2one('project.project',string="Project")
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
 

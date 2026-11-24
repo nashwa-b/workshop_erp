@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 work_report_tracker.access_work_report,access_work_report,work_report_tracker.model_work_report,base.group_user,1,1,1,1
 work_report_tracker.access_work_report_wizard,access_work_report_wizard,work_report_tracker.model_work_report_wizard,base.group_user,1,1,1,1
+work_report_tracker.access_work_report_lines,access_work_report_lines,work_report_tracker.model_work_report_lines,base.group_user,1,1,1,1
